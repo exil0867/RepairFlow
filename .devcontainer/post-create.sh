@@ -2,8 +2,6 @@
 
 set -e
 
-gem install license_finder
-
 gh auth login
 
 ./.devcontainer/shortcuts/sync-env.sh
