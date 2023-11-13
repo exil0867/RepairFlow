@@ -1,15 +1,49 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL")
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+enum Status {
+  COMPLETE
+  PENDING
+  CANCELLED
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  username     String  @unique
-  password  String
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+}
+
+model Customer {
+  id           Int           @id @default(autoincrement())
+  customerId   Int
+  firstName    String
+  lastName     String
+  address      String
+  phoneNumber  String
+  applications Application[]
+}
+
+model Application {
+  id         Int      @id @default(autoincrement())
+  status     Status
+  deviceId   Int
+  customerId Int
+  device     Device   @relation(fields: [deviceId], references: [id])
+  customer   Customer @relation(fields: [customerId], references: [id])
+}
+
+model Device {
+  id           Int           @id @default(autoincrement())
+  deviceId     Int
+  serialNumber String
+  model        String
+  brand        String
+  applications Application[]
 }
