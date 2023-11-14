@@ -28,7 +28,8 @@
 				"styled-components.vscode-styled-components",
 				"dsznajder.es7-react-js-snippets",
 				"github.vscode-github-actions",
-				"unifiedjs.vscode-mdx"
+				"unifiedjs.vscode-mdx",
+        "ms-azuretools.vscode-docker"
 			]
 		}
 	}
