@@ -1,6 +1,6 @@
 // These styles apply to every route in the application
 import '@/styles/globals.css'
-import { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import AuthStatus from '@/components/auth-status'
@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     description,
   },
   metadataBase: new URL('https://nextjs-postgres-auth.vercel.app'),
+}
+
+export const viewport: Viewport = {
   themeColor: '#FFF',
 }
 
