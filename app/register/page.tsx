@@ -1,8 +1,59 @@
 import Image from 'next/image'
-import Form from '@/components/form'
+import prisma from '@/lib/prisma'
+import RegisterForm from './register-form'
+import { hash } from 'bcrypt'
 import Link from 'next/link'
+import { z } from 'zod'
+
+const schema = z.object({
+  username: z.string({
+    invalid_type_error: 'Invalid Username',
+  }),
+  password: z.string(),
+})
+
+export type registerRes = {
+  message: string
+  error: boolean
+}
 
 export default function Register() {
+  const registerUser = async (
+    prevState: any,
+    data: FormData,
+  ): Promise<registerRes> => {
+    'use server'
+    const username = data.get('username')
+    const password = data.get('password')
+    const validatedFields = schema.safeParse({
+      username: username,
+      password: password,
+    })
+
+    if (!validatedFields.success) {
+      return { message: 'Invalid user input', error: true }
+    }
+
+    const user = await prisma.user.findUnique({
+      where: {
+        username: validatedFields.data.username,
+      },
+    })
+    if (user) {
+      return { message: 'User already exists', error: true }
+    } else {
+      await prisma.user.create({
+        data: {
+          username: validatedFields.data.username,
+          password: await hash(validatedFields.data.password, 10),
+        },
+      })
+    }
+    return {
+      message: 'User created',
+      error: false,
+    }
+  }
   return (
     <div className='flex h-screen w-screen items-center justify-center bg-gray-50'>
       <div className='z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl'>
@@ -22,7 +73,7 @@ export default function Register() {
             Create an account with your username and password
           </p>
         </div>
-        <Form type='register' />
+        <RegisterForm registerUser={registerUser} />
       </div>
     </div>
   )
