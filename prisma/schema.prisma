@@ -22,7 +22,6 @@ model User {
 
 model Customer {
   id           Int           @id @default(autoincrement())
-  customerId   Int
   name         String
   address      String
   phoneNumber  String
@@ -40,7 +39,6 @@ model Application {
 
 model Device {
   id           Int           @id @default(autoincrement())
-  deviceId     Int
   serialNumber String
   model        String
   brand        String
