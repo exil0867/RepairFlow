@@ -23,8 +23,7 @@ model User {
 model Customer {
   id           Int           @id @default(autoincrement())
   customerId   Int
-  firstName    String
-  lastName     String
+  name         String
   address      String
   phoneNumber  String
   applications Application[]
