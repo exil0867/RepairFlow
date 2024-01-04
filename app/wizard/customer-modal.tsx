@@ -35,7 +35,13 @@ import { Label } from '@/components/ui/label'
 import createCustomer from '../actions/createCustomer'
 import router from 'next/router'
 
-export default function DialogDemo({ setCustomer_ }: { setCustomer_: any }) {
+export default function DialogDemo({
+  setCustomer_,
+  setDialogOpen,
+}: {
+  setCustomer_: any
+  setDialogOpen: any
+}) {
   const {
     reset,
     register,
@@ -54,6 +60,7 @@ export default function DialogDemo({ setCustomer_ }: { setCustomer_: any }) {
       toast.success(state.message)
       setCustomer_({ id: state?.response?.id, value: state?.response?.name })
       reset()
+      setDialogOpen(false)
     } else {
       toast.error(state.message)
     }

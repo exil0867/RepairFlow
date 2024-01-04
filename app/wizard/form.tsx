@@ -34,6 +34,7 @@ export default function Form({
   devices: any
 }) {
   const [open, setOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const [customer_, setCustomer_] = useState({
     value: '',
     id: 0,
@@ -53,10 +54,13 @@ export default function Form({
   const [step, setStep] = useState(0)
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       {step === 0 && (
         <>
-          <CustomerModal setCustomer_={setCustomer_} />
+          <CustomerModal
+            setCustomer_={setCustomer_}
+            setDialogOpen={setDialogOpen}
+          />
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -109,7 +113,7 @@ export default function Form({
       )}
       {step === 1 && (
         <>
-          <DeviceModal setDevice_={setDevice_} />
+          <DeviceModal setDevice_={setDevice_} setDialogOpen={setDialogOpen} />
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button
