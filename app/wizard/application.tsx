@@ -84,15 +84,13 @@ export default function DialogDemo({ customer, device }: any) {
           </Label>
           <Input
             type='text'
-            placeholder='Customer'
-            value={customer.name}
+            value={customer.value}
             className='col-span-3'
             readOnly
             disabled
           />
           <Input
             type='hidden'
-            placeholder='Customer'
             value={customer.id}
             className='col-span-3'
             {...register('customer_id', { required: true })}
@@ -104,8 +102,7 @@ export default function DialogDemo({ customer, device }: any) {
           </Label>
           <Input
             type='text'
-            placeholder='Device'
-            value={device.model}
+            value={device.value}
             className='col-span-3'
             readOnly
             disabled

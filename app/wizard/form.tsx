@@ -67,8 +67,7 @@ export default function Form({
               >
                 {customer_.value
                   ? customers.find(
-                      (customer: { name: string }) =>
-                        customer.name === customer_.value,
+                      (customer: any) => customer.id === customer_.id,
                     )?.name
                   : 'Select customer...'}
                 <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
@@ -84,8 +83,7 @@ export default function Form({
                       key={customer.id}
                       value={customer}
                       onSelect={(currentValue) => {
-                        console.log(customer)
-                        setCustomer_(customer)
+                        setCustomer_({ id: customer.id, value: customer.name })
                         setOpen(false)
                       }}
                     >
@@ -121,10 +119,8 @@ export default function Form({
                 className='w-[200px] justify-between'
               >
                 {device_.value
-                  ? devices.find(
-                      (device: { model: string }) =>
-                        device.model === device_.value,
-                    )?.model
+                  ? devices.find((device: any) => device.id === device_.id)
+                      ?.model
                   : 'Select device...'}
                 <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
               </Button>
@@ -139,8 +135,7 @@ export default function Form({
                       key={device.id}
                       value={device}
                       onSelect={(currentValue) => {
-                        console.log(device)
-                        setDevice_(device)
+                        setDevice_({ id: device.id, value: device.model })
                         setOpen(false)
                       }}
                     >
