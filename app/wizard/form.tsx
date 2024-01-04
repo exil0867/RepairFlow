@@ -164,9 +164,7 @@ export default function Form({
           </Popover>
         </>
       )}
-      {step === 2 && (
-        <Application customerId={customer_.id} deviceId={device_.id} />
-      )}
+      {step === 2 && <Application customer={customer_} device={device_} />}
       <button onClick={() => setStep(step + 1)}>Next</button>
     </Dialog>
   )

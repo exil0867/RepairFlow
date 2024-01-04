@@ -18,7 +18,7 @@ import createApplication from '../actions/createApplication'
 import router from 'next/router'
 import { useRouter } from 'next/navigation'
 
-export default function DialogDemo({ customerId, deviceId }: any) {
+export default function DialogDemo({ customer, device }: any) {
   const router = useRouter()
   const [state, formAction] = useFormState(createApplication, {
     message: null,
@@ -50,7 +50,8 @@ export default function DialogDemo({ customerId, deviceId }: any) {
           </Label>
           <Input
             type='text'
-            placeholder='Status'
+            value={'PENDING'}
+            disabled
             className='col-span-3'
             {...register('subject', { required: true })}
           />
@@ -61,7 +62,7 @@ export default function DialogDemo({ customerId, deviceId }: any) {
           </Label>
           <Input
             type='text'
-            placeholder='Status'
+            placeholder='Notes'
             className='col-span-3'
             {...register('notes', { required: true })}
           />
@@ -84,7 +85,15 @@ export default function DialogDemo({ customerId, deviceId }: any) {
           <Input
             type='text'
             placeholder='Customer'
-            value={customerId}
+            value={customer.name}
+            className='col-span-3'
+            readOnly
+            disabled
+          />
+          <Input
+            type='hidden'
+            placeholder='Customer'
+            value={customer.id}
             className='col-span-3'
             {...register('customer_id', { required: true })}
           />
@@ -96,7 +105,15 @@ export default function DialogDemo({ customerId, deviceId }: any) {
           <Input
             type='text'
             placeholder='Device'
-            value={deviceId}
+            value={device.model}
+            className='col-span-3'
+            readOnly
+            disabled
+          />
+          <Input
+            type='hidden'
+            placeholder='Device'
+            value={device.id}
             className='col-span-3'
             {...register('device_id', { required: true })}
           />
