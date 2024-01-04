@@ -16,8 +16,10 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import createApplication from '../actions/createApplication'
 import router from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export default function DialogDemo({ customerId, deviceId }: any) {
+  const router = useRouter()
   const [state, formAction] = useFormState(createApplication, {
     message: null,
     response: null as any,
@@ -29,11 +31,12 @@ export default function DialogDemo({ customerId, deviceId }: any) {
     register,
     formState: { errors },
   } = useForm()
+
   useEffect(() => {
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
-      // reset()
+      router.push(`/applications/${state?.response?.id}`)
     } else {
       toast.error(state.message)
     }
@@ -41,6 +44,28 @@ export default function DialogDemo({ customerId, deviceId }: any) {
   return (
     <form action={formAction}>
       <div className='grid gap-4 py-4'>
+        <div className='grid grid-cols-4 items-center gap-4'>
+          <Label htmlFor='name' className='text-right'>
+            Application Subject
+          </Label>
+          <Input
+            type='text'
+            placeholder='Status'
+            className='col-span-3'
+            {...register('subject', { required: true })}
+          />
+        </div>
+        <div className='grid grid-cols-4 items-center gap-4'>
+          <Label htmlFor='name' className='text-right'>
+            Application Notes
+          </Label>
+          <Input
+            type='text'
+            placeholder='Status'
+            className='col-span-3'
+            {...register('notes', { required: true })}
+          />
+        </div>
         <div className='grid grid-cols-4 items-center gap-4'>
           <Label htmlFor='name' className='text-right'>
             Application Status

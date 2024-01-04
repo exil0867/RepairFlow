@@ -6,13 +6,9 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
-const deviceSchema = z.object({
-  serialNumber: z.string(),
-  model: z.string(),
-  brand: z.string(),
-})
-
 const applicationSchema = z.object({
+  subject: z.string(),
+  notes: z.string(),
   deviceId: z.string().transform((val) => Number(val)),
   customerId: z.string().transform((val) => Number(val)),
 })
@@ -34,12 +30,11 @@ export default async function createDevice(
   try {
     const deviceId = data.get('device_id')
     const customerId = data.get('customer_id')
-    console.log({
-      deviceId: deviceId,
-      customerId: customerId,
-    })
-
+    const subject = data.get('subject')
+    const notes = data.get('notes')
     const validatedFields = applicationSchema.safeParse({
+      subject: subject,
+      notes: notes,
       deviceId: deviceId,
       customerId: customerId,
     })
@@ -51,6 +46,8 @@ export default async function createDevice(
     const response = await prisma.application.create({
       data: {
         status: 'PENDING',
+        subject: validatedFields.data.subject,
+        notes: validatedFields.data.notes,
         deviceId: validatedFields.data.deviceId,
         customerId: validatedFields.data.customerId,
       },
