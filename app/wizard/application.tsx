@@ -50,8 +50,7 @@ export default function DialogDemo({ customer, device }: any) {
           </Label>
           <Input
             type='text'
-            value={'PENDING'}
-            disabled
+            placeholder='Subject'
             className='col-span-3'
             {...register('subject', { required: true })}
           />
@@ -73,7 +72,8 @@ export default function DialogDemo({ customer, device }: any) {
           </Label>
           <Input
             type='text'
-            placeholder='Status'
+            value={'PENDING'}
+            disabled
             className='col-span-3'
             {...register('status', { required: true })}
           />
