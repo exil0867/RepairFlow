@@ -11,7 +11,11 @@ export default async function searchCustomer(query: string) {
     const fetchCustomers = async () => {
       try {
         const customers = await prisma.customer.findMany({
-          where: { name: query },
+          where: {
+            name: {
+              contains: query,
+            },
+          },
           include: {
             applications: true,
           },

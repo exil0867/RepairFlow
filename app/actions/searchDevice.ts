@@ -11,7 +11,7 @@ export default async function searchDevice(query: string) {
     const fetchDevices = async () => {
       try {
         const devices = await prisma.device.findMany({
-          where: { model: query },
+          where: { model: { contains: query } },
         })
         return devices
       } catch (error) {
