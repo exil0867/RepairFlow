@@ -70,7 +70,7 @@ export default function Component() {
     switch (currentStep) {
       case 1:
         return (
-          <div>
+          <div key={1}>
             <Label className='block pb-4'>Customer</Label>
             <Selector
               setObject={setCustomer_}
@@ -102,7 +102,7 @@ export default function Component() {
         )
       case 2:
         return (
-          <div>
+          <div key={2}>
             <Label className='block pb-4'>Device</Label>
             <Selector
               setObject={setDevice_}
@@ -134,7 +134,7 @@ export default function Component() {
         )
       case 3:
         return (
-          <div>
+          <div key={3}>
             <Label className='block pb-4'>Customer</Label>
             <Application customer={customer_} device={device_} />
           </div>
