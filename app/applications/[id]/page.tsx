@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
+import Details from './details'
 
 export default function DisplayApplication({
   params,
@@ -28,24 +29,7 @@ export default function DisplayApplication({
     if (!application) {
       redirect('/404')
     }
-    return (
-      <div>
-        <h2>Application</h2>
-        <ul>
-          <li key={application.id}>
-            <p>Application Subject: {application.subject}</p>
-            {application?.notes && (
-              <p>Application Notes: {application.notes}</p>
-            )}
-            <p>Application Status: {application.status}</p>
-            <p> Device ID: {application.device.id}</p>
-            <p> Device Serial Number: {application.device.serialNumber}</p>
-            <p> Customer ID: {application.customer.id}</p>
-            <p> Customer Name: {application.customer.name}</p>
-          </li>
-        </ul>
-      </div>
-    )
+    return <Details application={application} />
   }
 
   return <>{renderApplication()}</>
