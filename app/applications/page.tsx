@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import List from './list'
 
 export default function DisplayApplications() {
   const fetchApplications = async () => {
@@ -19,20 +20,21 @@ export default function DisplayApplications() {
   const renderApplications = async () => {
     const applications = await fetchApplications()
     return (
-      <div>
-        <h2>Applications</h2>
-        <ul>
-          {applications.map((application) => (
-            <li key={application.id}>
-              <p>Application Status: {application.status}</p>
-              Device ID: {application.device.id}
-              Device Serial Number: {application.device.serialNumber}
-              Customer ID: {application.customer.id}
-              Customer Name: {application.customer.name}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <List />
+      // <div>
+      //   <h2>Applications</h2>
+      //   <ul>
+      //     {applications.map((application) => (
+      //       <li key={application.id}>
+      //         <p>Application Status: {application.status}</p>
+      //         Device ID: {application.device.id}
+      //         Device Serial Number: {application.device.serialNumber}
+      //         Customer ID: {application.customer.id}
+      //         Customer Name: {application.customer.name}
+      //       </li>
+      //     ))}
+      //   </ul>
+      // </div>
     )
   }
 
