@@ -36,7 +36,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import createDevice from '../actions/createDevice'
 import router from 'next/router'
 
-export default function DialogDemo({ setDevice_, setDialogOpen }: any) {
+export default function DialogDemo({ setDevice_, onClose }: any) {
   const {
     reset,
     register,
@@ -58,7 +58,7 @@ export default function DialogDemo({ setDevice_, setDialogOpen }: any) {
         value: state?.response?.model,
       })
       reset()
-      setDialogOpen(false)
+      onClose()
     } else {
       toast.error(state.message)
     }

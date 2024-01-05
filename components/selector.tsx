@@ -19,8 +19,15 @@ import {
 
 type Props = {}
 
-function Selector({ object, setObject, getObjects, creator, itemName }: any) {
-  const [open, setOpen] = useState(false)
+function Selector({
+  object,
+  setObject,
+  getObjects,
+  creator,
+  itemName,
+  showList,
+  setShowList,
+}: any) {
   const [list, setList] = useState([])
   const [inputValue, setInputValue] = useState('')
   useEffect(() => {
@@ -32,12 +39,12 @@ function Selector({ object, setObject, getObjects, creator, itemName }: any) {
   }, [inputValue])
   return (
     <>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={showList} onOpenChange={setShowList}>
         <PopoverTrigger asChild>
           <Button
             variant='outline'
             role='combobox'
-            aria-expanded={open}
+            aria-expanded={showList}
             className='w-[200px] justify-between'
           >
             {object.value ? object.value : `Select ${itemName.singular}...`}
@@ -51,7 +58,7 @@ function Selector({ object, setObject, getObjects, creator, itemName }: any) {
               value={inputValue}
               placeholder={`Search  ${itemName.singular}...`}
             />
-            <CommandEmpty>No ${itemName.plurar} found. </CommandEmpty>
+            <CommandEmpty>No {itemName.plurar} found. </CommandEmpty>
             <CommandGroup>
               {list.map((item: any) => (
                 <CommandItem
@@ -59,7 +66,7 @@ function Selector({ object, setObject, getObjects, creator, itemName }: any) {
                   value={item.value}
                   onSelect={(currentValue) => {
                     setObject(item)
-                    setOpen(false)
+                    setShowList(false)
                   }}
                 >
                   <Check

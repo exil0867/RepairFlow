@@ -37,10 +37,10 @@ import router from 'next/router'
 
 export default function DialogDemo({
   setCustomer_,
-  setDialogOpen,
+  onClose,
 }: {
   setCustomer_: any
-  setDialogOpen: any
+  onClose: any
 }) {
   const {
     reset,
@@ -60,7 +60,7 @@ export default function DialogDemo({
       toast.success(state.message)
       setCustomer_({ id: state?.response?.id, value: state?.response?.name })
       reset()
-      setDialogOpen(false)
+      onClose()
     } else {
       toast.error(state.message)
     }
