@@ -18,6 +18,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from '@/components/ui/command'
 import {
   Popover,
@@ -25,16 +26,24 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import searchCustomer from '../actions/searchCustomer'
+import {
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenu,
+} from '@/components/ui/dropdown-menu'
+import Selector from '@/components/selector'
+import searchDevice from '../actions/searchDevice'
 
-export default function Form({
-  customers,
-  devices,
-}: {
-  customers: any
-  devices: any
-}) {
-  const [open, setOpen] = useState(false)
-  const [dialogOpen, setDialogOpen] = useState(false)
+function transformArray(arr: any, selectedProp: any) {
+  return arr.map((element) => ({
+    id: element.id,
+    value: element[selectedProp],
+  }))
+}
+
+export default function Form({ devices }: { devices: any }) {
   const [customer_, setCustomer_] = useState({
     value: '',
     id: 0,
@@ -44,6 +53,9 @@ export default function Form({
     value: '',
     id: 0,
   })
+  const [inputValue, setInputValue] = useState('')
+  const [open, setOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const router = useRouter()
 
@@ -56,112 +68,50 @@ export default function Form({
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       {step === 0 && (
-        <>
-          <CustomerModal
-            setCustomer_={setCustomer_}
-            setDialogOpen={setDialogOpen}
-          />
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant='outline'
-                role='combobox'
-                aria-expanded={open}
-                className='w-[200px] justify-between'
-              >
-                {customer_.value
-                  ? customers.find(
-                      (customer: any) => customer.id === customer_.id,
-                    )?.name
-                  : 'Select customer...'}
-                <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className='w-[200px] p-0'>
-              <Command>
-                <CommandInput placeholder='Search customer...' />
-                <CommandEmpty>No customers found. </CommandEmpty>
-                <CommandGroup>
-                  {customers.map((customer: any) => (
-                    <CommandItem
-                      key={customer.id}
-                      value={customer}
-                      onSelect={(currentValue) => {
-                        setCustomer_({ id: customer.id, value: customer.name })
-                        setOpen(false)
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          customer_.id === customer.id
-                            ? 'opacity-100'
-                            : 'opacity-0',
-                        )}
-                      />
-                      {customer.name}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-                <DialogTrigger asChild>
-                  <Button variant='outline'>Create Profile</Button>
-                </DialogTrigger>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </>
+        <Selector
+          setObject={setCustomer_}
+          object={customer_}
+          itemName={{ plurar: 'customers', singular: 'customer' }}
+          creator={
+            <>
+              <CustomerModal
+                setCustomer_={setCustomer_}
+                setDialogOpen={setDialogOpen}
+              />
+              <DialogTrigger asChild>
+                <Button variant='outline'>Create customer</Button>
+              </DialogTrigger>
+            </>
+          }
+          getObjects={async (e) => {
+            const s = transformArray(await searchCustomer(e), 'name')
+            console.log(s, 'hi', e)
+            return s
+          }}
+        />
       )}
       {step === 1 && (
-        <>
-          <DeviceModal setDevice_={setDevice_} setDialogOpen={setDialogOpen} />
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant='outline'
-                role='combobox'
-                aria-expanded={open}
-                className='w-[200px] justify-between'
-              >
-                {device_.value
-                  ? devices.find((device: any) => device.id === device_.id)
-                      ?.model
-                  : 'Select device...'}
-                <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className='w-[200px] p-0'>
-              <Command>
-                <CommandInput placeholder='Search  device...' />
-                <CommandEmpty>No devices found. </CommandEmpty>
-                <CommandGroup>
-                  {devices.map((device: any) => (
-                    <CommandItem
-                      key={device.id}
-                      value={device}
-                      onSelect={(currentValue) => {
-                        setDevice_({ id: device.id, value: device.model })
-                        setOpen(false)
-                      }}
-                    >
-                      <Check
-                        className={cn(
-                          'mr-2 h-4 w-4',
-                          device_.id === device.id
-                            ? 'opacity-100'
-                            : 'opacity-0',
-                        )}
-                      />
-                      {device.model}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-                <DialogTrigger asChild>
-                  <Button variant='outline'>Create device</Button>
-                </DialogTrigger>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </>
+        <Selector
+          setObject={setDevice_}
+          object={device_}
+          itemName={{ plurar: 'devices', singular: 'device' }}
+          creator={
+            <>
+              <DeviceModal
+                setDevice_={setDevice_}
+                setDialogOpen={setDialogOpen}
+              />
+              <DialogTrigger asChild>
+                <Button variant='outline'>Create device</Button>
+              </DialogTrigger>
+            </>
+          }
+          getObjects={async (e) => {
+            const s = transformArray(await searchDevice(e), 'model')
+            console.log(s, 'hi', e)
+            return s
+          }}
+        />
       )}
       {step === 2 && <Application customer={customer_} device={device_} />}
       <button onClick={() => setStep(step + 1)}>Next</button>
