@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
 const deviceSchema = z.object({
+  customerId: z.string().transform((val) => Number(val)),
   serialNumber: z.string(),
   model: z.string(),
   brand: z.string(),
@@ -32,11 +33,13 @@ export default async function createDevice(
   data: FormData,
 ): Promise<formRes> {
   try {
+    const customerId = data.get('customer_id')
     const serialNumber = data.get('serial_number')
     const model = data.get('model')
     const brand = data.get('brand')
 
     const validatedFields = deviceSchema.safeParse({
+      customerId: customerId,
       serialNumber: serialNumber,
       model: model,
       brand: brand,
@@ -48,6 +51,7 @@ export default async function createDevice(
 
     const response = await prisma.device.create({
       data: {
+        customerId: validatedFields.data.customerId,
         serialNumber: validatedFields.data.serialNumber,
         model: validatedFields.data.model,
         brand: validatedFields.data.brand,

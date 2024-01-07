@@ -36,7 +36,7 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import createDevice from '../actions/createDevice'
 import router from 'next/router'
 
-export default function DialogDemo({ setDevice_, onClose }: any) {
+export default function DialogDemo({ setDevice_, onClose, customerId }: any) {
   const {
     reset,
     register,
@@ -66,6 +66,7 @@ export default function DialogDemo({ setDevice_, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px]'>
       <form action={formAction}>
+        <input type='hidden' name='customer_id' value={customerId} />
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>

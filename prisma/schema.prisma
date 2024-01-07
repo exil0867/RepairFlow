@@ -20,6 +20,7 @@ model Customer {
   address      String
   phoneNumber  String
   applications Application[]
+  Device       Device[]
 }
 
 model Application {
@@ -38,6 +39,8 @@ model Device {
   serialNumber String
   model        String
   brand        String
+  customerId   Int
+  customer     Customer      @relation(fields: [customerId], references: [id])
   applications Application[]
 }
 

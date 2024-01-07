@@ -114,6 +114,7 @@ export default function Component() {
                 <>
                   <DeviceModal
                     setDevice_={setDevice_}
+                    customerId={customer_.id}
                     onClose={() => {
                       setOpen(false)
                       setDialogOpen(false)
@@ -125,7 +126,10 @@ export default function Component() {
                 </>
               }
               getObjects={async (e) => {
-                const s = transformArray(await searchDevice(e), 'model')
+                const s = transformArray(
+                  await searchDevice(e, customer_.id),
+                  'model',
+                )
                 console.log(s, 'hi', e)
                 return s
               }}

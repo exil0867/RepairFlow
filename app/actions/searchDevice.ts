@@ -6,12 +6,18 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
-export default async function searchDevice(query: string) {
+export default async function searchDevice(query: string, customerId: number) {
   try {
     const fetchDevices = async () => {
       try {
         const devices = await prisma.device.findMany({
-          where: { model: { contains: query } },
+          include: {
+            customer: true,
+          },
+          where: {
+            model: { contains: query },
+            customerId,
+          },
         })
         return devices
       } catch (error) {
