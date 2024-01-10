@@ -21,7 +21,7 @@ import { useRouter } from 'next/navigation'
 export default function DialogDemo({ customer, device }: any) {
   console.log(customer, device)
   const router = useRouter()
-  const [state, formAction] = useFormState(createApplication, {
+  const [state, formAction] = useFormState(createApplication as any, {
     message: null,
     response: null as any,
     error: null,

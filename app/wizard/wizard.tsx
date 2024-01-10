@@ -2,8 +2,6 @@
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-;('use client')
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useFormState, useFormStatus } from 'react-dom'
@@ -33,12 +31,6 @@ import {
 } from '@/components/ui/popover'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import searchCustomer from '../actions/searchCustomer'
-import {
-  DropdownMenuTrigger,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenu,
-} from '@/components/ui/dropdown-menu'
 import Selector from '@/components/selector'
 import searchDevice from '../actions/searchDevice'
 
@@ -56,12 +48,12 @@ export default function Component() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
 
-  const goToNextStep = (event) => {
+  const goToNextStep = (event: any) => {
     event.preventDefault()
     setCurrentStep((prevStep) => prevStep + 1)
   }
 
-  const goToPreviousStep = (event) => {
+  const goToPreviousStep = (event: any) => {
     event.preventDefault()
     setCurrentStep((prevStep) => prevStep - 1)
   }
@@ -92,7 +84,7 @@ export default function Component() {
                   </DialogTrigger>
                 </>
               }
-              getObjects={async (e) => {
+              getObjects={async (e: any) => {
                 const s = transformArray(await searchCustomer(e), 'name')
                 console.log(s, 'hi', e)
                 return s
@@ -125,7 +117,7 @@ export default function Component() {
                   </DialogTrigger>
                 </>
               }
-              getObjects={async (e) => {
+              getObjects={async (e: any) => {
                 const s = transformArray(
                   await searchDevice(e, customer_.id),
                   'model',

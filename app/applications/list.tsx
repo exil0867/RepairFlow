@@ -39,7 +39,7 @@ export default function Component() {
           </div>
         </div>
         <div className='grid gap-6'>
-          {list.map(({ id, device, customer }) => {
+          {list.map(({ id, device, customer }: any) => {
             return (
               <div
                 key={id}

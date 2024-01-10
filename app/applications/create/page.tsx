@@ -42,6 +42,7 @@ export default function CreateApplication() {
       await prisma.application.create({
         data: {
           status: 'PENDING',
+          subject: 'Test',
           deviceId: validatedFields.data.deviceId,
           customerId: validatedFields.data.customerId,
         },

@@ -39,6 +39,7 @@ export default function CreateDevice() {
 
       await prisma.device.create({
         data: {
+          customerId: 1,
           serialNumber: validatedFields.data.serialNumber,
           model: validatedFields.data.model,
           brand: validatedFields.data.brand,
