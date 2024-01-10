@@ -4,9 +4,10 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import setApplicationAsComplete from '@/app/actions/setApplicationAsComplete'
 
 export default function Component({ application }) {
-  const { subject, notes, status, customer, device } = application
+  const { id, subject, notes, status, customer, device } = application
   return (
     <main className='p-4 md:p-6 lg:p-8'>
       <Card>
@@ -56,6 +57,13 @@ export default function Component({ application }) {
               <Input defaultValue={device.brand} disabled id='brand' />
             </div>
             <div className='flex justify-end gap-4 mt-6'>
+              <Button
+                onClick={async () => {
+                  await setApplicationAsComplete(id)
+                }}
+              >
+                Set as complete
+              </Button>
               <Button>Edit Application</Button>
               <Button className='bg-red-500 text-white'>
                 Delete Application
