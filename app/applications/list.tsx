@@ -6,6 +6,9 @@ import { Button } from '@/components/ui/button'
 import searchApplication from '../actions/searchApplication'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Selector from '@/components/selector'
+import { transformArray } from '@/lib/utils'
+import searchCustomer from '../actions/searchCustomer'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -16,6 +19,11 @@ export default function Component() {
     }
     fetchData()
   }, [])
+  const [customer_, setCustomer_] = useState({
+    value: '',
+    id: 0,
+  })
+  const [open, setOpen] = useState(false)
   return (
     <main className='container mx-auto px-4 md:px-6 py-8'>
       <div className='flex flex-col gap-6'>
@@ -23,7 +31,19 @@ export default function Component() {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
           <div className='flex flex-col gap-2'>
             <Label htmlFor='filter-customer'>Customer</Label>
-            <Input id='filter-customer' placeholder='Filter by customer' />
+            {/* <Input id='filter-customer' placeholder='Filter by customer' /> */}
+            <Selector
+              setObject={setCustomer_}
+              object={customer_}
+              itemName={{ plurar: 'customers', singular: 'customer' }}
+              showList={open}
+              setShowList={setOpen}
+              getObjects={async (e: any) => {
+                const s = transformArray(await searchCustomer(e), 'name')
+                console.log(s, 'hi', e)
+                return s
+              }}
+            />
           </div>
           <div className='flex flex-col gap-2'>
             <Label htmlFor='filter-device'>Device</Label>
