@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
+import { useFormState, useFormStatus } from 'react-dom'
+import { authenticate } from '../actions/auth'
 
 export default function LoginForm() {
   const {
@@ -10,27 +12,13 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm()
 
+  const [errorMessage, dispatch] = useFormState(authenticate, undefined)
+  const { pending } = useFormStatus()
+
   const router = useRouter()
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        signIn('credentials', {
-          redirect: false,
-          username: e.currentTarget.username.value,
-          password: e.currentTarget.password.value,
-          // @ts-ignore
-        }).then(({ error }) => {
-          if (error) {
-            toast.error(error)
-          } else {
-            router.refresh()
-            router.push('/protected')
-          }
-        })
-      }}
-    >
+    <form action={dispatch}>
       <input
         type='text'
         placeholder='username'
@@ -43,6 +31,17 @@ export default function LoginForm() {
       />
 
       <input type='submit' />
+      <div
+        className='flex h-8 items-end space-x-1'
+        aria-live='polite'
+        aria-atomic='true'
+      >
+        {errorMessage && (
+          <>
+            <p className='text-sm text-red-500'>{errorMessage}</p>
+          </>
+        )}
+      </div>
     </form>
   )
 }
