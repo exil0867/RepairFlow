@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 
-export default function Component({ application }: any) {
+export default function Component({ application }) {
   const { subject, notes, status, customer, device } = application
   return (
     <main className='p-4 md:p-6 lg:p-8'>

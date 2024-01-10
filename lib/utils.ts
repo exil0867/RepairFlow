@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function transformArray(arr: any, selectedProp: any) {
-  return arr.map((element: any) => ({
+  return arr.map((element) => ({
     id: element.id,
     value: element[selectedProp],
   }))

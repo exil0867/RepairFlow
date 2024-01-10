@@ -42,7 +42,7 @@ export default function DialogDemo({ setDevice_, onClose, customerId }: any) {
     register,
     formState: { errors },
   } = useForm()
-  const [state, formAction] = useFormState(createDevice as any, {
+  const [state, formAction] = useFormState(createDevice, {
     message: null,
     response: null as any,
     error: null,
@@ -70,7 +70,7 @@ export default function DialogDemo({ setDevice_, onClose, customerId }: any) {
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className='grid gap-4 py-4'>
