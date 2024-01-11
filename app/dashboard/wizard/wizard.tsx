@@ -2,8 +2,6 @@
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-;('use client')
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useFormState, useFormStatus } from 'react-dom'
