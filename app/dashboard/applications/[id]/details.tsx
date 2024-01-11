@@ -18,6 +18,7 @@ import { transformArray } from '@/lib/utils'
 import searchCustomer from '@/app/actions/searchCustomer'
 import DeviceModal from '../../wizard/device-modal'
 import searchDevice from '@/app/actions/searchDevice'
+import updateApplication from '@/app/actions/updateApplication'
 
 export default function Component({ application }) {
   const { id, subject, notes, status, customer, device } = application
@@ -25,20 +26,16 @@ export default function Component({ application }) {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [state, formAction] = useFormState(createApplication, {
+  const [state, formAction] = useFormState(updateApplication, {
     message: null,
     response: null as any,
     error: null,
   })
-  const [customer_, setCustomer_] = useState({
-    value: '',
-    id: 0,
-  })
+  const initialCustomer = transformArray([application.customer], 'name')[0]
+  const initialDevice = transformArray([application.device], 'model')[0]
+  const [customer_, setCustomer_] = useState(initialCustomer)
 
-  const [device_, setDevice_] = useState({
-    value: '',
-    id: 0,
-  })
+  const [device_, setDevice_] = useState(initialDevice)
   const { pending } = useFormStatus()
   const {
     reset,
@@ -56,7 +53,18 @@ export default function Component({ application }) {
   }, [pending, state])
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <form action={formAction}>
+      <form
+        action={async (data) => {
+          // console.log(await data.values(), 'hidd')
+          data.set('device_id', device_.id)
+          data.set('customer_id', customer_.id)
+          data.set('id', application.id)
+          for (const value of data.values()) {
+            console.log(value)
+          }
+          formAction(data)
+        }}
+      >
         <div className='grid gap-4 py-4'>
           <div className='grid grid-cols-4 items-center gap-4'>
             <Label htmlFor='name' className='text-right'>

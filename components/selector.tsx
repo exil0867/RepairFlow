@@ -44,6 +44,7 @@ function Selector({
         onOpenChange={(e) => {
           setShowList(e)
           console.log(showList)
+          console.log(object)
         }}
       >
         <PopoverTrigger asChild>
