@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import setApplicationAsComplete from '@/app/actions/setApplicationAsComplete'
+import toast from 'react-hot-toast'
 
 export default function Component({ application }) {
   const { id, subject, notes, status, customer, device } = application
@@ -59,7 +60,13 @@ export default function Component({ application }) {
             <div className='flex justify-end gap-4 mt-6'>
               <Button
                 onClick={async () => {
-                  await setApplicationAsComplete(id)
+                  const result = await setApplicationAsComplete(id)
+                  if (false || result.error === null) return
+                  if (!result.error) {
+                    toast.success(result.message)
+                  } else {
+                    toast.error(result.message)
+                  }
                 }}
               >
                 Set as complete

@@ -6,30 +6,37 @@ export default async function setApplicationAsComplete(id: number) {
   try {
     const fetchApplication = async () => {
       try {
-        const application = await prisma.application.findMany({
+        const updatedApplication = await prisma.application.update({
           where: {
             id: id,
-          },
-        })
-        await prisma.application.update({
-          where: {
-            id: application[0].id,
+            status: {
+              not: 'COMPLETE',
+            },
           },
           data: {
             status: 'COMPLETE',
           },
         })
+        if (!updatedApplication)
+          throw new Error(`Couldn't find or update the application.`)
+        return {
+          message: 'Application status was set to complete.',
+          response: updatedApplication,
+          error: false,
+        }
       } catch (error) {
-        console.error('Error fetching application:', error)
-        return []
+        return {
+          message: 'An error occurred while fetching the application.',
+          error: true,
+        }
       }
     }
 
-    const devices = await fetchApplication()
+    const application = await fetchApplication()
 
     revalidatePath('/')
 
-    return devices
+    return application
   } catch (error) {
     return {
       message: 'An error occurred while setting the application as complete',
