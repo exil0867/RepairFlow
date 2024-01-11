@@ -1,190 +1,101 @@
-'use client'
-import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
+/**
+ * v0 by Vercel.
+ * @see https://v0.dev/t/wV9MQ7o4nJJ
+ */
+import {
+  CardTitle,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Card,
+} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import setApplicationAsComplete from '@/app/actions/setApplicationAsComplete'
-import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { useFormState, useFormStatus } from 'react-dom'
-import createApplication from '@/app/actions/createApplication'
-import Selector from '@/components/selector'
-import CustomerModal from '../../wizard/customer-modal'
-import { Dialog, DialogTrigger } from '@radix-ui/react-dialog'
-import { transformArray } from '@/lib/utils'
-import searchCustomer from '@/app/actions/searchCustomer'
-import DeviceModal from '../../wizard/device-modal'
-import searchDevice from '@/app/actions/searchDevice'
-import updateApplication from '@/app/actions/updateApplication'
+import {
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenu,
+} from '@/components/ui/dropdown-menu'
+import { Application } from '@prisma/client'
 
-export default function Component({ application }) {
-  const { id, subject, notes, status, customer, device } = application
-  // const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const [open2, setOpen2] = useState(false)
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [state, formAction] = useFormState(updateApplication, {
-    message: null,
-    response: null as any,
-    error: null,
-  })
-  const initialCustomer = transformArray([application.customer], 'name')[0]
-  const initialDevice = transformArray([application.device], 'model')[0]
-  const [customer_, setCustomer_] = useState(initialCustomer)
-
-  const [device_, setDevice_] = useState(initialDevice)
-  const { pending } = useFormStatus()
-  const {
-    reset,
-    register,
-    formState: { errors },
-  } = useForm()
-  useEffect(() => {
-    if (pending || state.error === null) return
-    if (!state.error) {
-      toast.success(state.message)
-      // router.push(`/applications/${state?.response?.id}`)
-    } else {
-      toast.error(state.message)
-    }
-  }, [pending, state])
+export default function Component({ application }: any) {
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <form
-        action={async (data) => {
-          // console.log(await data.values(), 'hidd')
-          data.set('device_id', device_.id)
-          data.set('customer_id', customer_.id)
-          data.set('id', application.id)
-          for (const value of data.values()) {
-            console.log(value)
-          }
-          formAction(data)
-        }}
-      >
-        <div className='grid gap-4 py-4'>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='name' className='text-right'>
-              Application Subject
-            </Label>
-            <Input
-              type='text'
-              defaultValue={application.subject}
-              placeholder='Subject'
-              className='col-span-3'
-              {...register('subject', { required: true })}
-            />
+    <main className='p-6 md:p-8 lg:p-10'>
+      <Card className='space-y-6'>
+        <CardHeader>
+          <CardTitle className='text-2xl font-bold'>
+            Application Details
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className='grid gap-6 md:gap-8'>
+            <div className='grid gap-2'>
+              <div className='text-lg font-semibold '>Application Subject</div>
+              <div className='text-gray-600'>{application.subject}</div>
+            </div>
+            <div className='grid gap-2'>
+              <div className='text-lg font-semibold '>Application Notes</div>
+              <div className='text-gray-600'>{application.notes}</div>
+            </div>
+            <div className='grid gap-2'>
+              <div className='text-lg font-semibold '>Application Status</div>
+              <div className='text-gray-600'>{application.status}</div>
+            </div>
+            <div className='grid gap-2'>
+              <div className='text-lg font-semibold'>Customer Details</div>
+              <div className='text-gray-600'>
+                <div>
+                  <span className='text-gray-800 font-medium'>Name:</span>{' '}
+                  {application.customer.name}
+                </div>
+                <div>
+                  <span className='text-gray-800 font-medium'>Address:</span>{' '}
+                  {application.customer.address}
+                </div>
+                <div>
+                  <span className='text-gray-800 font-medium'>
+                    Phone Number:
+                  </span>{' '}
+                  {application.customer.phoneNumber}
+                </div>
+              </div>
+            </div>
+            <div className='grid gap-2'>
+              <div className='text-lg font-semibold'>Device Details</div>
+              <div className='text-gray-600'>
+                <div>
+                  <span className='text-gray-800 font-medium'>
+                    Serial Number:
+                  </span>{' '}
+                  {application.device.serialNumber}
+                </div>
+                <div>
+                  <span className='text-gray-800 font-medium'>Model:</span>{' '}
+                  {application.device.model}
+                </div>
+                <div>
+                  <span className='text-gray-800 font-medium'>Brand:</span>{' '}
+                  {application.device.brand}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='name' className='text-right'>
-              Application Notes
-            </Label>
-            <Input
-              type='text'
-              defaultValue={application.notes}
-              placeholder='Notes'
-              className='col-span-3'
-              {...register('notes', { required: true })}
-            />
-          </div>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='name' className='text-right'>
-              Application Status
-            </Label>
-            <Input
-              type='text'
-              defaultValue={application.status}
-              className='col-span-3'
-              {...register('status', { required: true })}
-            />
-          </div>
-          {/* <div className='grid grid-cols-4 items-center gap-4'> */}
-          <Label htmlFor='username' className='text-right'>
-            Customer
-          </Label>
-          <Selector
-            setObject={setCustomer_}
-            object={customer_}
-            itemName={{ plurar: 'customers', singular: 'customer' }}
-            showList={open}
-            setShowList={(v) => {
-              setOpen(v)
-              setDevice_(undefined)
-            }}
-            creator={
-              <>
-                <CustomerModal
-                  setCustomer_={setCustomer_}
-                  onClose={() => {
-                    setOpen(false)
-                    setDialogOpen(false)
-                  }}
-                />
-                <DialogTrigger asChild>
-                  <Button variant='outline'>Create customer</Button>
-                </DialogTrigger>
-              </>
-            }
-            getObjects={async (e) => {
-              const s = transformArray(await searchCustomer(e), 'name')
-              console.log(s, 'hi', e)
-              return s
-            }}
-          />
-          {/* <Input
-            type='text'
-            defaultValue={application.customer.name}
-            className='col-span-3'
-            readOnly
-          />
-          <Input
-            type='hidden'
-            value={application.customer.id}
-            className='col-span-3'
-            {...register('customer_id', { required: true })}
-          />
-        </div> */}
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='username' className='text-right'>
-              Device
-            </Label>
-            <Selector
-              setObject={setDevice_}
-              object={device_}
-              itemName={{ plurar: 'devices', singular: 'device' }}
-              showList={open2}
-              setShowList={setOpen2}
-              creator={
-                <>
-                  <DeviceModal
-                    setDevice_={setDevice_}
-                    customerId={customer_.id}
-                    onClose={() => {
-                      setOpen(false)
-                      setDialogOpen(false)
-                    }}
-                  />
-                  <DialogTrigger asChild>
-                    <Button variant='outline'>Create device</Button>
-                  </DialogTrigger>
-                </>
-              }
-              getObjects={async (e) => {
-                const s = transformArray(
-                  await searchDevice(e, customer_.id),
-                  'model',
-                )
-                console.log(s, 'hi', e)
-                return s
-              }}
-            />
-          </div>
-        </div>
-        <Button type='submit'>Save changes</Button>
-      </form>
-    </Dialog>
+        </CardContent>
+        <CardFooter className='flex gap-4'>
+          <Button variant='outline'>Edit</Button>
+          <Button variant='outline'>Delete</Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='outline'>Mark As</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>Complete</DropdownMenuItem>
+              <DropdownMenuItem>Pending</DropdownMenuItem>
+              <DropdownMenuItem>Cancelled</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </CardFooter>
+      </Card>
+    </main>
   )
 }
