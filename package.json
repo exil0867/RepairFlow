@@ -14,7 +14,7 @@
     "seed": "ts-node --transpile-only ./prisma/seed.ts"
   },
   "dependencies": {
-    "@hookform/resolvers": "3.3.2",
+    "@hookform/resolvers": "3.3.4",
     "@nivo/bar": "0.84.0",
     "@nivo/line": "0.84.0",
     "@prisma/client": "5.7.1",
