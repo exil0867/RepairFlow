@@ -103,7 +103,7 @@ export default function Component() {
                   </p>
                 </div>
                 <div className='flex justify-end'>
-                  <Link href={`/applications/${id}`}>
+                  <Link href={`/dashboard/applications/${id}`}>
                     <Button variant='outline'>View</Button>
                   </Link>
                 </div>
