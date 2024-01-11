@@ -30,15 +30,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
-import searchCustomer from '../actions/searchCustomer'
-import {
-  DropdownMenuTrigger,
-  DropdownMenuItem,
-  DropdownMenuContent,
-  DropdownMenu,
-} from '@/components/ui/dropdown-menu'
+import searchCustomer from '../../actions/searchCustomer'
 import Selector from '@/components/selector'
-import searchDevice from '../actions/searchDevice'
+import searchDevice from '../../actions/searchDevice'
 
 export default function Component() {
   const [open, setOpen] = useState(false)
