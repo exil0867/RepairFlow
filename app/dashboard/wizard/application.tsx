@@ -37,7 +37,7 @@ export default function DialogDemo({ customer, device }: any) {
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
-      router.push(`/applications/${state?.response?.id}`)
+      router.push(`/dashboard/applications/${state?.response?.id}`)
     } else {
       toast.error(state.message)
     }
