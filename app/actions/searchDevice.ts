@@ -15,7 +15,7 @@ export default async function searchDevice(query: string, customerId: number) {
             customer: true,
           },
           where: {
-            model: { contains: query },
+            model: query ? { contains: query } : undefined,
             customerId,
           },
         })

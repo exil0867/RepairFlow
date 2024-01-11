@@ -6,12 +6,20 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
-export default async function searchApplication(query: string) {
+export default async function searchApplication(
+  customerId?: number,
+  deviceId?: number,
+  subject?: string,
+) {
   try {
     const fetchApplications = async () => {
       try {
         const applications = await prisma.application.findMany({
-          // where: { subject: { contains: query } },
+          where: {
+            customerId: customerId ? customerId : undefined,
+            deviceId: deviceId ? deviceId : undefined,
+            subject: subject ? { contains: subject } : undefined,
+          },
           include: {
             device: true,
             customer: true,

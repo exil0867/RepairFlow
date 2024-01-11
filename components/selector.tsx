@@ -36,10 +36,16 @@ function Selector({
       setList(filtered)
     }
     fetchData()
-  }, [inputValue])
+  }, [inputValue, showList])
   return (
     <>
-      <Popover open={showList} onOpenChange={setShowList}>
+      <Popover
+        open={showList}
+        onOpenChange={(e) => {
+          setShowList(e)
+          console.log(showList)
+        }}
+      >
         <PopoverTrigger asChild>
           <Button
             variant='outline'
@@ -47,7 +53,7 @@ function Selector({
             aria-expanded={showList}
             className='w-[200px] justify-between'
           >
-            {object.value ? object.value : `Select ${itemName.singular}...`}
+            {object?.value ? object.value : `Select ${itemName.singular}...`}
             <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>
@@ -72,7 +78,7 @@ function Selector({
                   <Check
                     className={cn(
                       'mr-2 h-4 w-4',
-                      object.id === item.id ? 'opacity-100' : 'opacity-0',
+                      object?.id === item.id ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                   {item.value}
