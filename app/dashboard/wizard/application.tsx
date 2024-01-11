@@ -14,7 +14,7 @@ import { useEffect } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import createApplication from '../actions/createApplication'
+import createApplication from '../../actions/createApplication'
 import router from 'next/router'
 import { useRouter } from 'next/navigation'
 

@@ -32,7 +32,7 @@ import {
 } from '@/components/ui/popover'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import createCustomer from '../actions/createCustomer'
+import createCustomer from '../../actions/createCustomer'
 import router from 'next/router'
 
 export default function DialogDemo({

@@ -3,12 +3,12 @@
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import searchApplication from '../actions/searchApplication'
+import searchApplication from '../../actions/searchApplication'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Selector from '@/components/selector'
 import { transformArray } from '@/lib/utils'
-import searchCustomer from '../actions/searchCustomer'
+import searchCustomer from '../../actions/searchCustomer'
 
 export default function Component() {
   const [list, setList] = useState([])
