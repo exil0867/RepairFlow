@@ -6,79 +6,177 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import setApplicationAsComplete from '@/app/actions/setApplicationAsComplete'
 import toast from 'react-hot-toast'
+import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useFormState, useFormStatus } from 'react-dom'
+import createApplication from '@/app/actions/createApplication'
+import Selector from '@/components/selector'
+import CustomerModal from '../../wizard/customer-modal'
+import { Dialog, DialogTrigger } from '@radix-ui/react-dialog'
+import { transformArray } from '@/lib/utils'
+import searchCustomer from '@/app/actions/searchCustomer'
+import DeviceModal from '../../wizard/device-modal'
+import searchDevice from '@/app/actions/searchDevice'
 
 export default function Component({ application }) {
   const { id, subject, notes, status, customer, device } = application
+  // const router = useRouter()
+  const [open, setOpen] = useState(false)
+  const [open2, setOpen2] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [state, formAction] = useFormState(createApplication, {
+    message: null,
+    response: null as any,
+    error: null,
+  })
+  const [customer_, setCustomer_] = useState({
+    value: '',
+    id: 0,
+  })
+
+  const [device_, setDevice_] = useState({
+    value: '',
+    id: 0,
+  })
+  const { pending } = useFormStatus()
+  const {
+    reset,
+    register,
+    formState: { errors },
+  } = useForm()
+  useEffect(() => {
+    if (pending || state.error === null) return
+    if (!state.error) {
+      toast.success(state.message)
+      // router.push(`/applications/${state?.response?.id}`)
+    } else {
+      toast.error(state.message)
+    }
+  }, [pending, state])
   return (
-    <main className='p-4 md:p-6 lg:p-8'>
-      <Card>
-        <CardHeader>
-          <CardTitle>Application Details</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className='grid gap-4 md:gap-6 lg:gap-8'>
-            <div className='grid gap-2'>
-              <Label htmlFor='subject'>Application Subject</Label>
-              <Input defaultValue={subject} disabled id='subject' />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='notes'>Application Notes</Label>
-              <Textarea defaultValue={notes} disabled id='notes' />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='status'>Application Status</Label>
-              <Input defaultValue={status} disabled id='status' />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='customer-name'>Customer Name</Label>
-              <Input defaultValue={customer.name} disabled id='customer-name' />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='address'>Customer Address</Label>
-              <Input defaultValue={customer.address} disabled id='address' />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='phone'>Customer Phone</Label>
-              <Input defaultValue={customer.phoneNumber} disabled id='phone' />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='serial-number'>Device Serial Number</Label>
-              <Input
-                defaultValue={device.serialNumber}
-                disabled
-                id='serial-number'
-              />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='model'>Device Model</Label>
-              <Input defaultValue={device.model} disabled id='model' />
-            </div>
-            <div className='grid gap-2'>
-              <Label htmlFor='brand'>Device Brand</Label>
-              <Input defaultValue={device.brand} disabled id='brand' />
-            </div>
-            <div className='flex justify-end gap-4 mt-6'>
-              <Button
-                onClick={async () => {
-                  const result = await setApplicationAsComplete(id)
-                  if (false || result.error === null) return
-                  if (!result.error) {
-                    toast.success(result.message)
-                  } else {
-                    toast.error(result.message)
-                  }
-                }}
-              >
-                Set as complete
-              </Button>
-              <Button>Edit Application</Button>
-              <Button className='bg-red-500 text-white'>
-                Delete Application
-              </Button>
-            </div>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <form action={formAction}>
+        <div className='grid gap-4 py-4'>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='name' className='text-right'>
+              Application Subject
+            </Label>
+            <Input
+              type='text'
+              defaultValue={application.subject}
+              placeholder='Subject'
+              className='col-span-3'
+              {...register('subject', { required: true })}
+            />
           </div>
-        </CardContent>
-      </Card>
-    </main>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='name' className='text-right'>
+              Application Notes
+            </Label>
+            <Input
+              type='text'
+              defaultValue={application.notes}
+              placeholder='Notes'
+              className='col-span-3'
+              {...register('notes', { required: true })}
+            />
+          </div>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='name' className='text-right'>
+              Application Status
+            </Label>
+            <Input
+              type='text'
+              defaultValue={application.status}
+              className='col-span-3'
+              {...register('status', { required: true })}
+            />
+          </div>
+          {/* <div className='grid grid-cols-4 items-center gap-4'> */}
+          <Label htmlFor='username' className='text-right'>
+            Customer
+          </Label>
+          <Selector
+            setObject={setCustomer_}
+            object={customer_}
+            itemName={{ plurar: 'customers', singular: 'customer' }}
+            showList={open}
+            setShowList={(v) => {
+              setOpen(v)
+              setDevice_(undefined)
+            }}
+            creator={
+              <>
+                <CustomerModal
+                  setCustomer_={setCustomer_}
+                  onClose={() => {
+                    setOpen(false)
+                    setDialogOpen(false)
+                  }}
+                />
+                <DialogTrigger asChild>
+                  <Button variant='outline'>Create customer</Button>
+                </DialogTrigger>
+              </>
+            }
+            getObjects={async (e) => {
+              const s = transformArray(await searchCustomer(e), 'name')
+              console.log(s, 'hi', e)
+              return s
+            }}
+          />
+          {/* <Input
+            type='text'
+            defaultValue={application.customer.name}
+            className='col-span-3'
+            readOnly
+          />
+          <Input
+            type='hidden'
+            value={application.customer.id}
+            className='col-span-3'
+            {...register('customer_id', { required: true })}
+          />
+        </div> */}
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='username' className='text-right'>
+              Device
+            </Label>
+            <Selector
+              setObject={setDevice_}
+              object={device_}
+              itemName={{ plurar: 'devices', singular: 'device' }}
+              showList={open2}
+              setShowList={setOpen2}
+              creator={
+                <>
+                  <DeviceModal
+                    setDevice_={setDevice_}
+                    customerId={customer_.id}
+                    onClose={() => {
+                      setOpen(false)
+                      setDialogOpen(false)
+                    }}
+                  />
+                  <DialogTrigger asChild>
+                    <Button variant='outline'>Create device</Button>
+                  </DialogTrigger>
+                </>
+              }
+              getObjects={async (e) => {
+                const s = transformArray(
+                  await searchDevice(e, customer_.id),
+                  'model',
+                )
+                console.log(s, 'hi', e)
+                return s
+              }}
+            />
+          </div>
+        </div>
+        <Button type='submit'>Save changes</Button>
+      </form>
+    </Dialog>
   )
 }
