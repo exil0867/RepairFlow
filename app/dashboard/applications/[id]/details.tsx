@@ -1,7 +1,4 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/wV9MQ7o4nJJ
- */
+'use client'
 import {
   CardTitle,
   CardHeader,
@@ -17,8 +14,11 @@ import {
   DropdownMenu,
 } from '@/components/ui/dropdown-menu'
 import { Application } from '@prisma/client'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function Component({ application }: any) {
+  const pathname = usePathname()
+  const router = useRouter()
   return (
     <main className='p-6 md:p-8 lg:p-10'>
       <Card className='space-y-6'>
@@ -82,7 +82,12 @@ export default function Component({ application }: any) {
           </div>
         </CardContent>
         <CardFooter className='flex gap-4'>
-          <Button variant='outline'>Edit</Button>
+          <Button
+            onClick={() => router.push(pathname + '/edit')}
+            variant='outline'
+          >
+            Edit
+          </Button>
           <Button variant='outline'>Delete</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
