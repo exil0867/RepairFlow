@@ -20,8 +20,9 @@ import DeviceModal from '../../../wizard/device-modal'
 import searchDevice from '@/app/actions/searchDevice'
 import updateApplication from '@/app/actions/updateApplication'
 import Wrapper from '@/components/wrapper'
+import { useRef } from 'react'
 
-export default function Component({ application }) {
+export default function Component({ application }: any) {
   const { id, subject, notes, status, customer, device } = application
   // const router = useRouter()
   const [open, setOpen] = useState(false)
@@ -38,6 +39,12 @@ export default function Component({ application }) {
 
   const [device_, setDevice_] = useState(initialDevice)
   const { pending } = useFormStatus()
+  const myRef = useRef(null)
+  const handleSubmit = (e: any) => {
+    console.log('dadsadadsad')
+    e.preventDefault()
+    myRef.current.requestSubmit()
+  }
   const {
     reset,
     register,
@@ -55,10 +62,15 @@ export default function Component({ application }) {
   return (
     <Wrapper
       title='Edit application'
-      footer={<Button type='submit'>Save changes</Button>}
+      footer={
+        <Button variant='outline' onClick={handleSubmit} type='submit'>
+          Save changes
+        </Button>
+      }
     >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <form
+          ref={myRef}
           action={async (data) => {
             // console.log(await data.values(), 'hidd')
             data.set('device_id', device_.id)
@@ -106,52 +118,40 @@ export default function Component({ application }) {
                 {...register('status', { required: true })}
               />
             </div>
-            {/* <div className='grid grid-cols-4 items-center gap-4'> */}
-            <Label htmlFor='username' className='text-right'>
-              Customer
-            </Label>
-            <Selector
-              setObject={setCustomer_}
-              object={customer_}
-              itemName={{ plurar: 'customers', singular: 'customer' }}
-              showList={open}
-              setShowList={(v) => {
-                setOpen(v)
-                setDevice_(undefined)
-              }}
-              creator={
-                <>
-                  <CustomerModal
-                    setCustomer_={setCustomer_}
-                    onClose={() => {
-                      setOpen(false)
-                      setDialogOpen(false)
-                    }}
-                  />
-                  <DialogTrigger asChild>
-                    <Button variant='outline'>Create customer</Button>
-                  </DialogTrigger>
-                </>
-              }
-              getObjects={async (e) => {
-                const s = transformArray(await searchCustomer(e), 'name')
-                console.log(s, 'hi', e)
-                return s
-              }}
-            />
-            {/* <Input
-            type='text'
-            defaultValue={application.customer.name}
-            className='col-span-3'
-            readOnly
-          />
-          <Input
-            type='hidden'
-            value={application.customer.id}
-            className='col-span-3'
-            {...register('customer_id', { required: true })}
-          />
-        </div> */}
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label htmlFor='username' className='text-right'>
+                Customer
+              </Label>
+              <Selector
+                setObject={setCustomer_}
+                object={customer_}
+                itemName={{ plurar: 'customers', singular: 'customer' }}
+                showList={open}
+                setShowList={(v) => {
+                  setOpen(v)
+                  setDevice_(undefined)
+                }}
+                creator={
+                  <>
+                    <CustomerModal
+                      setCustomer_={setCustomer_}
+                      onClose={() => {
+                        setOpen(false)
+                        setDialogOpen(false)
+                      }}
+                    />
+                    <DialogTrigger asChild>
+                      <Button variant='outline'>Create customer</Button>
+                    </DialogTrigger>
+                  </>
+                }
+                getObjects={async (e) => {
+                  const s = transformArray(await searchCustomer(e), 'name')
+                  console.log(s, 'hi', e)
+                  return s
+                }}
+              />
+            </div>
             <div className='grid grid-cols-4 items-center gap-4'>
               <Label htmlFor='username' className='text-right'>
                 Device
