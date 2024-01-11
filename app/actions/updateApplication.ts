@@ -44,7 +44,6 @@ export default async function createDevice(
       deviceId: deviceId,
       customerId: customerId,
     })
-
     if (!validatedFields.success) {
       throw new Error('Invalid user input')
     }

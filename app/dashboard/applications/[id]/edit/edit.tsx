@@ -1,5 +1,11 @@
 'use client'
-import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card'
+import {
+  CardTitle,
+  CardHeader,
+  CardContent,
+  CardFooter,
+  Card,
+} from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -21,6 +27,13 @@ import searchDevice from '@/app/actions/searchDevice'
 import updateApplication from '@/app/actions/updateApplication'
 import Wrapper from '@/components/wrapper'
 import { useRef } from 'react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default function Component({ application }: any) {
   const { id, subject, notes, status, customer, device } = application
@@ -63,16 +76,18 @@ export default function Component({ application }: any) {
     <Wrapper
       title='Edit application'
       footer={
-        <Button variant='outline' onClick={handleSubmit} type='submit'>
-          Save changes
-        </Button>
+        <>
+          <Button variant='outline' onClick={handleSubmit}>
+            Save
+          </Button>
+          <Button variant='outline'>Reset</Button>
+        </>
       }
     >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <form
           ref={myRef}
           action={async (data) => {
-            // console.log(await data.values(), 'hidd')
             data.set('device_id', device_.id)
             data.set('customer_id', customer_.id)
             data.set('id', application.id)
@@ -81,48 +96,61 @@ export default function Component({ application }: any) {
             }
             formAction(data)
           }}
+          className='grid gap-6 md:gap-8'
         >
-          <div className='grid gap-4 py-4'>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='name' className='text-right'>
-                Application Subject
-              </Label>
-              <Input
-                type='text'
-                defaultValue={application.subject}
-                placeholder='Subject'
-                className='col-span-3'
-                {...register('subject', { required: true })}
-              />
-            </div>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='name' className='text-right'>
-                Application Notes
-              </Label>
-              <Input
-                type='text'
-                defaultValue={application.notes}
-                placeholder='Notes'
-                className='col-span-3'
-                {...register('notes', { required: true })}
-              />
-            </div>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='name' className='text-right'>
-                Application Status
-              </Label>
-              <Input
-                type='text'
-                defaultValue={application.status}
-                className='col-span-3'
-                {...register('status', { required: true })}
-              />
-            </div>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='username' className='text-right'>
-                Customer
-              </Label>
+          <div className='grid gap-2'>
+            <Label
+              htmlFor='name'
+              className='text-lg font-semibold text-gray-600'
+            >
+              Application Subject
+            </Label>
+            <Input
+              type='text'
+              defaultValue={application.subject}
+              placeholder='Subject'
+              className='border border-gray-300 p-2 rounded text-gray-700'
+              {...register('subject', { required: true })}
+            />
+          </div>
+          <div className='grid gap-2'>
+            <Label
+              htmlFor='name'
+              className='text-lg font-semibold text-gray-600'
+            >
+              Application Notes
+            </Label>
+            <textarea
+              defaultValue={application.notes}
+              placeholder='Notes'
+              className='border border-gray-300 p-2 rounded text-gray-700'
+              {...register('notes', { required: true })}
+            />
+          </div>
+          <div className='grid gap-2'>
+            <label
+              className='text-lg font-semibold text-gray-600'
+              htmlFor='status'
+            >
+              Application Status
+            </label>
+
+            <select
+              className='border border-gray-300 p-2 rounded text-gray-700'
+              defaultValue={application.status}
+              {...register('status', { required: true })}
+            >
+              <option value='PENDING'>Pending</option>
+              <option value='COMPLETE'>Complete</option>
+              <option value='CANCELLED'>Cancelled</option>
+            </select>
+          </div>
+          <div className='grid gap-2'>
+            <div className='text-lg font-semibold text-gray-600'>Customer</div>
+            <div className='grid gap-2 text-gray-700'>
+              <Label htmlFor='customer'>Selected customer:</Label>
               <Selector
+                className='border border-gray-300 p-2 rounded'
                 setObject={setCustomer_}
                 object={customer_}
                 itemName={{ plurar: 'customers', singular: 'customer' }}
@@ -152,11 +180,13 @@ export default function Component({ application }: any) {
                 }}
               />
             </div>
-            <div className='grid grid-cols-4 items-center gap-4'>
-              <Label htmlFor='username' className='text-right'>
-                Device
-              </Label>
+          </div>
+          <div className='grid gap-2'>
+            <div className='text-lg font-semibold text-gray-600'>Device</div>
+            <div className='grid gap-2 text-gray-700'>
+              <Label htmlFor='customer'>Selected customer:</Label>
               <Selector
+                className='border border-gray-300 p-2 rounded'
                 setObject={setDevice_}
                 object={device_}
                 itemName={{ plurar: 'devices', singular: 'device' }}
