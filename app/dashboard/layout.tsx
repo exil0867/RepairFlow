@@ -35,6 +35,26 @@ function UserIcon(props) {
   )
 }
 
+function PlusIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns='http://www.w3.org/2000/svg'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <path d='M5 12h14' />
+      <path d='M12 5v14' />
+    </svg>
+  )
+}
+
 function HomeIcon(props) {
   return (
     <svg
@@ -212,20 +232,38 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 <BarChartIcon className='h-4 w-4' />
                 Analytics
               </Link>
-              <Link
-                className='flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50'
-                href='#'
-              >
-                <TableIcon className='h-4 w-4' />
-                Data Tables
-              </Link>
-              <Link
-                className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
-                href='#'
-              >
-                <CreditCardIcon className='h-4 w-4' />
-                Cards
-              </Link>
+              <div className='flex flex-col gap-2'>
+                <Link
+                  className='flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50'
+                  href='#'
+                >
+                  <TableIcon className='h-4 w-4' />
+                  Data Tables
+                </Link>
+                <Link
+                  className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ml-4'
+                  href='#'
+                >
+                  <PlusIcon className='h-4 w-4' />
+                  Create Table
+                </Link>
+              </div>
+              <div className='flex flex-col gap-2'>
+                <Link
+                  className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
+                  href='#'
+                >
+                  <CreditCardIcon className='h-4 w-4' />
+                  Cards
+                </Link>
+                <Link
+                  className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ml-4'
+                  href='#'
+                >
+                  <PlusIcon className='h-4 w-4' />
+                  Create Card
+                </Link>
+              </div>
             </nav>
           </div>
         </div>
