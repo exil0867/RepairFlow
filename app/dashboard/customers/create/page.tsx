@@ -1,9 +1,14 @@
-import Image from 'next/image'
-import prisma from '@/lib/prisma'
-import Form from './form'
-import { hash } from 'bcrypt'
-import Link from 'next/link'
+'use client'
 import { z } from 'zod'
+import createCustomer from '@/app/actions/createCustomer'
+import { useFormState, useFormStatus } from 'react-dom'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import toast from 'react-hot-toast'
+import { Label } from '@radix-ui/react-label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const schema = z.object({
   name: z.string(),
@@ -17,45 +22,66 @@ export type formRes = {
 }
 
 export default function CreateCustomer() {
-  const createCustomer = async (
-    prevState: any,
-    data: FormData,
-  ): Promise<formRes> => {
-    'use server'
-    try {
-      const name = data.get('name')
-      const address = data.get('address')
-      const phoneNumber = data.get('phone_number')
+  const router = useRouter()
+  const [state, formAction] = useFormState(createCustomer, {
+    message: null,
+    response: null as any,
+    error: null,
+  })
+  const { pending } = useFormStatus()
+  const {
+    reset,
+    register,
+    formState: { errors },
+  } = useForm()
 
-      const validatedFields = schema.safeParse({
-        name: name,
-        address: address,
-        phoneNumber: phoneNumber,
-      })
-
-      if (!validatedFields.success) {
-        throw new Error('Invalid user input')
-      }
-
-      await prisma.customer.create({
-        data: {
-          name: validatedFields.data.name,
-          address: validatedFields.data.address,
-          phoneNumber: validatedFields.data.phoneNumber,
-        },
-      })
-
-      return {
-        message: 'Customer created',
-        error: false,
-      }
-    } catch (error) {
-      return {
-        message: 'An error occurred while creating the customer',
-        error: true,
-      }
+  useEffect(() => {
+    if (pending || state.error === null) return
+    if (!state.error) {
+      toast.success(state.message)
+      router.push(`/dashboard/customers/${state?.response?.id}`)
+    } else {
+      toast.error(state.message)
     }
-  }
-
-  return <Form createCustomer={createCustomer} />
+  }, [pending, router, state])
+  return (
+    <form className='grid gap-6 md:gap-8' action={formAction}>
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Name
+        </Label>
+        <Input
+          type='text'
+          placeholder='Name'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('name', { required: true })}
+        />
+      </div>{' '}
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Address
+        </Label>
+        <Input
+          type='text'
+          placeholder='Home Address'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('address', { required: true })}
+        />
+      </div>{' '}
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Phone Number
+        </Label>
+        <Input
+          type='text'
+          placeholder='Phone Number'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('phone_number', { required: true })}
+        />
+      </div>
+      <Button variant='outline' type='submit'>
+        Create Customer
+      </Button>
+    </form>
+  )
 }
