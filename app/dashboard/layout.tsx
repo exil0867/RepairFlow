@@ -264,6 +264,16 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   Create Card
                 </Link>
               </div>
+              <Button
+                asChild
+                className='mt-4 text-white bg-green-500 hover:bg-green-600'
+                variant='default'
+              >
+                <Link href={'dashboard/wizard'}>
+                  <PlusIcon className='h-4 w-4' />
+                  <span>Create Application</span>
+                </Link>
+              </Button>
             </nav>
           </div>
         </div>
