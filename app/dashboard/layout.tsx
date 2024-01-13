@@ -12,6 +12,27 @@ import {
   TableBody,
   Table,
 } from '@/components/ui/table'
+import { useState } from 'react'
+
+function UserIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns='http://www.w3.org/2000/svg'
+      width='24'
+      height='24'
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <path d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2' />
+      <circle cx='12' cy='7' r='4' />
+    </svg>
+  )
+}
 
 function HomeIcon(props) {
   return (
@@ -159,6 +180,7 @@ function CreditCardIcon(props) {
 }
 
 export default function Component({ children }: { children: React.ReactNode }) {
+  const [accountMenu, setAccountMenu] = useState(false)
   return (
     <div className='grid min-h-screen w-full lg:grid-cols-[280px_1fr]'>
       <div className='hidden border-r bg-gray-100/40 lg:block dark:bg-gray-800/40'>
@@ -224,6 +246,35 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 />
               </div>
             </form>
+          </div>
+          <div className='flex items-center gap-4'>
+            <Button
+              onClick={() => setAccountMenu(!accountMenu)}
+              className='h-8 w-8'
+              size='icon'
+              variant='outline'
+            >
+              <UserIcon className='h-4 w-4' />
+              <span className='sr-only'>User Avatar</span>
+            </Button>
+            {accountMenu && (
+              <div className='relative'>
+                <div className='absolute right-0 w-48 py-2 mt-2 bg-white rounded-lg shadow-xl'>
+                  <Link
+                    className='block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white'
+                    href='#'
+                  >
+                    Account Settings
+                  </Link>
+                  <Link
+                    className='block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white'
+                    href='#'
+                  >
+                    Log Out
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </header>
         <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6'>
