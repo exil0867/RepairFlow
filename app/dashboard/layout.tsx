@@ -220,48 +220,50 @@ export default function Component({ children }: { children: React.ReactNode }) {
             <nav className='grid items-start px-4 text-sm font-medium'>
               <Link
                 className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
-                href='#'
+                href='/dashboard'
               >
                 <HomeIcon className='h-4 w-4' />
                 Home
               </Link>
-              <Link
-                className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
-                href='#'
-              >
-                <BarChartIcon className='h-4 w-4' />
-                Analytics
-              </Link>
               <div className='flex flex-col gap-2'>
                 <Link
                   className='flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50'
-                  href='#'
+                  href='/dashboard/customers'
                 >
                   <TableIcon className='h-4 w-4' />
-                  Data Tables
+                  Customers
                 </Link>
                 <Link
                   className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ml-4'
-                  href='#'
+                  href='/dashboard/customers/create'
                 >
                   <PlusIcon className='h-4 w-4' />
-                  Create Table
+                  Create Customer
                 </Link>
               </div>
               <div className='flex flex-col gap-2'>
                 <Link
-                  className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
-                  href='#'
+                  className='flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50'
+                  href='/dashboard/devices'
                 >
-                  <CreditCardIcon className='h-4 w-4' />
-                  Cards
+                  <TableIcon className='h-4 w-4' />
+                  Devices
                 </Link>
                 <Link
                   className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ml-4'
-                  href='#'
+                  href='/dashboard/devices/create'
                 >
                   <PlusIcon className='h-4 w-4' />
-                  Create Card
+                  Create Device
+                </Link>
+              </div>
+              <div className='flex flex-col gap-2'>
+                <Link
+                  className='flex items-center gap-3 rounded-lg bg-gray-100 px-3 py-2 text-gray-900  transition-all hover:text-gray-900 dark:bg-gray-800 dark:text-gray-50 dark:hover:text-gray-50'
+                  href='/dashboard/applications'
+                >
+                  <TableIcon className='h-4 w-4' />
+                  Applications
                 </Link>
               </div>
               <Button
@@ -269,7 +271,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 className='mt-4 text-white bg-green-500 hover:bg-green-600'
                 variant='default'
               >
-                <Link href={'dashboard/wizard'}>
+                <Link href={'/dashboard/wizard'}>
                   <PlusIcon className='h-4 w-4' />
                   <span>Create Application</span>
                 </Link>
