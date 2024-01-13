@@ -128,12 +128,12 @@ export default function Component({ application }: any) {
             />
           </div>
           <div className='grid gap-2'>
-            <label
+            <Label
               className='text-lg font-semibold text-gray-600'
               htmlFor='status'
             >
               Application Status
-            </label>
+            </Label>
 
             <select
               className='border border-gray-300 p-2 rounded text-gray-700'

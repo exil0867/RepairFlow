@@ -43,81 +43,81 @@ export default function DialogDemo({ customer, device }: any) {
     }
   }, [pending, router, state])
   return (
-    <form action={formAction}>
-      <div className='grid gap-4 py-4'>
-        <div className='grid grid-cols-4 items-center gap-4'>
-          <Label htmlFor='name' className='text-right'>
-            Application Subject
-          </Label>
-          <Input
-            type='text'
-            placeholder='Subject'
-            className='col-span-3'
-            {...register('subject', { required: true })}
-          />
-        </div>
-        <div className='grid grid-cols-4 items-center gap-4'>
-          <Label htmlFor='name' className='text-right'>
-            Application Notes
-          </Label>
-          <Input
-            type='text'
-            placeholder='Notes'
-            className='col-span-3'
-            {...register('notes', { required: true })}
-          />
-        </div>
-        <div className='grid grid-cols-4 items-center gap-4'>
-          <Label htmlFor='name' className='text-right'>
-            Application Status
-          </Label>
-          <Input
-            type='text'
-            value={'PENDING'}
-            disabled
-            className='col-span-3'
-            {...register('status', { required: true })}
-          />
-        </div>
-        <div className='grid grid-cols-4 items-center gap-4'>
-          <Label htmlFor='username' className='text-right'>
-            Customer
-          </Label>
-          <Input
-            type='text'
-            value={customer.value}
-            className='col-span-3'
-            readOnly
-            disabled
-          />
-          <Input
-            type='hidden'
-            value={customer.id}
-            className='col-span-3'
-            {...register('customer_id', { required: true })}
-          />
-        </div>
-        <div className='grid grid-cols-4 items-center gap-4'>
-          <Label htmlFor='username' className='text-right'>
-            Device
-          </Label>
-          <Input
-            type='text'
-            value={device.value}
-            className='col-span-3'
-            readOnly
-            disabled
-          />
-          <Input
-            type='hidden'
-            placeholder='Device'
-            value={device.id}
-            className='col-span-3'
-            {...register('device_id', { required: true })}
-          />
-        </div>
+    <form className='grid gap-6 md:gap-8' action={formAction}>
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Application Subject
+        </Label>
+        <Input
+          type='text'
+          placeholder='Subject'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('subject', { required: true })}
+        />
       </div>
-      <Button type='submit'>Save changes</Button>
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Application Notes
+        </Label>
+        <Input
+          type='text'
+          placeholder='Notes'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('notes', { required: true })}
+        />
+      </div>
+      <div className='grid gap-2'>
+        <Label className='text-lg font-semibold text-gray-600' htmlFor='status'>
+          Application Status
+        </Label>
+
+        <select
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          defaultValue={'PENDING'}
+          {...register('status', { required: true })}
+        >
+          <option value='PENDING'>Pending</option>
+          <option value='COMPLETE'>Complete</option>
+          <option value='CANCELLED'>Cancelled</option>
+        </select>
+      </div>
+      <div className='grid gap-2'>
+        <Label className='text-lg font-semibold text-gray-600' htmlFor='status'>
+          Customer
+        </Label>
+        <Input
+          type='text'
+          value={customer.value}
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          readOnly
+          disabled
+        />
+        <Input
+          type='hidden'
+          value={customer.id}
+          {...register('customer_id', { required: true })}
+        />
+      </div>
+      <div className='grid gap-2'>
+        <Label className='text-lg font-semibold text-gray-600' htmlFor='status'>
+          Device
+        </Label>
+        <Input
+          type='text'
+          value={device.value}
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          readOnly
+          disabled
+        />
+        <Input
+          type='hidden'
+          value={device.id}
+          {...register('device_id', { required: true })}
+        />
+      </div>
+      <Button variant='outline' type='submit'>
+        Create Application
+      </Button>
     </form>
   )
 }
