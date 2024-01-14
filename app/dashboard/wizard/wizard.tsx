@@ -120,7 +120,7 @@ export default function Component() {
               }
               getObjects={async (e) => {
                 const s = transformArray(
-                  await searchDevice(e, customer_.id),
+                  await searchDevice(e, undefined, undefined, customer_.id),
                   'model',
                 )
                 console.log(s, 'hi', e)

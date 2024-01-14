@@ -6,7 +6,12 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
-export default async function searchDevice(query: string, customerId: number) {
+export default async function searchDevice(
+  model?: string,
+  brand?: string,
+  serialNumber?: string,
+  customerId?: number,
+) {
   try {
     const fetchDevices = async () => {
       try {
@@ -15,7 +20,9 @@ export default async function searchDevice(query: string, customerId: number) {
             customer: true,
           },
           where: {
-            model: query ? { contains: query } : undefined,
+            model: model ? { contains: model } : undefined,
+            brand: brand ? { contains: brand } : undefined,
+            serialNumber: serialNumber ? { contains: serialNumber } : undefined,
             customerId,
           },
         })

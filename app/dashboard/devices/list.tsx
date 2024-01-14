@@ -13,27 +13,28 @@ import searchDevice from '@/app/actions/searchDevice'
 
 export default function Component() {
   const [list, setList] = useState([])
+  const [model, setModel] = useState(undefined)
+  const [serialNumber, setSerialNumber] = useState(undefined)
+  const [brand, setBrand] = useState(undefined)
   const [customer_, setCustomer_] = useState(undefined)
-  const [device_, setDevice_] = useState(undefined)
-  const [subject, setSubject] = useState(undefined)
+  const [open, setOpen] = useState(false)
+  const [open2, setOpen2] = useState(false)
   useEffect(() => {
     async function fetchData() {
-      const filtered = (await searchApplication(
+      const filtered = (await searchDevice(
+        model,
+        brand,
+        serialNumber,
         (customer_ as any)?.id as any,
-        (device_ as any)?.id as any,
-        subject,
       )) as any
-      console.log('adsfasdf ', filtered)
       setList(filtered)
     }
     fetchData()
-  }, [customer_, device_, subject])
-  const [open, setOpen] = useState(false)
-  const [open2, setOpen2] = useState(false)
+  }, [brand, customer_, model, serialNumber])
   return (
     <main className='container mx-auto px-4 md:px-6 py-8'>
       <div className='flex flex-col gap-6'>
-        <h1 className='text-2xl font-bold'>User Applications</h1>
+        <h1 className='text-2xl font-bold'>Devices</h1>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
           <div className='flex flex-col gap-2'>
             <Label htmlFor='filter-customer'>Customer</Label>
@@ -45,7 +46,6 @@ export default function Component() {
               showList={open}
               setShowList={(v) => {
                 setOpen(v)
-                setDevice_(undefined)
               }}
               getObjects={async (e: any) => {
                 const s = transformArray(await searchCustomer(e), 'name')
@@ -54,56 +54,58 @@ export default function Component() {
               }}
             />
           </div>
-          {customer_ && (
-            <div className='flex flex-col gap-2'>
-              <Label htmlFor='filter-device'>Device</Label>
-              <Selector
-                setObject={setDevice_}
-                object={device_}
-                itemName={{ plurar: 'devices', singular: 'device' }}
-                showList={open2}
-                setShowList={setOpen2}
-                getObjects={async (e) => {
-                  const s = transformArray(
-                    await searchDevice(e, undefined, undefined, customer_.id),
-                    'model',
-                  )
-                  console.log(s, 'hi', e)
-                  return s
-                }}
-              />
-            </div>
-          )}
           <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-subject'>Subject</Label>
+            <Label htmlFor='filter-subject'>Model</Label>
             <Input
               id='filter-subject'
-              placeholder='Filter by subject'
+              placeholder='Filter by model'
               onChange={(s) => {
                 console.log(s)
-                setSubject(s.target.value as any)
+                setModel(s.target.value as any)
+              }}
+            />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <Label htmlFor='filter-subject'>Brand</Label>
+            <Input
+              id='filter-subject'
+              placeholder='Filter by brand'
+              onChange={(s) => {
+                console.log(s)
+                setBrand(s.target.value as any)
+              }}
+            />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <Label htmlFor='filter-subject'>Serial Number</Label>
+            <Input
+              id='filter-subject'
+              placeholder='Filter by serial number'
+              onChange={(s) => {
+                console.log(s)
+                setSerialNumber(s.target.value as any)
               }}
             />
           </div>
         </div>
         <div className='grid gap-6'>
-          {list.map(({ id, device, customer }) => {
+          {list.map(({ id, model, brand, customer }) => {
             return (
               <div
                 key={id}
                 className='grid grid-cols-1 md:grid-cols-3 gap-4 items-center p-4 rounded-lg border border-gray-200 dark:border-gray-800'
               >
                 <div className='md:col-span-2'>
-                  <h3 className='font-semibold'>Application {id}</h3>
+                  <h3 className='font-semibold'>Device {model}</h3>
                   <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    Device: {device.model}
+                    customer: {customer.name}
                   </p>
                   <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    Customer: {customer.name}
+                    Brand: {brand}
                   </p>
                 </div>
                 <div className='flex justify-end'>
-                  <Link href={`/dashboard/applications/${id}`}>
+                  <Link href={`/dashboard/devices/${id}`}>
                     <Button variant='outline'>View</Button>
                   </Link>
                 </div>

@@ -1,14 +1,20 @@
-import Image from 'next/image'
-import prisma from '@/lib/prisma'
-import Form from './form'
-import { hash } from 'bcrypt'
-import Link from 'next/link'
+'use client'
 import { z } from 'zod'
+import createCustomer from '@/app/actions/createCustomer'
+import { useFormState, useFormStatus } from 'react-dom'
+import { useRouter } from 'next/navigation'
+import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
+import toast from 'react-hot-toast'
+import { Label } from '@radix-ui/react-label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import createDevice from '@/app/actions/createApplication'
 
 const schema = z.object({
-  serialNumber: z.string(),
-  model: z.string(),
-  brand: z.string(),
+  name: z.string(),
+  address: z.string(),
+  phoneNumber: z.string(),
 })
 
 export type formRes = {
@@ -16,46 +22,67 @@ export type formRes = {
   error: boolean
 }
 
-export default function CreateDevice() {
-  const createDevice = async (
-    prevState: any,
-    data: FormData,
-  ): Promise<formRes> => {
-    'use server'
-    try {
-      const serialNumber = data.get('serial_number')
-      const model = data.get('model')
-      const brand = data.get('brand')
+export default function CreateCustomer() {
+  const router = useRouter()
+  const [state, formAction] = useFormState(createDevice, {
+    message: null,
+    response: null as any,
+    error: null,
+  })
+  const { pending } = useFormStatus()
+  const {
+    reset,
+    register,
+    formState: { errors },
+  } = useForm()
 
-      const validatedFields = schema.safeParse({
-        serialNumber: serialNumber,
-        model: model,
-        brand: brand,
-      })
-
-      if (!validatedFields.success) {
-        throw new Error('Invalid user input')
-      }
-
-      await prisma.device.create({
-        data: {
-          serialNumber: validatedFields.data.serialNumber,
-          model: validatedFields.data.model,
-          brand: validatedFields.data.brand,
-        },
-      })
-
-      return {
-        message: 'Device created',
-        error: false,
-      }
-    } catch (error) {
-      return {
-        message: 'An error occurred while creating the device',
-        error: true,
-      }
+  useEffect(() => {
+    if (pending || state.error === null) return
+    if (!state.error) {
+      toast.success(state.message)
+      router.push(`/dashboard/customers/${state?.response?.id}`)
+    } else {
+      toast.error(state.message)
     }
-  }
-
-  return <Form createDevice={createDevice} />
+  }, [pending, router, state])
+  return (
+    <form className='grid gap-6 md:gap-8' action={formAction}>
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Name
+        </Label>
+        <Input
+          type='text'
+          placeholder='Name'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('name', { required: true })}
+        />
+      </div>{' '}
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Address
+        </Label>
+        <Input
+          type='text'
+          placeholder='Home Address'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('address', { required: true })}
+        />
+      </div>{' '}
+      <div className='grid gap-2'>
+        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
+          Phone Number
+        </Label>
+        <Input
+          type='text'
+          placeholder='Phone Number'
+          className='border border-gray-300 p-2 rounded text-gray-700'
+          {...register('phone_number', { required: true })}
+        />
+      </div>
+      <Button variant='outline' type='submit'>
+        Create Customer
+      </Button>
+    </form>
+  )
 }

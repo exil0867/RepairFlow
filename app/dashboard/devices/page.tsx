@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma'
+import List from './list'
 
 export default function DisplayDevices() {
   const fetchDevices = async () => {
@@ -6,6 +7,7 @@ export default function DisplayDevices() {
       const devices = await prisma.device.findMany({
         include: {
           applications: true,
+          customer: true,
         },
       })
       return devices
@@ -16,30 +18,8 @@ export default function DisplayDevices() {
   }
 
   const renderDevices = async () => {
-    const devices = await fetchDevices()
-    return (
-      <div>
-        <h2>Devices</h2>
-        <ul>
-          {devices.map((device) => (
-            <li key={device.id}>
-              <p>Serial number: {device.serialNumber}</p>
-              <p>Model: {device.model}</p>
-              <p>Brand: {device.brand}</p>
-              {device.applications && (
-                <ul>
-                  {device.applications.map((app) => (
-                    <li key={app.id}>
-                      Application ID: {app.id}, Status: {app.status}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
+    const customers = await fetchDevices()
+    return <List />
   }
 
   return <>{renderDevices()}</>
