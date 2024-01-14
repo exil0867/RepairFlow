@@ -12,7 +12,10 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm()
 
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined)
+  const [state, dispatch] = useFormState(authenticate, {
+    message: null,
+    error: null,
+  })
   const { pending } = useFormStatus()
 
   const router = useRouter()
@@ -36,9 +39,9 @@ export default function LoginForm() {
         aria-live='polite'
         aria-atomic='true'
       >
-        {errorMessage && (
+        {state.error && (
           <>
-            <p className='text-sm text-red-500'>{errorMessage}</p>
+            <p className='text-sm text-red-500'>{state.error}</p>
           </>
         )}
       </div>

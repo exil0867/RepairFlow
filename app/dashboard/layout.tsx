@@ -14,6 +14,7 @@ import {
   Table,
 } from '@/components/ui/table'
 import { useState } from 'react'
+import { signOut } from '../actions/auth'
 
 function UserIcon(props) {
   return (
@@ -317,12 +318,14 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   >
                     Account Settings
                   </Link>
-                  <Link
+                  <Button
+                    onClick={async () => {
+                      await signOut()
+                    }}
                     className='block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white'
-                    href='#'
                   >
                     Log Out
-                  </Link>
+                  </Button>
                 </div>
               </div>
             )}

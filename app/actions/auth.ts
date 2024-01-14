@@ -1,20 +1,38 @@
 'use server'
 import { signIn, signOut as NextAuthSignOut } from '@/lib/auth'
 import { AuthError } from 'next-auth'
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,
 ) {
   try {
-    await signIn('credentials', formData)
+    console.log(formData.get('username'))
+    await signIn('credentials', {
+      redirect: true,
+      redirectTo: '/dashboard',
+      username: formData.get('username'),
+      password: formData.get('password'),
+    })
+    return {
+      message: 'Logged in',
+      error: false,
+    }
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return 'Invalid credentials.'
+          return {
+            message: 'Invalid credentials.',
+            error: true,
+          }
         default:
-          return 'Something went wrong.'
+          return {
+            message: 'Something went wrong.',
+            error: true,
+          }
       }
     }
     throw error
