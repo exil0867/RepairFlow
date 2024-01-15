@@ -44,7 +44,7 @@ export default function Component() {
               object={customer_}
               itemName={{ plurar: 'customers', singular: 'customer' }}
               showList={open}
-              setShowList={(v) => {
+              setShowList={(v: any) => {
                 setOpen(v)
               }}
               getObjects={async (e: any) => {
@@ -89,7 +89,7 @@ export default function Component() {
           </div>
         </div>
         <div className='grid gap-6'>
-          {list.map(({ id, model, brand, customer }) => {
+          {list.map(({ id, model, brand, customer }: any) => {
             return (
               <div
                 key={id}

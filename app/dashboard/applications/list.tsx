@@ -22,7 +22,7 @@ import {
 
 export default function Component() {
   const [list, setList] = useState([])
-  const [customer_, setCustomer_] = useState(undefined)
+  const [customer_, setCustomer_] = useState(undefined) as any
   const [device_, setDevice_] = useState(undefined)
   const [subject, setSubject] = useState(undefined)
   const [status, setStatus] = useState<'PENDING' | 'COMPLETE' | 'CANCELLED'>(
@@ -56,7 +56,7 @@ export default function Component() {
               object={customer_}
               itemName={{ plurar: 'customers', singular: 'customer' }}
               showList={open}
-              setShowList={(v) => {
+              setShowList={(v: any) => {
                 setOpen(v)
                 setDevice_(undefined)
               }}
@@ -76,7 +76,7 @@ export default function Component() {
                 itemName={{ plurar: 'devices', singular: 'device' }}
                 showList={open2}
                 setShowList={setOpen2}
-                getObjects={async (e) => {
+                getObjects={async (e: any) => {
                   const s = transformArray(
                     await searchDevice(e, undefined, undefined, customer_.id),
                     'model',
@@ -102,7 +102,7 @@ export default function Component() {
             <Label htmlFor='filter-subject'>Status</Label>
             <Select
               defaultValue={status}
-              onValueChange={(v) => setStatus(v)}
+              onValueChange={(v: any) => setStatus(v)}
               value={status}
             >
               <SelectTrigger className='w-[180px]'>
@@ -119,7 +119,7 @@ export default function Component() {
           </div>
         </div>
         <div className='grid gap-6'>
-          {list.map(({ id, device, customer }) => {
+          {list.map(({ id, device, customer }: any) => {
             return (
               <div
                 key={id}

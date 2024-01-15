@@ -23,7 +23,7 @@ export type formRes = {
 
 export default function CreateCustomer() {
   const router = useRouter()
-  const [state, formAction] = useFormState(createCustomer, {
+  const [state, formAction] = useFormState(createCustomer as any, {
     message: null,
     response: null as any,
     error: null,

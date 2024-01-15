@@ -12,7 +12,7 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm()
 
-  const [state, dispatch] = useFormState(authenticate, {
+  const [state, dispatch] = useFormState(authenticate as any, {
     message: null,
     error: null,
   })

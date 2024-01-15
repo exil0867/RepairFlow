@@ -41,13 +41,13 @@ export default function Component({ customer }: any) {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [state, formAction] = useFormState(updateCustomer, {
+  const [state, formAction] = useFormState(updateCustomer as any, {
     message: null,
     response: null as any,
     error: null,
-  })
+  }) as any
   const { pending } = useFormStatus()
-  const myRef = useRef(null)
+  const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
     console.log('dadsadadsad')
     e.preventDefault()
@@ -84,9 +84,6 @@ export default function Component({ customer }: any) {
           ref={myRef}
           action={async (data) => {
             data.set('id', customer.id)
-            for (const value of data.values()) {
-              console.log(value)
-            }
             formAction(data)
           }}
           className='grid gap-6 md:gap-8'

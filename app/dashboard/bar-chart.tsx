@@ -1,6 +1,6 @@
 'use client'
 import { ResponsiveBar } from '@nivo/bar'
-export default function BarChart(props) {
+export default function BarChart(props: any) {
   return (
     <div {...props}>
       <ResponsiveBar

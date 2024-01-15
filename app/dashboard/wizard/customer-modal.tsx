@@ -47,7 +47,7 @@ export default function DialogDemo({
     register,
     formState: { errors },
   } = useForm()
-  const [state, formAction] = useFormState(createCustomer, {
+  const [state, formAction] = useFormState(createCustomer as any, {
     message: null,
     response: null as any,
     error: null,
@@ -64,7 +64,7 @@ export default function DialogDemo({
     } else {
       toast.error(state.message)
     }
-  }, [pending, router, state])
+  }, [onClose, pending, reset, setCustomer_, state])
 
   return (
     <DialogContent className='sm:max-w-[425px]'>
@@ -72,7 +72,7 @@ export default function DialogDemo({
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <div className='grid gap-4 py-4'>

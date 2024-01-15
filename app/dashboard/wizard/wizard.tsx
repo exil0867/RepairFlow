@@ -49,12 +49,12 @@ export default function Component() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
 
-  const goToNextStep = (event) => {
+  const goToNextStep = (event: any) => {
     event.preventDefault()
     setCurrentStep((prevStep) => prevStep + 1)
   }
 
-  const goToPreviousStep = (event) => {
+  const goToPreviousStep = (event: any) => {
     event.preventDefault()
     setCurrentStep((prevStep) => prevStep - 1)
   }
@@ -85,7 +85,7 @@ export default function Component() {
                   </DialogTrigger>
                 </>
               }
-              getObjects={async (e) => {
+              getObjects={async (e: any) => {
                 const s = transformArray(await searchCustomer(e), 'name')
                 console.log(s, 'hi', e)
                 return s
@@ -118,7 +118,7 @@ export default function Component() {
                   </DialogTrigger>
                 </>
               }
-              getObjects={async (e) => {
+              getObjects={async (e: any) => {
                 const s = transformArray(
                   await searchDevice(e, undefined, undefined, customer_.id),
                   'model',

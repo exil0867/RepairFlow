@@ -25,10 +25,7 @@ const schema = z.object({
   address: z.string(),
   phoneNumber: z.string(),
 })
-export default async function createDevice(
-  prevState: any,
-  data: FormData,
-): Promise<formRes> {
+export default async function createDevice(prevState: any, data: FormData) {
   try {
     const id = data.get('id')
     const deviceId = data.get('device_id')

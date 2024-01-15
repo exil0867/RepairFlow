@@ -36,6 +36,7 @@ function Selector({
       setList(filtered)
     }
     fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue, showList])
   return (
     <>

@@ -45,13 +45,13 @@ export default function Component({ device }: any) {
 
   const initialCustomer = transformArray([device.customer], 'name')[0]
   const [customer_, setCustomer_] = useState(initialCustomer)
-  const [state, formAction] = useFormState(updateDevice, {
+  const [state, formAction] = useFormState(updateDevice as any, {
     message: null,
     response: null as any,
     error: null,
-  })
+  }) as any
   const { pending } = useFormStatus()
-  const myRef = useRef(null)
+  const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
     console.log('dadsadadsad')
     e.preventDefault()
@@ -89,9 +89,6 @@ export default function Component({ device }: any) {
           action={async (data) => {
             data.set('id', device.id)
             data.set('customer_id', customer_.id)
-            for (const value of data.values()) {
-              console.log(value)
-            }
             formAction(data)
           }}
           className='grid gap-6 md:gap-8'
@@ -152,7 +149,7 @@ export default function Component({ device }: any) {
               object={customer_}
               itemName={{ plurar: 'customers', singular: 'customer' }}
               showList={open}
-              setShowList={(v) => {
+              setShowList={(v: any) => {
                 setOpen(v)
               }}
               creator={
@@ -169,7 +166,7 @@ export default function Component({ device }: any) {
                   </DialogTrigger>
                 </>
               }
-              getObjects={async (e) => {
+              getObjects={async (e: any) => {
                 const s = transformArray(await searchCustomer(e), 'name')
                 console.log(s, 'hi', e)
                 return s

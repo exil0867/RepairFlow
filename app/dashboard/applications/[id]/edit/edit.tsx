@@ -42,18 +42,18 @@ export default function Component({ application }: any) {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [state, formAction] = useFormState(updateApplication, {
+  const [state, formAction] = useFormState(updateApplication as any, {
     message: null,
     response: null as any,
     error: null,
-  })
+  }) as any
   const initialCustomer = transformArray([application.customer], 'name')[0]
   const initialDevice = transformArray([application.device], 'model')[0]
   const [customer_, setCustomer_] = useState(initialCustomer)
 
   const [device_, setDevice_] = useState(initialDevice)
   const { pending } = useFormStatus()
-  const myRef = useRef(null)
+  const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
     console.log('dadsadadsad')
     e.preventDefault()
@@ -92,9 +92,6 @@ export default function Component({ application }: any) {
             data.set('device_id', device_.id)
             data.set('customer_id', customer_.id)
             data.set('id', application.id)
-            for (const value of data.values()) {
-              console.log(value)
-            }
             formAction(data)
           }}
           className='grid gap-6 md:gap-8'
@@ -161,7 +158,7 @@ export default function Component({ application }: any) {
                 object={customer_}
                 itemName={{ plurar: 'customers', singular: 'customer' }}
                 showList={open}
-                setShowList={(v) => {
+                setShowList={(v: any) => {
                   setOpen(v)
                   setDevice_(undefined)
                 }}
@@ -179,7 +176,7 @@ export default function Component({ application }: any) {
                     </DialogTrigger>
                   </>
                 }
-                getObjects={async (e) => {
+                getObjects={async (e: any) => {
                   const s = transformArray(await searchCustomer(e), 'name')
                   console.log(s, 'hi', e)
                   return s
@@ -213,7 +210,7 @@ export default function Component({ application }: any) {
                     </DialogTrigger>
                   </>
                 }
-                getObjects={async (e) => {
+                getObjects={async (e: any) => {
                   const s = transformArray(
                     await searchDevice(e, undefined, undefined, customer_.id),
                     'model',

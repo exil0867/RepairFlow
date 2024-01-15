@@ -16,7 +16,7 @@ import {
 import { useState } from 'react'
 import { signOut } from '../actions/auth'
 
-function UserIcon(props) {
+function UserIcon(props: any) {
   return (
     <svg
       {...props}
@@ -36,7 +36,7 @@ function UserIcon(props) {
   )
 }
 
-function PlusIcon(props) {
+function PlusIcon(props: any) {
   return (
     <svg
       {...props}
@@ -56,7 +56,7 @@ function PlusIcon(props) {
   )
 }
 
-function HomeIcon(props) {
+function HomeIcon(props: any) {
   return (
     <svg
       {...props}
@@ -76,7 +76,7 @@ function HomeIcon(props) {
   )
 }
 
-function LayoutDashboardIcon(props) {
+function LayoutDashboardIcon(props: any) {
   return (
     <svg
       {...props}
@@ -98,7 +98,7 @@ function LayoutDashboardIcon(props) {
   )
 }
 
-function SearchIcon(props) {
+function SearchIcon(props: any) {
   return (
     <svg
       {...props}
@@ -118,7 +118,7 @@ function SearchIcon(props) {
   )
 }
 
-function TableIcon(props) {
+function TableIcon(props: any) {
   return (
     <svg
       {...props}
@@ -140,7 +140,7 @@ function TableIcon(props) {
   )
 }
 
-function BarChartIcon(props) {
+function BarChartIcon(props: any) {
   return (
     <svg
       {...props}
@@ -161,7 +161,7 @@ function BarChartIcon(props) {
   )
 }
 
-function BellIcon(props) {
+function BellIcon(props: any) {
   return (
     <svg
       {...props}
@@ -181,7 +181,7 @@ function BellIcon(props) {
   )
 }
 
-function CreditCardIcon(props) {
+function CreditCardIcon(props: any) {
   return (
     <svg
       {...props}
