@@ -1,6 +1,5 @@
 name: Deploy
 on:
-  workflow_run:
   push:
     branches:
       - master
