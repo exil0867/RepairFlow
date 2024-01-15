@@ -10,6 +10,7 @@ export default async function searchApplication(
   customerId?: number,
   deviceId?: number,
   subject?: string,
+  status?: 'PENDING' | 'COMPLETE' | 'CANCELLED',
 ) {
   try {
     const fetchApplications = async () => {
@@ -19,6 +20,7 @@ export default async function searchApplication(
             customerId: customerId ? customerId : undefined,
             deviceId: deviceId ? deviceId : undefined,
             subject: subject ? { contains: subject } : undefined,
+            status: status ? status : undefined,
           },
           include: {
             device: true,

@@ -10,24 +10,37 @@ import Selector from '@/components/selector'
 import { transformArray } from '@/lib/utils'
 import searchCustomer from '../../actions/searchCustomer'
 import searchDevice from '@/app/actions/searchDevice'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default function Component() {
   const [list, setList] = useState([])
   const [customer_, setCustomer_] = useState(undefined)
   const [device_, setDevice_] = useState(undefined)
   const [subject, setSubject] = useState(undefined)
+  const [status, setStatus] = useState<'PENDING' | 'COMPLETE' | 'CANCELLED'>(
+    'PENDING',
+  )
   useEffect(() => {
     async function fetchData() {
       const filtered = (await searchApplication(
         (customer_ as any)?.id as any,
         (device_ as any)?.id as any,
         subject,
+        status,
       )) as any
       console.log('adsfasdf ', filtered)
       setList(filtered)
     }
     fetchData()
-  }, [customer_, device_, subject])
+  }, [customer_, device_, status, subject])
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   return (
@@ -84,6 +97,25 @@ export default function Component() {
                 setSubject(s.target.value as any)
               }}
             />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <Label htmlFor='filter-subject'>Status</Label>
+            <Select
+              defaultValue={status}
+              onValueChange={(v) => setStatus(v)}
+              value={status}
+            >
+              <SelectTrigger className='w-[180px]'>
+                <SelectValue placeholder='Select status' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value='PENDING'>Pending</SelectItem>
+                  <SelectItem value='COMPLETE'>Complete</SelectItem>
+                  <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         <div className='grid gap-6'>
