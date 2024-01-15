@@ -11,6 +11,7 @@ const applicationSchema = z.object({
   notes: z.string(),
   deviceId: z.string().transform((val) => Number(val)),
   customerId: z.string().transform((val) => Number(val)),
+  status: z.enum(['COMPLETE', 'PENDING', 'CANCELLED']),
 })
 export type formRes = {
   message: string
@@ -32,11 +33,13 @@ export default async function createDevice(
     const customerId = data.get('customer_id')
     const subject = data.get('subject')
     const notes = data.get('notes')
+    const status = data.get('status')
     const validatedFields = applicationSchema.safeParse({
       subject: subject,
       notes: notes,
       deviceId: deviceId,
       customerId: customerId,
+      status,
     })
 
     if (!validatedFields.success) {
@@ -45,11 +48,11 @@ export default async function createDevice(
 
     const response = await prisma.application.create({
       data: {
-        status: 'PENDING',
         subject: validatedFields.data.subject,
         notes: validatedFields.data.notes,
         deviceId: validatedFields.data.deviceId,
         customerId: validatedFields.data.customerId,
+        status: validatedFields.data.status,
       },
     })
 

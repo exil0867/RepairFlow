@@ -17,6 +17,14 @@ import toast from 'react-hot-toast'
 import createApplication from '../../actions/createApplication'
 import router from 'next/router'
 import { useRouter } from 'next/navigation'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 export default function DialogDemo({ customer, device }: any) {
   console.log(customer, device)
@@ -70,16 +78,21 @@ export default function DialogDemo({ customer, device }: any) {
         <Label className='text-lg font-semibold text-gray-600' htmlFor='status'>
           Application Status
         </Label>
-
-        <select
-          className='border border-gray-300 p-2 rounded text-gray-700'
+        <Select
           defaultValue={'PENDING'}
           {...register('status', { required: true })}
         >
-          <option value='PENDING'>Pending</option>
-          <option value='COMPLETE'>Complete</option>
-          <option value='CANCELLED'>Cancelled</option>
-        </select>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='Select status' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value='PENDING'>Pending</SelectItem>
+              <SelectItem value='COMPLETE'>Complete</SelectItem>
+              <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
       <div className='grid gap-2'>
         <Label className='text-lg font-semibold text-gray-600' htmlFor='status'>

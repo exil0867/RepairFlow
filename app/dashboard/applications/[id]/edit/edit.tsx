@@ -30,6 +30,7 @@ import { useRef } from 'react'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -134,16 +135,21 @@ export default function Component({ application }: any) {
             >
               Application Status
             </Label>
-
-            <select
-              className='border border-gray-300 p-2 rounded text-gray-700'
+            <Select
               defaultValue={application.status}
               {...register('status', { required: true })}
             >
-              <option value='PENDING'>Pending</option>
-              <option value='COMPLETE'>Complete</option>
-              <option value='CANCELLED'>Cancelled</option>
-            </select>
+              <SelectTrigger className='w-[180px]'>
+                <SelectValue placeholder='Select status' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value='PENDING'>Pending</SelectItem>
+                  <SelectItem value='COMPLETE'>Complete</SelectItem>
+                  <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <div className='grid gap-2'>
             <div className='text-lg font-semibold text-gray-600'>Customer</div>
