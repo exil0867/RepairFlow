@@ -16,6 +16,8 @@ jobs:
         run: npm install
       - run: npm run build
         name: Apply all pending migrations to the database
+        env:
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
       - run: npx prisma migrate deploy
         env:
           POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
