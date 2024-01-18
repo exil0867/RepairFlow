@@ -30,12 +30,17 @@ import { useRef } from 'react'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 import updateDevice from '@/app/actions/updateDevice'
-import Form from '@/components/form'
+import Form, {
+  FormField,
+  FormFieldSubWrapper,
+  FormFieldWrapper,
+} from '@/components/form'
 
 export default function Component({ device }: any) {
   const { id, brand, model, serialNumber } = device
@@ -67,7 +72,7 @@ export default function Component({ device }: any) {
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
-      // router.push(`/customers/${state?.response?.id}`)
+      // router.push(`/devices/${state?.response?.id}`)
     } else {
       toast.error(state.message)
     }
@@ -87,93 +92,92 @@ export default function Component({ device }: any) {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <Form
           ref={myRef}
-          action={async (data) => {
+          action={async (data: { set: (arg0: string, arg1: any) => void }) => {
             data.set('id', device.id)
             data.set('customer_id', customer_.id)
             formAction(data)
           }}
           className='grid gap-6 md:gap-8'
         >
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Brand
-            </Label>
-            <Input
-              type='text'
-              defaultValue={device.brand}
-              placeholder='Device brand'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('brand', { required: true })}
+          <FormFieldWrapper>
+            <FormField
+              labelText='Device Brand'
+              inputElement={
+                <Input
+                  type='text'
+                  defaultValue={device.brand}
+                  placeholder='Device brand'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('brand', { required: true })}
+                />
+              }
             />
-          </div>
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Model
-            </Label>
-            <textarea
-              defaultValue={device.model}
-              placeholder='Model'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('model', { required: true })}
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText='Device Model'
+              inputElement={
+                <textarea
+                  defaultValue={device.model}
+                  placeholder='Model'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('model', { required: true })}
+                />
+              }
             />
-          </div>
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Serial Number
-            </Label>
-            <textarea
-              defaultValue={device.serialNumber}
-              placeholder='Serial Number'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('serial_number', { required: true })}
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText='Serial Number'
+              inputElement={
+                <textarea
+                  defaultValue={device.serialNumber}
+                  placeholder='Serial Number'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('serial_number', { required: true })}
+                />
+              }
             />
-          </div>
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Customer
-            </Label>
-            <Selector
-              className='border border-gray-300 p-2 rounded'
-              setObject={setCustomer_}
-              object={customer_}
-              itemName={{ plurar: 'customers', singular: 'customer' }}
-              showList={open}
-              setShowList={(v: any) => {
-                setOpen(v)
-              }}
-              creator={
-                <>
-                  <CustomerModal
-                    setCustomer_={setCustomer_}
-                    onClose={() => {
-                      setOpen(false)
-                      setDialogOpen(false)
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormFieldSubWrapper subtitle='Customer'>
+              <FormField
+                labelText='Selected customer:'
+                labelClassName=''
+                inputElement={
+                  <Selector
+                    className='border border-gray-300 p-2 rounded'
+                    setObject={setCustomer_}
+                    object={customer_}
+                    itemName={{ plurar: 'customers', singular: 'customer' }}
+                    showList={open}
+                    setShowList={(v: any) => {
+                      setOpen(v)
+                    }}
+                    creator={
+                      <>
+                        <CustomerModal
+                          setCustomer_={setCustomer_}
+                          onClose={() => {
+                            setOpen(false)
+                            setDialogOpen(false)
+                          }}
+                        />
+                        <DialogTrigger asChild>
+                          <Button variant='outline'>Create customer</Button>
+                        </DialogTrigger>
+                      </>
+                    }
+                    getObjects={async (e: any) => {
+                      const s = transformArray(await searchCustomer(e), 'name')
+                      console.log(s, 'hi', e)
+                      return s
                     }}
                   />
-                  <DialogTrigger asChild>
-                    <Button variant='outline'>Create customer</Button>
-                  </DialogTrigger>
-                </>
-              }
-              getObjects={async (e: any) => {
-                const s = transformArray(await searchCustomer(e), 'name')
-                console.log(s, 'hi', e)
-                return s
-              }}
-            />
-          </div>
+                }
+              />
+            </FormFieldSubWrapper>
+          </FormFieldWrapper>
         </Form>
       </Dialog>
     </Wrapper>

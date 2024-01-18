@@ -30,11 +30,16 @@ import { useRef } from 'react'
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import Form from '@/components/form'
+import Form, {
+  FormField,
+  FormFieldSubWrapper,
+  FormFieldWrapper,
+} from '@/components/form'
 
 export default function Component({ customer }: any) {
   const { id, name, address, phoneNumber } = customer
@@ -89,49 +94,47 @@ export default function Component({ customer }: any) {
           }}
           className='grid gap-6 md:gap-8'
         >
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Name
-            </Label>
-            <Input
-              type='text'
-              defaultValue={customer.name}
-              placeholder='Customer name'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('name', { required: true })}
+          <FormFieldWrapper>
+            <FormField
+              labelText='Customer Name'
+              inputElement={
+                <Input
+                  type='text'
+                  defaultValue={customer.name}
+                  placeholder='Customer Name'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('name', { required: true })}
+                />
+              }
             />
-          </div>
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Address
-            </Label>
-            <textarea
-              defaultValue={customer.address}
-              placeholder='Address'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('address', { required: true })}
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText='Customer Address'
+              inputElement={
+                <textarea
+                  defaultValue={customer.address}
+                  placeholder='Customer Address'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('address', { required: true })}
+                />
+              }
             />
-          </div>
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Phone Number
-            </Label>
-            <textarea
-              defaultValue={customer.phoneNumber}
-              placeholder='Phone Number'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('phone_number', { required: true })}
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText='Phone Number'
+              inputElement={
+                <Input
+                  type='text'
+                  defaultValue={customer.phoneNumber}
+                  placeholder='Phone Number'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('phone_number', { required: true })}
+                />
+              }
             />
-          </div>
+          </FormFieldWrapper>
         </Form>
       </Dialog>
     </Wrapper>

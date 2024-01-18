@@ -35,7 +35,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import Form from '@/components/form'
+import Form, {
+  FormField,
+  FormFieldSubWrapper,
+  FormFieldWrapper,
+} from '@/components/form'
 
 export default function Component({ application }: any) {
   const { id, subject, notes, status, customer, device } = application
@@ -56,7 +60,6 @@ export default function Component({ application }: any) {
   const { pending } = useFormStatus()
   const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
-    console.log('dadsadadsad')
     e.preventDefault()
     myRef.current.requestSubmit()
   }
@@ -97,131 +100,141 @@ export default function Component({ application }: any) {
           }}
           className='grid gap-6 md:gap-8'
         >
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Application Subject
-            </Label>
-            <Input
-              type='text'
-              defaultValue={application.subject}
-              placeholder='Subject'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('subject', { required: true })}
+          <FormFieldWrapper>
+            <FormField
+              labelText='Application Subject'
+              inputElement={
+                <Input
+                  type='text'
+                  defaultValue={application.subject}
+                  placeholder='Subject'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('subject', { required: true })}
+                />
+              }
             />
-          </div>
-          <div className='grid gap-2'>
-            <Label
-              htmlFor='name'
-              className='text-lg font-semibold text-gray-600'
-            >
-              Application Notes
-            </Label>
-            <textarea
-              defaultValue={application.notes}
-              placeholder='Notes'
-              className='border border-gray-300 p-2 rounded text-gray-700'
-              {...register('notes', { required: true })}
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText='Application Notes'
+              inputElement={
+                <textarea
+                  defaultValue={application.notes}
+                  placeholder='Notes'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('notes', { required: true })}
+                />
+              }
             />
-          </div>
-          <div className='grid gap-2'>
-            <Label
-              className='text-lg font-semibold text-gray-600'
-              htmlFor='status'
-            >
-              Application Status
-            </Label>
-            <Select
-              defaultValue={application.status}
-              {...register('status', { required: true })}
-            >
-              <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='Select status' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value='PENDING'>Pending</SelectItem>
-                  <SelectItem value='COMPLETE'>Complete</SelectItem>
-                  <SelectItem value='CANCELLED'>Cancelled</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className='grid gap-2'>
-            <div className='text-lg font-semibold text-gray-600'>Customer</div>
-            <div className='grid gap-2 text-gray-700'>
-              <Label htmlFor='customer'>Selected customer:</Label>
-              <Selector
-                className='border border-gray-300 p-2 rounded'
-                setObject={setCustomer_}
-                object={customer_}
-                itemName={{ plurar: 'customers', singular: 'customer' }}
-                showList={open}
-                setShowList={(v: any) => {
-                  setOpen(v)
-                  setDevice_(undefined)
-                }}
-                creator={
-                  <>
-                    <CustomerModal
-                      setCustomer_={setCustomer_}
-                      onClose={() => {
-                        setOpen(false)
-                        setDialogOpen(false)
-                      }}
-                    />
-                    <DialogTrigger asChild>
-                      <Button variant='outline'>Create customer</Button>
-                    </DialogTrigger>
-                  </>
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText='Application Status'
+              inputElement={
+                <Select
+                  defaultValue={application.status}
+                  {...register('status', { required: true })}
+                >
+                  <SelectTrigger className='w-[180px]'>
+                    <SelectValue placeholder='Select status' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value='PENDING'>Pending</SelectItem>
+                      <SelectItem value='COMPLETE'>Complete</SelectItem>
+                      <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              }
+            />
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormFieldSubWrapper subtitle='Device'>
+              <FormField
+                labelText='Selected customer:'
+                labelClassName=''
+                inputElement={
+                  <Selector
+                    className='border border-gray-300 p-2 rounded'
+                    setObject={setCustomer_}
+                    object={customer_}
+                    itemName={{ plurar: 'customers', singular: 'customer' }}
+                    showList={open}
+                    setShowList={(v: any) => {
+                      setOpen(v)
+                      setDevice_(undefined)
+                    }}
+                    creator={
+                      <>
+                        <CustomerModal
+                          setCustomer_={setCustomer_}
+                          onClose={() => {
+                            setOpen(false)
+                            setDialogOpen(false)
+                          }}
+                        />
+                        <DialogTrigger asChild>
+                          <Button variant='outline'>Create customer</Button>
+                        </DialogTrigger>
+                      </>
+                    }
+                    getObjects={async (e: any) => {
+                      const s = transformArray(await searchCustomer(e), 'name')
+                      console.log(s, 'hi', e)
+                      return s
+                    }}
+                  />
                 }
-                getObjects={async (e: any) => {
-                  const s = transformArray(await searchCustomer(e), 'name')
-                  console.log(s, 'hi', e)
-                  return s
-                }}
               />
-            </div>
-          </div>
-          <div className='grid gap-2'>
-            <div className='text-lg font-semibold text-gray-600'>Device</div>
-            <div className='grid gap-2 text-gray-700'>
-              <Label htmlFor='customer'>Selected customer:</Label>
-              <Selector
-                className='border border-gray-300 p-2 rounded'
-                setObject={setDevice_}
-                object={device_}
-                itemName={{ plurar: 'devices', singular: 'device' }}
-                showList={open2}
-                setShowList={setOpen2}
-                creator={
-                  <>
-                    <DeviceModal
-                      setDevice_={setDevice_}
-                      customerId={customer_.id}
-                      onClose={() => {
-                        setOpen(false)
-                        setDialogOpen(false)
-                      }}
-                    />
-                    <DialogTrigger asChild>
-                      <Button variant='outline'>Create device</Button>
-                    </DialogTrigger>
-                  </>
+            </FormFieldSubWrapper>
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormFieldSubWrapper subtitle='Device'>
+              <FormField
+                labelText='Selected device:'
+                labelClassName=''
+                inputElement={
+                  <Selector
+                    className='border border-gray-300 p-2 rounded'
+                    setObject={setDevice_}
+                    object={device_}
+                    itemName={{ plurar: 'devices', singular: 'device' }}
+                    showList={open2}
+                    setShowList={setOpen2}
+                    creator={
+                      <>
+                        <DeviceModal
+                          setDevice_={setDevice_}
+                          customerId={customer_.id}
+                          onClose={() => {
+                            setOpen(false)
+                            setDialogOpen(false)
+                          }}
+                        />
+                        <DialogTrigger asChild>
+                          <Button variant='outline'>Create device</Button>
+                        </DialogTrigger>
+                      </>
+                    }
+                    getObjects={async (e: any) => {
+                      const s = transformArray(
+                        await searchDevice(
+                          e,
+                          undefined,
+                          undefined,
+                          customer_.id,
+                        ),
+                        'model',
+                      )
+                      console.log(s, 'hi', e)
+                      return s
+                    }}
+                  />
                 }
-                getObjects={async (e: any) => {
-                  const s = transformArray(
-                    await searchDevice(e, undefined, undefined, customer_.id),
-                    'model',
-                  )
-                  console.log(s, 'hi', e)
-                  return s
-                }}
               />
-            </div>
-          </div>
+            </FormFieldSubWrapper>
+          </FormFieldWrapper>
         </Form>
       </Dialog>
     </Wrapper>
