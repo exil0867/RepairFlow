@@ -64,7 +64,7 @@ export default function DialogDemo({
     } else {
       toast.error(state.message)
     }
-  }, [onClose, pending, reset, setCustomer_, state])
+  }, [pending, reset, setCustomer_, state])
 
   return (
     <DialogContent className='sm:max-w-[425px]'>
