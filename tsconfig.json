@@ -34,7 +34,7 @@
         "pages/*"
       ],
       "@/app/*": [
-        "app/*"
+        "app/[locale]/*"
       ],
       "@/lib/*": [
         "lib/*"
