@@ -1,6 +1,7 @@
 // These styles apply to every route in the application
 import '@/styles/globals.css'
-import { Metadata, Viewport } from 'next'
+import { Metadata, ResolvingMetadata, Viewport } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import AuthStatus from '@/components/auth-status'
@@ -11,19 +12,25 @@ const inter = Inter({
   subsets: ['latin'],
 })
 
-const title = 'Next.js Prisma Postgres Auth Starter'
-const description =
-  'This is a Next.js starter kit that uses Next-Auth for simple username + password login and a Postgres database to persist the data.'
+type Props = {
+  params: { locale: string }
+}
 
-export const metadata: Metadata = {
-  title,
-  description,
-  twitter: {
-    card: 'summary_large_image',
-    title,
-    description,
-  },
-  metadataBase: new URL('https://nextjs-postgres-auth.vercel.app'),
+export async function generateMetadata({
+  params: { locale },
+}: Props): Promise<Metadata> {
+  const t = await getTranslations({ locale, namespace: 'Metadata' })
+
+  return {
+    title: t('title'),
+    description: t('description'),
+    twitter: {
+      card: 'summary_large_image',
+      title: t('title'),
+      description: t('description'),
+    },
+    metadataBase: new URL('https://nextjs-postgres-auth.vercel.app'),
+  }
 }
 
 export const viewport: Viewport = {

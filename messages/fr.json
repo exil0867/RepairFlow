@@ -1,5 +1,9 @@
 {
   "Index": {
     "sign_in": "Connection"
+  },
+  "Metadata": {
+    "title": "Next.js Prisma Postgres Auth Starter",
+    "description": "Il s'agit d'un kit de démarrage Next.js qui utilise Next-Auth pour une connexion simple par nom d'utilisateur + mot de passe et une base de données Postgres pour conserver les données."
   }
 }

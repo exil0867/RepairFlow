@@ -1,5 +1,9 @@
 {
   "Index": {
     "sign_in": "Sign In"
+  },
+  "Metadata": {
+    "title": "Next.js Prisma Postgres Auth Starter",
+    "description": "This is a Next.js starter kit that uses Next-Auth for simple username + password login and a Postgres database to persist the data."
   }
 }
