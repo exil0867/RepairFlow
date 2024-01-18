@@ -28,7 +28,8 @@
         "dsznajder.es7-react-js-snippets",
         "github.vscode-github-actions",
         "Prisma.prisma",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "lokalise.i18n-ally"
       ]
     }
   }

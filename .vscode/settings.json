@@ -8,5 +8,8 @@
     },
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "i18n-ally.localesPaths": [
+      "messages"
+    ]
   }
