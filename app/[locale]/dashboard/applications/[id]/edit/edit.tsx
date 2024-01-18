@@ -35,6 +35,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import Form from '@/components/form'
 
 export default function Component({ application }: any) {
   const { id, subject, notes, status, customer, device } = application
@@ -86,7 +87,7 @@ export default function Component({ application }: any) {
       }
     >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <form
+        <Form
           ref={myRef}
           action={async (data) => {
             data.set('device_id', device_.id)
@@ -221,7 +222,7 @@ export default function Component({ application }: any) {
               />
             </div>
           </div>
-        </form>
+        </Form>
       </Dialog>
     </Wrapper>
   )

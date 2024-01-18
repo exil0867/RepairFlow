@@ -34,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import Form from '@/components/form'
 
 export default function Component({ customer }: any) {
   const { id, name, address, phoneNumber } = customer
@@ -80,9 +81,9 @@ export default function Component({ customer }: any) {
       }
     >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <form
+        <Form
           ref={myRef}
-          action={async (data) => {
+          action={async (data: { set: (arg0: string, arg1: any) => void }) => {
             data.set('id', customer.id)
             formAction(data)
           }}
@@ -131,7 +132,7 @@ export default function Component({ customer }: any) {
               {...register('phone_number', { required: true })}
             />
           </div>
-        </form>
+        </Form>
       </Dialog>
     </Wrapper>
   )

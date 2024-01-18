@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Form from '@/components/form'
 
 const schema = z.object({
   name: z.string(),
@@ -45,7 +46,7 @@ export default function CreateCustomer() {
     }
   }, [pending, router, state])
   return (
-    <form className='grid gap-6 md:gap-8' action={formAction}>
+    <Form className='grid gap-6 md:gap-8' action={formAction}>
       <div className='grid gap-2'>
         <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
           Name
@@ -82,6 +83,6 @@ export default function CreateCustomer() {
       <Button variant='outline' type='submit'>
         Create Customer
       </Button>
-    </form>
+    </Form>
   )
 }

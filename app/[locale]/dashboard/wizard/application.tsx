@@ -25,6 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import Form from '@/components/form'
 
 export default function DialogDemo({ customer, device }: any) {
   console.log(customer, device)
@@ -51,7 +52,7 @@ export default function DialogDemo({ customer, device }: any) {
     }
   }, [pending, router, state])
   return (
-    <form className='grid gap-6 md:gap-8' action={formAction}>
+    <Form className='grid gap-6 md:gap-8' action={formAction}>
       <div className='grid gap-2'>
         <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
           Application Subject
@@ -131,6 +132,6 @@ export default function DialogDemo({ customer, device }: any) {
       <Button variant='outline' type='submit'>
         Create Application
       </Button>
-    </form>
+    </Form>
   )
 }

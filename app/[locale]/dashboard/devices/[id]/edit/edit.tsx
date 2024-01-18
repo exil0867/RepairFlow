@@ -35,6 +35,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import updateDevice from '@/app/actions/updateDevice'
+import Form from '@/components/form'
 
 export default function Component({ device }: any) {
   const { id, brand, model, serialNumber } = device
@@ -84,7 +85,7 @@ export default function Component({ device }: any) {
       }
     >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <form
+        <Form
           ref={myRef}
           action={async (data) => {
             data.set('id', device.id)
@@ -173,7 +174,7 @@ export default function Component({ device }: any) {
               }}
             />
           </div>
-        </form>
+        </Form>
       </Dialog>
     </Wrapper>
   )
