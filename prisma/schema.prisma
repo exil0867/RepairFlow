@@ -24,14 +24,23 @@ model Customer {
 }
 
 model Application {
-  id         Int      @id @default(autoincrement())
-  status     Status
-  subject    String
-  notes      String?
-  deviceId   Int
-  customerId Int
-  customer   Customer @relation(fields: [customerId], references: [id])
-  device     Device   @relation(fields: [deviceId], references: [id])
+  id                   Int                   @id @default(autoincrement())
+  status               Status
+  subject              String
+  notes                String?
+  deviceId             Int
+  customerId           Int
+  customer             Customer              @relation(fields: [customerId], references: [id])
+  device               Device                @relation(fields: [deviceId], references: [id])
+  ConcludedApplication ConcludedApplication?
+}
+
+model ConcludedApplication {
+  id            Int         @id @default(autoincrement())
+  changes       String
+  cost          String
+  applicationId Int         @unique
+  application   Application @relation(fields: [applicationId], references: [id])
 }
 
 model Device {
