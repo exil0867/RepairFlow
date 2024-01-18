@@ -68,7 +68,7 @@ export default function Component({ customer }: any) {
         </div>
         <div className='grid gap-2'>
           <div className='text-lg font-semibold'>Devices List</div>
-          {customer.Device.length}
+          {customer.devices.length}
         </div>
       </div>
     </Wrapper>

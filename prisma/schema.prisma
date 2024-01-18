@@ -20,7 +20,7 @@ model Customer {
   address      String
   phoneNumber  String
   applications Application[]
-  Device       Device[]
+  devices      Device[]
 }
 
 model Application {

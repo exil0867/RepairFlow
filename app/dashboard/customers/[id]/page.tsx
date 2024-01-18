@@ -12,7 +12,7 @@ export default function DisplayCustomer({
       const customer = await prisma.customer.findUnique({
         where: { id: Number(params.id) },
         include: {
-          Device: true,
+          devices: true,
           applications: true,
         },
       })

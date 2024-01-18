@@ -8,7 +8,7 @@ export default function EditCustomer({ params }: { params: { id: string } }) {
       const customer = await prisma.customer.findUnique({
         where: { id: Number(params.id) },
         include: {
-          Device: true,
+          devices: true,
           applications: true,
         },
       })
