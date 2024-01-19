@@ -4,12 +4,14 @@ import createCustomer from '@/app/actions/createCustomer'
 import { useFormState, useFormStatus } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import toast from 'react-hot-toast'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import Form from '@/components/form'
+import Form, { FormField, FormFieldWrapper } from '@/components/form'
+import { Textarea } from '@/components/ui/textarea'
+import Wrapper from '@/components/wrapper'
 
 const schema = z.object({
   name: z.string(),
@@ -30,6 +32,13 @@ export default function CreateCustomer() {
     error: null,
   })
   const { pending } = useFormStatus()
+
+  const myRef = useRef(null) as any
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    myRef.current.requestSubmit()
+  }
+
   const {
     reset,
     register,
@@ -46,43 +55,56 @@ export default function CreateCustomer() {
     }
   }, [pending, router, state])
   return (
-    <Form className='grid gap-6 md:gap-8' action={formAction}>
-      <div className='grid gap-2'>
-        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
-          Name
-        </Label>
-        <Input
-          type='text'
-          placeholder='Name'
-          className='border border-gray-300 p-2 rounded text-gray-700'
-          {...register('name', { required: true })}
-        />
-      </div>{' '}
-      <div className='grid gap-2'>
-        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
-          Address
-        </Label>
-        <Input
-          type='text'
-          placeholder='Home Address'
-          className='border border-gray-300 p-2 rounded text-gray-700'
-          {...register('address', { required: true })}
-        />
-      </div>{' '}
-      <div className='grid gap-2'>
-        <Label htmlFor='name' className='text-lg font-semibold text-gray-600'>
-          Phone Number
-        </Label>
-        <Input
-          type='text'
-          placeholder='Phone Number'
-          className='border border-gray-300 p-2 rounded text-gray-700'
-          {...register('phone_number', { required: true })}
-        />
-      </div>
-      <Button variant='outline' type='submit'>
-        Create Customer
-      </Button>
-    </Form>
+    <Wrapper
+      title='Create customer'
+      footer={
+        <>
+          <Button variant='outline' onClick={handleSubmit}>
+            Create Customer
+          </Button>
+        </>
+      }
+    >
+      <Form className='grid gap-6 md:gap-8' ref={myRef} action={formAction}>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Customer Name'
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Customer Name'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('name', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Customer Address'
+            inputElement={
+              <Textarea
+                placeholder='Customer Address'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('address', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Phone Number'
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Phone Number'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('phone_number', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+      </Form>
+    </Wrapper>
   )
 }
