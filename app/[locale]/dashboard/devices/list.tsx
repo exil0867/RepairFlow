@@ -11,6 +11,9 @@ import { transformArray } from '@/lib/utils'
 import searchCustomer from '../../actions/searchCustomer'
 import searchDevice from '@/app/actions/searchDevice'
 import { ListItem } from '@/components/list'
+import Wrapper from '@/components/wrapper'
+import { FilterHeader, FilterWrapper } from '@/components/filter-header'
+import { FormField } from '@/components/form'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -33,80 +36,96 @@ export default function Component() {
     fetchData()
   }, [brand, customer_, model, serialNumber])
   return (
-    <main className='container mx-auto px-4 md:px-6 py-8'>
-      <div className='flex flex-col gap-6'>
-        <h1 className='text-2xl font-bold'>Devices</h1>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-customer'>Customer</Label>
-            {/* <Input id='filter-customer' placeholder='Filter by customer' /> */}
-            <Selector
-              setObject={setCustomer_}
-              object={customer_}
-              itemName={{ plurar: 'customers', singular: 'customer' }}
-              showList={open}
-              setShowList={(v: any) => {
-                setOpen(v)
-              }}
-              getObjects={async (e: any) => {
-                const s = transformArray(await searchCustomer(e), 'name')
-                console.log(s, 'hi', e)
-                return s
-              }}
-            />
-          </div>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-subject'>Model</Label>
-            <Input
-              id='filter-subject'
-              placeholder='Filter by model'
-              onChange={(s) => {
-                console.log(s)
-                setModel(s.target.value as any)
-              }}
-            />
-          </div>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-subject'>Brand</Label>
-            <Input
-              id='filter-subject'
-              placeholder='Filter by brand'
-              onChange={(s) => {
-                console.log(s)
-                setBrand(s.target.value as any)
-              }}
-            />
-          </div>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-subject'>Serial Number</Label>
-            <Input
-              id='filter-subject'
-              placeholder='Filter by serial number'
-              onChange={(s) => {
-                console.log(s)
-                setSerialNumber(s.target.value as any)
-              }}
-            />
-          </div>
-        </div>
-        <div className='grid gap-6'>
-          {list.map(({ id, model, brand, customer }: any) => {
-            return (
-              <ListItem
-                key={id}
-                title={`Device ${model}`}
-                subtitle={`Customer: ${customer.name}`}
-                footer={`Brand: ${brand}`}
-                button={
-                  <Link href={`/dashboard/devices/${id}`}>
-                    <Button variant='outline'>View</Button>
-                  </Link>
-                }
+    <Wrapper title={'Devices'} footer={undefined}>
+      <FilterHeader>
+        <FilterWrapper>
+          <FormField
+            labelText='Customer'
+            labelClassName=''
+            inputElement={
+              <Selector
+                setObject={setCustomer_}
+                object={customer_}
+                itemName={{ plurar: 'customers', singular: 'customer' }}
+                showList={open}
+                setShowList={(v: any) => {
+                  setOpen(v)
+                }}
+                getObjects={async (e: any) => {
+                  const s = transformArray(await searchCustomer(e), 'name')
+                  console.log(s, 'hi', e)
+                  return s
+                }}
               />
-            )
-          })}
-        </div>
+            }
+          />
+        </FilterWrapper>
+        <FilterWrapper>
+          <FormField
+            labelText='Model'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filter by model'
+                onChange={(s) => {
+                  console.log(s)
+                  setModel(s.target.value as any)
+                }}
+              />
+            }
+          />
+        </FilterWrapper>
+        <FilterWrapper>
+          <FormField
+            labelText='Brand'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filter by brand'
+                onChange={(s) => {
+                  console.log(s)
+                  setBrand(s.target.value as any)
+                }}
+              />
+            }
+          />
+        </FilterWrapper>
+        <FilterWrapper>
+          <FormField
+            labelText='Serial Number'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filter by serial number'
+                onChange={(s) => {
+                  console.log(s)
+                  setSerialNumber(s.target.value as any)
+                }}
+              />
+            }
+          />
+        </FilterWrapper>
+      </FilterHeader>
+      <div className='flex flex-col gap-2'>
+        {list.map(({ id, model, brand, customer }: any) => {
+          return (
+            <ListItem
+              key={id}
+              title={`Device ${model}`}
+              subtitle={`Customer: ${customer.name}`}
+              footer={`Brand: ${brand}`}
+              button={
+                <Link href={`/dashboard/devices/${id}`}>
+                  <Button variant='outline'>View</Button>
+                </Link>
+              }
+            />
+          )
+        })}
       </div>
-    </main>
+    </Wrapper>
   )
 }

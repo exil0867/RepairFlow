@@ -10,7 +10,19 @@ import Selector from '@/components/selector'
 import { transformArray } from '@/lib/utils'
 import searchCustomer from '../../actions/searchCustomer'
 import searchDevice from '@/app/actions/searchDevice'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { ListItem } from '@/components/list'
+import Wrapper from '@/components/wrapper'
+import { FilterHeader, FilterWrapper } from '@/components/filter-header'
+import { FormField } from '@/components/form'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -23,40 +35,42 @@ export default function Component() {
     fetchData()
   }, [name])
   return (
-    <main className='container mx-auto px-4 md:px-6 py-8'>
-      <div className='flex flex-col gap-6'>
-        <h1 className='text-2xl font-bold'>Customers</h1>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-subject'>Name</Label>
-            <Input
-              id='filter-subject'
-              placeholder='Filter by name'
-              onChange={(s) => {
-                console.log(s)
-                setName(s.target.value as any)
-              }}
-            />
-          </div>
-        </div>
-        <div className='grid gap-6'>
-          {list.map(({ id, name, address, phoneNumber }) => {
-            return (
-              <ListItem
-                key={id}
-                title={`Customer ${name}`}
-                subtitle={`Address: ${address}`}
-                footer={`Phone Number: ${phoneNumber}`}
-                button={
-                  <Link href={`/dashboard/customers/${id}`}>
-                    <Button variant='outline'>View</Button>
-                  </Link>
-                }
+    <Wrapper title={'Customers'} footer={undefined}>
+      <FilterHeader>
+        <FilterWrapper>
+          <FormField
+            labelText='Name'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filter by name'
+                onChange={(s) => {
+                  console.log(s)
+                  setName(s.target.value as any)
+                }}
               />
-            )
-          })}
-        </div>
+            }
+          />
+        </FilterWrapper>
+      </FilterHeader>
+      <div className='flex flex-col gap-2'>
+        {list.map(({ id, name, address, phoneNumber }) => {
+          return (
+            <ListItem
+              key={id}
+              title={`Customer ${name}`}
+              subtitle={`Address: ${address}`}
+              footer={`Phone Number: ${phoneNumber}`}
+              button={
+                <Link href={`/dashboard/customers/${id}`}>
+                  <Button variant='outline'>View</Button>
+                </Link>
+              }
+            />
+          )
+        })}
       </div>
-    </main>
+    </Wrapper>
   )
 }

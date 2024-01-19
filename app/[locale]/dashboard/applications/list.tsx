@@ -20,6 +20,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { ListItem } from '@/components/list'
+import Wrapper from '@/components/wrapper'
+import { FilterHeader, FilterWrapper } from '@/components/filter-header'
+import { FormField } from '@/components/form'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -45,32 +48,36 @@ export default function Component() {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   return (
-    <main className='container mx-auto px-4 md:px-6 py-8'>
-      <div className='flex flex-col gap-6'>
-        <h1 className='text-2xl font-bold'>User Applications</h1>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-customer'>Customer</Label>
-            {/* <Input id='filter-customer' placeholder='Filter by customer' /> */}
-            <Selector
-              setObject={setCustomer_}
-              object={customer_}
-              itemName={{ plurar: 'customers', singular: 'customer' }}
-              showList={open}
-              setShowList={(v: any) => {
-                setOpen(v)
-                setDevice_(undefined)
-              }}
-              getObjects={async (e: any) => {
-                const s = transformArray(await searchCustomer(e), 'name')
-                console.log(s, 'hi', e)
-                return s
-              }}
-            />
-          </div>
-          {customer_ && (
-            <div className='flex flex-col gap-2'>
-              <Label htmlFor='filter-device'>Device</Label>
+    <Wrapper title={'Applications'} footer={undefined}>
+      <FilterHeader>
+        <FilterWrapper>
+          <FormField
+            labelText='Customer'
+            labelClassName=''
+            inputElement={
+              <Selector
+                setObject={setCustomer_}
+                object={customer_}
+                itemName={{ plurar: 'customers', singular: 'customer' }}
+                showList={open}
+                setShowList={(v: any) => {
+                  setOpen(v)
+                  setDevice_(undefined)
+                }}
+                getObjects={async (e: any) => {
+                  const s = transformArray(await searchCustomer(e), 'name')
+                  console.log(s, 'hi', e)
+                  return s
+                }}
+              />
+            }
+          />
+        </FilterWrapper>
+        <FilterWrapper>
+          <FormField
+            labelText='Device'
+            labelClassName=''
+            inputElement={
               <Selector
                 setObject={setDevice_}
                 object={device_}
@@ -79,64 +86,74 @@ export default function Component() {
                 setShowList={setOpen2}
                 getObjects={async (e: any) => {
                   const s = transformArray(
-                    await searchDevice(e, undefined, undefined, customer_.id),
+                    await searchDevice(e, undefined, undefined, customer_?.id),
                     'model',
                   )
                   console.log(s, 'hi', e)
                   return s
                 }}
               />
-            </div>
-          )}
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-subject'>Subject</Label>
-            <Input
-              id='filter-subject'
-              placeholder='Filter by subject'
-              onChange={(s) => {
-                console.log(s)
-                setSubject(s.target.value as any)
-              }}
-            />
-          </div>
-          <div className='flex flex-col gap-2'>
-            <Label htmlFor='filter-subject'>Status</Label>
-            <Select
-              defaultValue={status}
-              onValueChange={(v: any) => setStatus(v)}
-              value={status}
-            >
-              <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='Select status' />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value='PENDING'>Pending</SelectItem>
-                  <SelectItem value='COMPLETE'>Complete</SelectItem>
-                  <SelectItem value='CANCELLED'>Cancelled</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        <div className='grid gap-6'>
-          {list.map(({ id, device, customer }: any) => {
-            return (
-              <ListItem
-                key={id}
-                title={`Application ${id}`}
-                subtitle={`Device: ${device.model}`}
-                footer={`Customer: ${customer.name}`}
-                button={
-                  <Link href={`/dashboard/applications/${id}`}>
-                    <Button variant='outline'>View</Button>
-                  </Link>
-                }
+            }
+          />
+        </FilterWrapper>
+        <FilterWrapper>
+          <FormField
+            labelText='Subject'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filter by subject'
+                onChange={(s) => {
+                  console.log(s)
+                  setSubject(s.target.value as any)
+                }}
               />
-            )
-          })}
-        </div>
+            }
+          />
+        </FilterWrapper>
+        <FilterWrapper>
+          <FormField
+            labelText='Status'
+            labelClassName=''
+            inputElement={
+              <Select
+                defaultValue={status}
+                onValueChange={(v: any) => setStatus(v)}
+                value={status}
+              >
+                <SelectTrigger className='w-[180px] border-gray-300 p-2 rounded text-gray-700'>
+                  <SelectValue placeholder='Select status' />
+                </SelectTrigger>
+                <SelectContent className='bg-white'>
+                  <SelectGroup>
+                    <SelectItem value='PENDING'>Pending</SelectItem>
+                    <SelectItem value='COMPLETE'>Complete</SelectItem>
+                    <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            }
+          />
+        </FilterWrapper>
+      </FilterHeader>
+      <div className='flex flex-col gap-2'>
+        {list.map(({ id, device, customer }: any) => {
+          return (
+            <ListItem
+              key={id}
+              title={`Application ${id}`}
+              subtitle={`Device: ${device.model}`}
+              footer={`Customer: ${customer.name}`}
+              button={
+                <Link href={`/dashboard/applications/${id}`}>
+                  <Button variant='outline'>View</Button>
+                </Link>
+              }
+            />
+          )
+        })}
       </div>
-    </main>
+    </Wrapper>
   )
 }
