@@ -112,7 +112,7 @@ export default function Component({ customer }: any) {
             <FormField
               labelText='Customer Address'
               inputElement={
-                <textarea
+                <Textarea
                   defaultValue={customer.address}
                   placeholder='Customer Address'
                   className='border border-gray-300 p-2 rounded text-gray-700'
