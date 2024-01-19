@@ -16,6 +16,12 @@ import {
 import { Application } from '@prisma/client'
 import { usePathname, useRouter } from 'next/navigation'
 import Wrapper from '@/components/wrapper'
+import {
+  ViewField,
+  ViewFieldSubWrapper,
+  ViewFieldSubWrapperField,
+  ViewFieldWrapper,
+} from '@/components/view'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
@@ -46,52 +52,47 @@ export default function Component({ application }: any) {
       }
     >
       <div className='grid gap-6 md:gap-8'>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Application Subject</div>
-          <div className='text-gray-600'>{application.subject}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Application Notes</div>
-          <div className='text-gray-600'>{application.notes}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Application Status</div>
-          <div className='text-gray-600'>{application.status}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold'>Customer Details</div>
-          <div className='text-gray-600'>
-            <div>
-              <span className='text-gray-800 font-medium'>Name:</span>{' '}
-              {application.customer.name}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Address:</span>{' '}
-              {application.customer.address}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Phone Number:</span>{' '}
-              {application.customer.phoneNumber}
-            </div>
-          </div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold'>Device Details</div>
-          <div className='text-gray-600'>
-            <div>
-              <span className='text-gray-800 font-medium'>Serial Number:</span>{' '}
-              {application.device.serialNumber}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Model:</span>{' '}
-              {application.device.model}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Brand:</span>{' '}
-              {application.device.brand}
-            </div>
-          </div>
-        </div>
+        <ViewFieldWrapper>
+          <ViewField title='Application Subject' value={application.subject} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField title='Application Notes' value={application.notes} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField title='Application Status' value={application.status} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewFieldSubWrapper title='Customer Details'>
+            <ViewFieldSubWrapperField
+              title='Name:'
+              value={application.customer.name}
+            />
+            <ViewFieldSubWrapperField
+              title='Address:'
+              value={application.customer.address}
+            />
+            <ViewFieldSubWrapperField
+              title='Phone Number:'
+              value={application.customer.phoneNumber}
+            />
+          </ViewFieldSubWrapper>
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewFieldSubWrapper title='Device Details'>
+            <ViewFieldSubWrapperField
+              title='Serial Number:'
+              value={application.device.serialNumber}
+            />
+            <ViewFieldSubWrapperField
+              title='Model:'
+              value={application.device.model}
+            />
+            <ViewFieldSubWrapperField
+              title='Brand:'
+              value={application.device.brand}
+            />
+          </ViewFieldSubWrapper>
+        </ViewFieldWrapper>
       </div>
     </Wrapper>
   )

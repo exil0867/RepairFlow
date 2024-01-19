@@ -17,6 +17,12 @@ import { Application } from '@prisma/client'
 import { usePathname, useRouter } from 'next/navigation'
 import Wrapper from '@/components/wrapper'
 import Link from 'next/link'
+import {
+  ViewField,
+  ViewFieldSubWrapper,
+  ViewFieldSubWrapperField,
+  ViewFieldWrapper,
+} from '@/components/view'
 
 export default function Component({ device }: any) {
   const pathname = usePathname()
@@ -37,42 +43,31 @@ export default function Component({ device }: any) {
       }
     >
       <div className='grid gap-6 md:gap-8'>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Device Brand</div>
-          <div className='text-gray-600'>{device.brand}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Customer Model</div>
-          <div className='text-gray-600'>{device.model}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Customer Serial Number</div>
-          <div className='text-gray-600'>{device.serialNumber}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold'>Applications list</div>
-          {device.applications.length}
-          {/* <div className='text-gray-600'>
-            <div>
-              <span className='text-gray-800 font-medium'>Name:</span>{' '}
-              {application.customer.name}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Address:</span>{' '}
-              {application.customer.address}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Phone Number:</span>{' '}
-              {application.customer.phoneNumber}
-            </div>
-          </div> */}
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold'>Customer</div>
-          <Link href={`/dashboard/customers/${device.customer.id}`}>
-            {device.customer.name}
-          </Link>
-        </div>
+        <ViewFieldWrapper>
+          <ViewField title='Device Brand' value={device.brand} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField title='Device Model' value={device.model} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField title='Device Serial Number' value={device.serialNumber} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField
+            title='Applications list'
+            value={device.applications.length}
+          />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField
+            title='Customer'
+            value={
+              <Link href={`/dashboard/customers/${device.customer.id}`}>
+                {device.customer.name}
+              </Link>
+            }
+          />
+        </ViewFieldWrapper>
       </div>
     </Wrapper>
   )

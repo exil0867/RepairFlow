@@ -16,6 +16,12 @@ import {
 import { Application } from '@prisma/client'
 import { usePathname, useRouter } from 'next/navigation'
 import Wrapper from '@/components/wrapper'
+import {
+  ViewField,
+  ViewFieldSubWrapper,
+  ViewFieldSubWrapperField,
+  ViewFieldWrapper,
+} from '@/components/view'
 
 export default function Component({ customer }: any) {
   const pathname = usePathname()
@@ -36,40 +42,27 @@ export default function Component({ customer }: any) {
       }
     >
       <div className='grid gap-6 md:gap-8'>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Customer Name</div>
-          <div className='text-gray-600'>{customer.name}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Customer Address</div>
-          <div className='text-gray-600'>{customer.address}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold '>Customer Phone Number</div>
-          <div className='text-gray-600'>{customer.phoneNumber}</div>
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold'>Applications list</div>
-          {customer.applications.length}
-          {/* <div className='text-gray-600'>
-            <div>
-              <span className='text-gray-800 font-medium'>Name:</span>{' '}
-              {application.customer.name}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Address:</span>{' '}
-              {application.customer.address}
-            </div>
-            <div>
-              <span className='text-gray-800 font-medium'>Phone Number:</span>{' '}
-              {application.customer.phoneNumber}
-            </div>
-          </div> */}
-        </div>
-        <div className='grid gap-2'>
-          <div className='text-lg font-semibold'>Devices List</div>
-          {customer.devices.length}
-        </div>
+        <ViewFieldWrapper>
+          <ViewField title='Customer Name' value={customer.name} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField title='Customer Address' value={customer.address} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField
+            title='Customer Phone Number'
+            value={customer.phoneNumber}
+          />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField
+            title='Applications list'
+            value={customer.applications.length}
+          />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField title='Devices list' value={customer.devices.length} />
+        </ViewFieldWrapper>
       </div>
     </Wrapper>
   )
