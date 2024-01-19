@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { ListItem } from '@/components/list'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -121,25 +122,17 @@ export default function Component() {
         <div className='grid gap-6'>
           {list.map(({ id, device, customer }: any) => {
             return (
-              <div
+              <ListItem
                 key={id}
-                className='grid grid-cols-1 md:grid-cols-3 gap-4 items-center p-4 rounded-lg border border-gray-200 dark:border-gray-800'
-              >
-                <div className='md:col-span-2'>
-                  <h3 className='font-semibold'>Application {id}</h3>
-                  <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    Device: {device.model}
-                  </p>
-                  <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    Customer: {customer.name}
-                  </p>
-                </div>
-                <div className='flex justify-end'>
+                title={`Application ${id}`}
+                subtitle={`Device: ${device.model}`}
+                footer={`Customer: ${customer.name}`}
+                button={
                   <Link href={`/dashboard/applications/${id}`}>
                     <Button variant='outline'>View</Button>
                   </Link>
-                </div>
-              </div>
+                }
+              />
             )
           })}
         </div>

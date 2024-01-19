@@ -10,6 +10,7 @@ import Selector from '@/components/selector'
 import { transformArray } from '@/lib/utils'
 import searchCustomer from '../../actions/searchCustomer'
 import searchDevice from '@/app/actions/searchDevice'
+import { ListItem } from '@/components/list'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -41,25 +42,17 @@ export default function Component() {
         <div className='grid gap-6'>
           {list.map(({ id, name, address, phoneNumber }) => {
             return (
-              <div
+              <ListItem
                 key={id}
-                className='grid grid-cols-1 md:grid-cols-3 gap-4 items-center p-4 rounded-lg border border-gray-200 dark:border-gray-800'
-              >
-                <div className='md:col-span-2'>
-                  <h3 className='font-semibold'>Customer {name}</h3>
-                  <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    Address: {address}
-                  </p>
-                  <p className='text-sm text-gray-500 dark:text-gray-400'>
-                    Phone Number: {phoneNumber}
-                  </p>
-                </div>
-                <div className='flex justify-end'>
+                title={`Customer ${name}`}
+                subtitle={`Address: ${address}`}
+                footer={`Phone Number: ${phoneNumber}`}
+                button={
                   <Link href={`/dashboard/customers/${id}`}>
                     <Button variant='outline'>View</Button>
                   </Link>
-                </div>
-              </div>
+                }
+              />
             )
           })}
         </div>
