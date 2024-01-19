@@ -130,7 +130,7 @@ export default function Component({ device }: any) {
             <FormField
               labelText='Serial Number'
               inputElement={
-                <textarea
+                <Textarea
                   defaultValue={device.serialNumber}
                   placeholder='Serial Number'
                   className='border border-gray-300 p-2 rounded text-gray-700'
