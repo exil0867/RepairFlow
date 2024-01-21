@@ -6,10 +6,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useForm } from 'react-hook-form'
+import { Form, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useFormState, useFormStatus } from 'react-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { formRes } from '../customers/create/page'
 import { Check, ChevronsUpDown } from 'lucide-react'
@@ -33,6 +33,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import createCustomer from '../../actions/createCustomer'
 import router from 'next/router'
+import Form, {
+  FormField,
+  FormFieldSubWrapper,
+  FormFieldWrapper,
+} from '@/components/form'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function DialogDemo({
   setCustomer_,
@@ -52,6 +58,12 @@ export default function DialogDemo({
     error: null,
   })
 
+  const myRef = useRef(null) as any
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    myRef.current.requestSubmit()
+  }
+
   const { pending } = useFormStatus()
   useEffect(() => {
     if (pending || state.error === null) return
@@ -66,53 +78,58 @@ export default function DialogDemo({
   }, [pending, reset, setCustomer_, state])
 
   return (
-    <DialogContent className='sm:max-w-[425px]'>
-      <form action={formAction}>
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className='grid gap-4 py-4'>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='name' className='text-right'>
-              Name
-            </Label>
-            <Input
-              type='text'
-              placeholder='Name'
-              className='col-span-3'
-              {...register('name', { required: true })}
-            />
-          </div>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='username' className='text-right'>
-              Address
-            </Label>
-            <Input
-              type='text'
-              placeholder='Address'
-              className='col-span-3'
-              {...register('address', { required: true })}
-            />
-          </div>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='username' className='text-right'>
-              Phone number
-            </Label>
-            <Input
-              type='text'
-              placeholder='Phone number'
-              className='col-span-3'
-              {...register('phone_number', { required: true })}
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type='submit'>Save changes</Button>
-        </DialogFooter>
-      </form>
+    <DialogContent className='sm:max-w-[425px] bg-white'>
+      <DialogHeader>
+        <DialogTitle>Create Customer</DialogTitle>
+        <DialogDescription>
+          Create a new customer to be added to the database.
+        </DialogDescription>
+      </DialogHeader>
+      <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Customer Name'
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Customer Name'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('name', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Customer Address'
+            inputElement={
+              <Textarea
+                placeholder='Customer Address'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('address', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Phone Number'
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Phone Number'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('phone_number', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+      </Form>
+      <DialogFooter>
+        <Button variant='outline' onClick={handleSubmit}>
+          Create Customer
+        </Button>
+      </DialogFooter>
     </DialogContent>
   )
 }

@@ -6,12 +6,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useFormState, useFormStatus } from 'react-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { formRes } from '../customers/create/page'
 import { Check, ChevronsUpDown } from 'lucide-react'
@@ -31,11 +29,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import createDevice from '../../actions/createDevice'
 import router from 'next/router'
+import Form, {
+  FormField,
+  FormFieldSubWrapper,
+  FormFieldWrapper,
+} from '@/components/form'
+import { Textarea } from '@/components/ui/textarea'
 
-export default function DialogDemo({ setDevice_, onClose, customerId }: any) {
+export default function DialogDemo({
+  setDevice_,
+  onClose,
+  customerId,
+}: {
+  setDevice_: any
+  onClose: any
+  customerId: any
+}) {
   const {
     reset,
     register,
@@ -46,6 +59,12 @@ export default function DialogDemo({ setDevice_, onClose, customerId }: any) {
     response: null as any,
     error: null,
   })
+
+  const myRef = useRef(null) as any
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    myRef.current.requestSubmit()
+  }
 
   const { pending } = useFormStatus()
   useEffect(() => {
@@ -62,55 +81,62 @@ export default function DialogDemo({ setDevice_, onClose, customerId }: any) {
       toast.error(state.message)
     }
   }, [pending, reset, setDevice_, state])
+
   return (
-    <DialogContent className='sm:max-w-[425px]'>
-      <form action={formAction}>
+    <DialogContent className='sm:max-w-[425px] bg-white'>
+      <DialogHeader>
+        <DialogTitle>Create Device</DialogTitle>
+        <DialogDescription>
+          Create a new device to be added to the database.
+        </DialogDescription>
+      </DialogHeader>
+      <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
         <input type='hidden' name='customer_id' value={customerId} />
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <div className='grid gap-4 py-4'>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='name' className='text-right'>
-              Serial Number
-            </Label>
-            <Input
-              type='text'
-              placeholder='Serial Number'
-              className='col-span-3'
-              {...register('serial_number', { required: true })}
-            />
-          </div>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='username' className='text-right'>
-              Model
-            </Label>
-            <Input
-              type='text'
-              placeholder='Model'
-              className='col-span-3'
-              {...register('model', { required: true })}
-            />
-          </div>
-          <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='username' className='text-right'>
-              Brand
-            </Label>
-            <Input
-              type='text'
-              placeholder='Brand'
-              className='col-span-3'
-              {...register('brand', { required: true })}
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button type='submit'>Save changes</Button>
-        </DialogFooter>
-      </form>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Serial Number'
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Serial Number'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('serial_number', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Model'
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Model'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('model', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Brand'
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Brand'
+                className='border border-gray-300 p-2 rounded text-gray-700'
+                {...register('brand', { required: true })}
+              />
+            }
+          />
+        </FormFieldWrapper>
+      </Form>
+      <DialogFooter>
+        <Button variant='outline' onClick={handleSubmit}>
+          Create Customer
+        </Button>
+      </DialogFooter>
     </DialogContent>
   )
 }
