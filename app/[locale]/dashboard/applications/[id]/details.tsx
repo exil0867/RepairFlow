@@ -22,78 +22,110 @@ import {
   ViewFieldSubWrapperField,
   ViewFieldWrapper,
 } from '@/components/view'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { useState } from 'react'
+import Conclusion from './conclusion'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
   const router = useRouter()
+  const [dialogOpen, setDialogOpen] = useState(false)
+
   return (
-    <Wrapper
-      title='Application Details'
-      footer={
-        <>
-          <Button
-            onClick={() => router.push(pathname + '/edit')}
-            variant='outline'
-          >
-            Edit
-          </Button>
-          <Button variant='outline'>Delete</Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant='outline'>Mark As</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>Complete</DropdownMenuItem>
-              <DropdownMenuItem>Pending</DropdownMenuItem>
-              <DropdownMenuItem>Cancelled</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </>
-      }
-    >
-      <div className='grid gap-6 md:gap-8'>
-        <ViewFieldWrapper>
-          <ViewField title='Application Subject' value={application.subject} />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField title='Application Notes' value={application.notes} />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField title='Application Status' value={application.status} />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewFieldSubWrapper title='Customer Details'>
-            <ViewFieldSubWrapperField
-              title='Name:'
-              value={application.customer.name}
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Conclusion
+        applicationId={application.id}
+        onClose={() => {
+          setDialogOpen(false)
+        }}
+      />
+      <Wrapper
+        title='Application Details'
+        footer={
+          <>
+            <Button
+              onClick={() => router.push(pathname + '/edit')}
+              variant='outline'
+            >
+              Edit
+            </Button>
+            <Button variant='outline'>Delete</Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant='outline'>Mark As</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem>Complete</DropdownMenuItem>
+                </DialogTrigger>
+                <DropdownMenuItem>Pending</DropdownMenuItem>
+                <DropdownMenuItem>Cancelled</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </>
+        }
+      >
+        <div className='grid gap-6 md:gap-8'>
+          <ViewFieldWrapper>
+            <ViewField
+              title='Application Subject'
+              value={application.subject}
             />
-            <ViewFieldSubWrapperField
-              title='Address:'
-              value={application.customer.address}
-            />
-            <ViewFieldSubWrapperField
-              title='Phone Number:'
-              value={application.customer.phoneNumber}
-            />
-          </ViewFieldSubWrapper>
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewFieldSubWrapper title='Device Details'>
-            <ViewFieldSubWrapperField
-              title='Serial Number:'
-              value={application.device.serialNumber}
-            />
-            <ViewFieldSubWrapperField
-              title='Model:'
-              value={application.device.model}
-            />
-            <ViewFieldSubWrapperField
-              title='Brand:'
-              value={application.device.brand}
-            />
-          </ViewFieldSubWrapper>
-        </ViewFieldWrapper>
-      </div>
-    </Wrapper>
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField title='Application Notes' value={application.notes} />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField title='Application Status' value={application.status} />
+          </ViewFieldWrapper>
+          {application.conclusion && (
+            <ViewFieldWrapper>
+              <ViewFieldSubWrapper title='Conclusion'>
+                <ViewFieldSubWrapperField
+                  title='Changes:'
+                  value={application.conclusion.changes}
+                />
+                <ViewFieldSubWrapperField
+                  title='Cost:'
+                  value={application.conclusion.cost}
+                />
+              </ViewFieldSubWrapper>
+            </ViewFieldWrapper>
+          )}
+          <ViewFieldWrapper>
+            <ViewFieldSubWrapper title='Customer Details'>
+              <ViewFieldSubWrapperField
+                title='Name:'
+                value={application.customer.name}
+              />
+              <ViewFieldSubWrapperField
+                title='Address:'
+                value={application.customer.address}
+              />
+              <ViewFieldSubWrapperField
+                title='Phone Number:'
+                value={application.customer.phoneNumber}
+              />
+            </ViewFieldSubWrapper>
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewFieldSubWrapper title='Device Details'>
+              <ViewFieldSubWrapperField
+                title='Serial Number:'
+                value={application.device.serialNumber}
+              />
+              <ViewFieldSubWrapperField
+                title='Model:'
+                value={application.device.model}
+              />
+              <ViewFieldSubWrapperField
+                title='Brand:'
+                value={application.device.brand}
+              />
+            </ViewFieldSubWrapper>
+          </ViewFieldWrapper>
+        </div>
+      </Wrapper>
+    </Dialog>
   )
 }

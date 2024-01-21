@@ -14,6 +14,7 @@ export default function DisplayApplication({
         include: {
           device: true,
           customer: true,
+          conclusion: true,
         },
       })
       return application
