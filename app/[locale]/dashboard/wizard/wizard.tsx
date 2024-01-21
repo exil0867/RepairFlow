@@ -12,7 +12,6 @@ import { Check, ChevronsUpDown } from 'lucide-react'
 import { transformArray } from '@/lib/utils'
 import CustomerModal from './customer-modal'
 import DeviceModal from './device-modal'
-import Application from './application'
 
 import { cn } from '@/lib/utils'
 // import { Button } from '@/components/ui/button'

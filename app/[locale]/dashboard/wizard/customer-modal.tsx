@@ -15,7 +15,6 @@ import { formRes } from '../customers/create/page'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import CustomerModal from './customer-modal'
 import DeviceModal from './device-modal'
-import Application from './application'
 
 import { cn } from '@/lib/utils'
 import {
