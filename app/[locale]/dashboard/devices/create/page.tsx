@@ -157,7 +157,10 @@ export default function CreateCustomer() {
                       </>
                     }
                     getObjects={async (e: any) => {
-                      const s = transformArray(await searchCustomer(e), 'name')
+                      const s = transformArray(
+                        await searchCustomer(undefined, e),
+                        'name',
+                      )
                       console.log(s, 'hi', e)
                       return s
                     }}

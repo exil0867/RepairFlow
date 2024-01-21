@@ -59,6 +59,15 @@ export default function Component() {
     setCurrentStep((prevStep) => prevStep - 1)
   }
 
+  const router = useRouter()
+
+  useEffect(() => {
+    if (currentStep === 3)
+      router.push(
+        `/dashboard/applications/create?customerId=${customer_.id}&deviceId=${device_.id}&status=pending`,
+      )
+  }, [currentStep, customer_.id, device_.id, router])
+
   const renderStep = () => {
     switch (currentStep) {
       case 1:
@@ -86,7 +95,10 @@ export default function Component() {
                 </>
               }
               getObjects={async (e: any) => {
-                const s = transformArray(await searchCustomer(e), 'name')
+                const s = transformArray(
+                  await searchCustomer(undefined, e),
+                  'name',
+                )
                 console.log(s, 'hi', e)
                 return s
               }}
@@ -120,20 +132,19 @@ export default function Component() {
               }
               getObjects={async (e: any) => {
                 const s = transformArray(
-                  await searchDevice(e, undefined, undefined, customer_.id),
+                  await searchDevice(
+                    undefined,
+                    e,
+                    undefined,
+                    undefined,
+                    customer_.id,
+                  ),
                   'model',
                 )
                 console.log(s, 'hi', e)
                 return s
               }}
             />
-          </div>
-        )
-      case 3:
-        return (
-          <div key={3}>
-            <Label className='block pb-4'>Customer</Label>
-            <Application customer={customer_} device={device_} />
           </div>
         )
       default:

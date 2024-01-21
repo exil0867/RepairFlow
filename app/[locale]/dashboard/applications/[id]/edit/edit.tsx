@@ -180,7 +180,10 @@ export default function Component({ application }: any) {
                       </>
                     }
                     getObjects={async (e: any) => {
-                      const s = transformArray(await searchCustomer(e), 'name')
+                      const s = transformArray(
+                        await searchCustomer(undefined, e),
+                        'name',
+                      )
                       console.log(s, 'hi', e)
                       return s
                     }}
@@ -220,6 +223,7 @@ export default function Component({ application }: any) {
                     getObjects={async (e: any) => {
                       const s = transformArray(
                         await searchDevice(
+                          undefined,
                           e,
                           undefined,
                           undefined,

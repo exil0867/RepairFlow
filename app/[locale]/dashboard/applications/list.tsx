@@ -65,7 +65,10 @@ export default function Component() {
                   setDevice_(undefined)
                 }}
                 getObjects={async (e: any) => {
-                  const s = transformArray(await searchCustomer(e), 'name')
+                  const s = transformArray(
+                    await searchCustomer(undefined, e),
+                    'name',
+                  )
                   console.log(s, 'hi', e)
                   return s
                 }}
@@ -86,7 +89,13 @@ export default function Component() {
                 setShowList={setOpen2}
                 getObjects={async (e: any) => {
                   const s = transformArray(
-                    await searchDevice(e, undefined, undefined, customer_?.id),
+                    await searchDevice(
+                      undefined,
+                      e,
+                      undefined,
+                      undefined,
+                      customer_?.id,
+                    ),
                     'model',
                   )
                   console.log(s, 'hi', e)

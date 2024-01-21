@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
 export default async function searchDevice(
+  id?: number,
   model?: string,
   brand?: string,
   serialNumber?: string,
@@ -20,6 +21,7 @@ export default async function searchDevice(
             customer: true,
           },
           where: {
+            id: id ? id : undefined,
             model: model ? { contains: model } : undefined,
             brand: brand ? { contains: brand } : undefined,
             serialNumber: serialNumber ? { contains: serialNumber } : undefined,

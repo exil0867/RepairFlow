@@ -28,7 +28,6 @@ import {
 import Form from '@/components/form'
 
 export default function DialogDemo({ customer, device }: any) {
-  console.log(customer, device)
   const router = useRouter()
   const [state, formAction] = useFormState(createApplication as any, {
     message: null,

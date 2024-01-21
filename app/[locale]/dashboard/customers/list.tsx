@@ -29,7 +29,7 @@ export default function Component() {
   const [name, setName] = useState(undefined)
   useEffect(() => {
     async function fetchData() {
-      const filtered = (await searchCustomer(name)) as any
+      const filtered = (await searchCustomer(undefined, name)) as any
       setList(filtered)
     }
     fetchData()

@@ -6,12 +6,13 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
-export default async function searchCustomer(query?: string) {
+export default async function searchCustomer(id?: number, query?: string) {
   try {
     const fetchCustomers = async () => {
       try {
         const customers = await prisma.customer.findMany({
           where: {
+            id: id ? id : undefined,
             name: query ? { contains: query } : undefined,
           },
           include: {
@@ -26,7 +27,6 @@ export default async function searchCustomer(query?: string) {
     }
 
     const customers = await fetchCustomers()
-    console.log('dd', query, customers)
 
     revalidatePath('/')
 

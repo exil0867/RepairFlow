@@ -26,6 +26,7 @@ export default function Component() {
   useEffect(() => {
     async function fetchData() {
       const filtered = (await searchDevice(
+        undefined,
         model,
         brand,
         serialNumber,
@@ -52,7 +53,10 @@ export default function Component() {
                   setOpen(v)
                 }}
                 getObjects={async (e: any) => {
-                  const s = transformArray(await searchCustomer(e), 'name')
+                  const s = transformArray(
+                    await searchCustomer(undefined, e),
+                    'name',
+                  )
                   console.log(s, 'hi', e)
                   return s
                 }}
