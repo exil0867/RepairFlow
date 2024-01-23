@@ -25,11 +25,15 @@ export default function DisplayApplication({
   }
 
   const renderApplication = async () => {
-    const application = await fetchApplication()
-    console.log(application)
+    let application = await fetchApplication()
     if (!application) {
       redirect('/404')
     }
+
+    if (application.conclusion) {
+      application.conclusion.cost = `${application.conclusion.cost}` as any
+    }
+
     return <Details application={application} />
   }
 
