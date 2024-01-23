@@ -41,7 +41,7 @@ export default async function createConcludedApplication(
       throw new Error('Invalid user input', validatedFields.error)
     }
 
-    const response = await prisma.concludedApplication.create({
+    let response = await prisma.concludedApplication.create({
       data: {
         changes: validatedFields.data.changes,
         cost: validatedFields.data.cost,
@@ -59,6 +59,8 @@ export default async function createConcludedApplication(
     })
 
     revalidatePath('/')
+
+    response.cost = `${response.cost}` as any
 
     return {
       message: 'Concluded Application created',
