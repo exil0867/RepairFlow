@@ -24,21 +24,44 @@ import {
 } from '@/components/view'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { useState } from 'react'
-import Conclusion from './conclusion'
+import Complete from './complete'
+import Pending from './pending'
+import Cancel from './cancel'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [openedDialog, setOpenedDialog] = useState<
+    'COMPLETE' | 'PENDING' | 'CANCELLED' | null
+  >(null)
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <Conclusion
-        applicationId={application.id}
-        onClose={() => {
-          setDialogOpen(false)
-        }}
-      />
+      {openedDialog === 'COMPLETE' && (
+        <Complete
+          applicationId={application.id}
+          onClose={() => {
+            setDialogOpen(false)
+          }}
+        />
+      )}
+      {openedDialog === 'PENDING' && (
+        <Pending
+          applicationId={application.id}
+          onClose={() => {
+            setDialogOpen(false)
+          }}
+        />
+      )}
+      {openedDialog === 'CANCELLED' && (
+        <Cancel
+          applicationId={application.id}
+          onClose={() => {
+            setDialogOpen(false)
+          }}
+        />
+      )}
       <Wrapper
         title='Application Details'
         footer={
@@ -56,10 +79,32 @@ export default function Component({ application }: any) {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DialogTrigger asChild>
-                  <DropdownMenuItem>Complete</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setOpenedDialog('COMPLETE')
+                    }}
+                  >
+                    Complete
+                  </DropdownMenuItem>
                 </DialogTrigger>
-                <DropdownMenuItem>Pending</DropdownMenuItem>
-                <DropdownMenuItem>Cancelled</DropdownMenuItem>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setOpenedDialog('PENDING')
+                    }}
+                  >
+                    Pending
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setOpenedDialog('CANCELLED')
+                    }}
+                  >
+                    Cancelled
+                  </DropdownMenuItem>
+                </DialogTrigger>
               </DropdownMenuContent>
             </DropdownMenu>
           </>
