@@ -60,8 +60,8 @@ dependencies:
     specifier: 5.0.0-beta.5
     version: 5.0.0-beta.5(next@14.1.0)(react@18.2.0)
   next-intl:
-    specifier: 3.4.5
-    version: 3.4.5(next@14.1.0)(react@18.2.0)
+    specifier: 3.5.4
+    version: 3.5.4(next@14.1.0)(react@18.2.0)
   react:
     specifier: ^18
     version: 18.2.0
@@ -3599,8 +3599,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /next-intl@3.4.5(next@14.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-k3oCyFavZNar/JowdKfJVBIDISmcvkO32DEwRUxa46Yv6LQ3GTnOlINoaPvGr4M81gp/7WVBuYlQBZyu8aJ6Ug==}
+  /next-intl@3.5.4(next@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-BKS3Iwgw/P/xQh6vl94naBNlHwPrbB2OSerze6OwZx0xaCzzOtDbB3Rq8saVw0vZrhxRHQaZTDaqmvkGUnyMcg==}
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -3609,7 +3609,7 @@ packages:
       negotiator: 0.6.3
       next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
-      use-intl: 3.4.5(react@18.2.0)
+      use-intl: 3.5.4(react@18.2.0)
     dev: false
 
   /next@14.1.0(react-dom@18.2.0)(react@18.2.0):
@@ -4700,8 +4700,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /use-intl@3.4.5(react@18.2.0):
-    resolution: {integrity: sha512-QXDYgJMAYX+aAyNWUg1paZbdAu5DbBpwpBcflM85PxnAJ7dvRX9KCPiEXKE6/I9e88ZzMmr7gtb+t4iM/7BsCA==}
+  /use-intl@3.5.4(react@18.2.0):
+    resolution: {integrity: sha512-JYTDmLyZ1WjlDr0RoBusIuS0puVCHsQ7CgGoMn8bP90TxaSojOKo09UM6qbiISPcmBHMJlemRo3V3wAcchD3Gw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
