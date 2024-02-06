@@ -24,7 +24,7 @@ export default async function updateApplicationStatus(
         if (!validatedFields.success) {
           throw new Error('Invalid user input')
         }
-        const updatedApplication = await prisma.application.update({
+        let updatedApplication = await prisma.application.update({
           include: {
             conclusion: true,
           },
@@ -46,6 +46,10 @@ export default async function updateApplicationStatus(
               applicationId: updatedApplication.id,
             },
           })
+        }
+        if (updatedApplication.conclusion) {
+          updatedApplication.conclusion.cost =
+            `${updatedApplication.conclusion.cost}` as any
         }
         return {
           message: 'Application status was set.',
