@@ -21,7 +21,7 @@ export default async function searchCustomer(id?: number, query?: string) {
         })
         return customers
       } catch (error) {
-        console.error('Error fetching customers:', error)
+        console.error('Erreur lors de la récupération des clients:', error)
         return []
       }
     }
@@ -33,7 +33,7 @@ export default async function searchCustomer(id?: number, query?: string) {
     return customers
   } catch (error) {
     return {
-      message: 'An error occurred while creating the device',
+      message: `Une erreur s'est produite lors de la recherche du client`,
       error: true,
     }
   }

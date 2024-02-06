@@ -40,9 +40,9 @@ export default function CreateCustomer() {
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
 
-  const [customer_, setCustomer_] = useState(null)
+  const [customer_, setCustomer_] = useState<any>(null)
   const router = useRouter()
-  const [state, formAction] = useFormState(createDevice as any, {
+  const [state, formAction]: any = useFormState(createDevice as any, {
     message: null,
     response: null as any,
     error: null,
@@ -72,11 +72,11 @@ export default function CreateCustomer() {
   }, [pending, router, state])
   return (
     <Wrapper
-      title='Create Device'
+      title='Créer un appareil'
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
-            Create Device
+            Créer un appareil
           </Button>
         </>
       }
@@ -92,11 +92,11 @@ export default function CreateCustomer() {
         >
           <FormFieldWrapper>
             <FormField
-              labelText='Device Brand'
+              labelText={`Marque de l'appareil`}
               inputElement={
                 <Input
                   type='text'
-                  placeholder='Device brand'
+                  placeholder={`Marque de l'appareil`}
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('brand', { required: true })}
                 />
@@ -105,10 +105,10 @@ export default function CreateCustomer() {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Device Model'
+              labelText={`Modèle d'appareil`}
               inputElement={
                 <Textarea
-                  placeholder='Model'
+                  placeholder={`Modèle d'appareil`}
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('model', { required: true })}
                 />
@@ -117,10 +117,10 @@ export default function CreateCustomer() {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Serial Number'
+              labelText={`Numéro de série`}
               inputElement={
                 <Textarea
-                  placeholder='Serial Number'
+                  placeholder='Numéro de série'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('serial_number', { required: true })}
                 />
@@ -128,16 +128,16 @@ export default function CreateCustomer() {
             />
           </FormFieldWrapper>
           <FormFieldWrapper>
-            <FormFieldSubWrapper subtitle='Customer'>
+            <FormFieldSubWrapper subtitle='Client'>
               <FormField
-                labelText='Selected customer:'
+                labelText='Client sélectionné:'
                 labelClassName=''
                 inputElement={
                   <Selector
                     className='border border-gray-300 p-2 rounded'
                     setObject={setCustomer_}
                     object={customer_}
-                    itemName={{ plurar: 'customers', singular: 'customer' }}
+                    itemName={{ plurar: 'clients', singular: 'client' }}
                     showList={open}
                     setShowList={(v: any) => {
                       setOpen(v)
@@ -152,7 +152,7 @@ export default function CreateCustomer() {
                           }}
                         />
                         <DialogTrigger asChild>
-                          <Button variant='outline'>Create customer</Button>
+                          <Button variant='outline'>Créer un client</Button>
                         </DialogTrigger>
                       </>
                     }

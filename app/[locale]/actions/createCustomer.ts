@@ -43,7 +43,7 @@ export default async function createCustomer(
     })
 
     if (!validatedFields.success) {
-      throw new Error('Invalid user input')
+      throw new Error('Entrée utilisateur invalide.')
     }
 
     const response = await prisma.customer.create({
@@ -55,13 +55,13 @@ export default async function createCustomer(
     })
     revalidatePath('/')
     return {
-      message: 'Customer created',
+      message: 'Client créé',
       response: response,
       error: false,
     }
   } catch (error) {
     return {
-      message: 'An error occurred while creating the customer',
+      message: `Une erreur s'est produite lors de la création du client`,
       error: true,
     }
   }

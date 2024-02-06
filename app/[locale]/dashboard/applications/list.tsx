@@ -156,7 +156,7 @@ export default function Component() {
               footer={`Customer: ${customer.name}`}
               button={
                 <Link href={`/dashboard/applications/${id}`}>
-                  <Button variant='outline'>View</Button>
+                  <Button variant='outline'>Voir</Button>
                 </Link>
               }
             />

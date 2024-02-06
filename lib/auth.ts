@@ -16,12 +16,12 @@ async function getUser(username: string): Promise<User | undefined> {
     if (user) {
       return user
     } else {
-      console.error('Could not find user.')
-      throw new Error('Could not find user.')
+      console.error(`Impossible de trouver l'utilisateur.`)
+      throw new Error(`Impossible de trouver l'utilisateur.`)
     }
   } catch (error) {
-    console.error('Failed to fetch user:', error)
-    throw new Error('Failed to fetch user.')
+    console.error(`Échec de la récupération de l'utilisateur:`, error)
+    throw new Error(`Échec de la récupération de l'utilisateur.`)
   }
 }
 

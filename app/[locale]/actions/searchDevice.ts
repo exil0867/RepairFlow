@@ -30,7 +30,7 @@ export default async function searchDevice(
         })
         return devices
       } catch (error) {
-        console.error('Error fetching devices:', error)
+        console.error('Erreur lors de la récupération des appareils:', error)
         return []
       }
     }
@@ -42,7 +42,7 @@ export default async function searchDevice(
     return devices
   } catch (error) {
     return {
-      message: 'An error occurred while creating the device',
+      message: `Une erreur s'est produite lors de la recherche de l'appareil`,
       error: true,
     }
   }

@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import setApplicationAsComplete from '@/app/actions/setApplicationAsComplete'
 import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
@@ -75,13 +74,12 @@ export default function Component({ customer }: any) {
   }, [pending, state])
   return (
     <Wrapper
-      title='Edit customer'
+      title='Modifier le client'
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
-            Save
+            Sauvegarder
           </Button>
-          <Button variant='outline'>Reset</Button>
         </>
       }
     >
@@ -96,12 +94,12 @@ export default function Component({ customer }: any) {
         >
           <FormFieldWrapper>
             <FormField
-              labelText='Customer Name'
+              labelText='Nom du client'
               inputElement={
                 <Input
                   type='text'
                   defaultValue={customer.name}
-                  placeholder='Customer Name'
+                  placeholder='Nom du client'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('name', { required: true })}
                 />
@@ -110,11 +108,11 @@ export default function Component({ customer }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Customer Address'
+              labelText='Adresse du client'
               inputElement={
                 <Textarea
                   defaultValue={customer.address}
-                  placeholder='Customer Address'
+                  placeholder='Adresse du client'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('address', { required: true })}
                 />
@@ -123,12 +121,12 @@ export default function Component({ customer }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Phone Number'
+              labelText='Numéro de téléphone'
               inputElement={
                 <Input
                   type='text'
                   defaultValue={customer.phoneNumber}
-                  placeholder='Phone Number'
+                  placeholder='Numéro de téléphone'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('phone_number', { required: true })}
                 />

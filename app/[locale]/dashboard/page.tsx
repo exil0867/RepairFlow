@@ -35,12 +35,12 @@ async function page({}: Props) {
   return (
     <>
       <div className='flex items-center'>
-        <h1 className='font-semibold text-lg md:text-2xl'>Dashboard</h1>
+        <h1 className='font-semibold text-lg md:text-2xl'>Tableau de bord</h1>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <Card>
           <CardHeader>
-            <CardTitle>Line Chart</CardTitle>
+            <CardTitle>Graphique linéaire</CardTitle>
           </CardHeader>
           <CardContent>
             {/* <CurvedlineChart className='w-full aspect-[4/3]' /> */}
@@ -48,7 +48,7 @@ async function page({}: Props) {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Bar Chart</CardTitle>
+            <CardTitle>Graphique à barres</CardTitle>
           </CardHeader>
           <CardContent>
             <BarChart className='w-full aspect-[4/3]' />
@@ -57,17 +57,17 @@ async function page({}: Props) {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Recent Applications</CardTitle>
+          <CardTitle>Recent Articles</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className='w-[100px]'>ID</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Device</TableHead>
+                <TableHead>Sujet</TableHead>
+                <TableHead>Statut</TableHead>
+                <TableHead>Client</TableHead>
+                <TableHead>Périphérique</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

@@ -80,19 +80,19 @@ export default function DialogDemo({
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Create Customer</DialogTitle>
+        <DialogTitle>Créer un client</DialogTitle>
         <DialogDescription>
-          Create a new customer to be added to the database.
+          Créez un nouveau client à ajouter à la base de données.
         </DialogDescription>
       </DialogHeader>
       <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
         <FormFieldWrapper>
           <FormField
-            labelText='Customer Name'
+            labelText='Nom du client'
             inputElement={
               <Input
                 type='text'
-                placeholder='Customer Name'
+                placeholder='Nom du client'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('name', { required: true })}
               />
@@ -101,10 +101,10 @@ export default function DialogDemo({
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Customer Address'
+            labelText='Adresse du client'
             inputElement={
               <Textarea
-                placeholder='Customer Address'
+                placeholder='Adresse du client'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('address', { required: true })}
               />
@@ -113,11 +113,11 @@ export default function DialogDemo({
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Phone Number'
+            labelText='Numéro de téléphone'
             inputElement={
               <Input
                 type='text'
-                placeholder='Phone Number'
+                placeholder='Numéro de téléphone'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('phone_number', { required: true })}
               />
@@ -127,7 +127,7 @@ export default function DialogDemo({
       </Form>
       <DialogFooter>
         <Button variant='outline' onClick={handleSubmit}>
-          Create Customer
+          Créer un client
         </Button>
       </DialogFooter>
     </DialogContent>

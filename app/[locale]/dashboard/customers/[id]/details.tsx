@@ -28,40 +28,42 @@ export default function Component({ customer }: any) {
   const router = useRouter()
   return (
     <Wrapper
-      title='Customer Details'
+      title='Détails du client'
       footer={
         <>
           <Button
             onClick={() => router.push(pathname + '/edit')}
             variant='outline'
           >
-            Edit
+            Modifier
           </Button>
-          <Button variant='outline'>Delete</Button>
         </>
       }
     >
       <div className='grid gap-6 md:gap-8'>
         <ViewFieldWrapper>
-          <ViewField title='Customer Name' value={customer.name} />
+          <ViewField title='Nom du client' value={customer.name} />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
-          <ViewField title='Customer Address' value={customer.address} />
+          <ViewField title='Adresse du client' value={customer.address} />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
           <ViewField
-            title='Customer Phone Number'
+            title='Numéro de téléphone du client'
             value={customer.phoneNumber}
           />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
           <ViewField
-            title='Applications list'
+            title='Liste des articles'
             value={customer.applications.length}
           />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
-          <ViewField title='Devices list' value={customer.devices.length} />
+          <ViewField
+            title='Liste des appareils'
+            value={customer.devices.length}
+          />
         </ViewFieldWrapper>
       </div>
     </Wrapper>

@@ -22,7 +22,7 @@ export default async function updateApplicationStatus(
         })
 
         if (!validatedFields.success) {
-          throw new Error('Invalid user input')
+          throw new Error('Entrée utilisateur invalide.')
         }
         let updatedApplication = await prisma.application.update({
           include: {
@@ -36,7 +36,9 @@ export default async function updateApplicationStatus(
           },
         })
         if (!updatedApplication)
-          throw new Error(`Couldn't find or update the application.`)
+          throw new Error(
+            `Impossible de trouver ou de mettre à jour l'article.`,
+          )
         if (
           ['CANCELLED', 'PENDING'].includes(validatedFields.data.status) &&
           updatedApplication.conclusion
@@ -52,13 +54,13 @@ export default async function updateApplicationStatus(
             `${updatedApplication.conclusion.cost}` as any
         }
         return {
-          message: 'Application status was set.',
+          message: `Le statut de l'article a été défini.`,
           response: updatedApplication,
           error: false,
         }
       } catch (error) {
         return {
-          message: 'An error occurred while fetching the application.',
+          message: `Une erreur s'est produite lors de la récupération de l'article.`,
           error: true,
         }
       }
@@ -71,7 +73,7 @@ export default async function updateApplicationStatus(
     return application
   } catch (error) {
     return {
-      message: 'An error occurred while setting the application status',
+      message: `Une erreur s'est produite lors de la définition du statut de l'article`,
       error: true,
     }
   }

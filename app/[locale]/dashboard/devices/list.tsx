@@ -37,17 +37,17 @@ export default function Component() {
     fetchData()
   }, [brand, customer_, model, serialNumber])
   return (
-    <Wrapper title={'Devices'} footer={undefined}>
+    <Wrapper title={'Appareils'} footer={undefined}>
       <FilterHeader>
         <FilterWrapper>
           <FormField
-            labelText='Customer'
+            labelText='Client'
             labelClassName=''
             inputElement={
               <Selector
                 setObject={setCustomer_}
                 object={customer_}
-                itemName={{ plurar: 'customers', singular: 'customer' }}
+                itemName={{ plurar: 'clients', singular: 'client' }}
                 showList={open}
                 setShowList={(v: any) => {
                   setOpen(v)
@@ -66,12 +66,12 @@ export default function Component() {
         </FilterWrapper>
         <FilterWrapper>
           <FormField
-            labelText='Model'
+            labelText='Modèle'
             labelClassName=''
             inputElement={
               <Input
                 type='text'
-                placeholder='Filter by model'
+                placeholder='Filtrer par modèle'
                 onChange={(s) => {
                   console.log(s)
                   setModel(s.target.value as any)
@@ -82,12 +82,12 @@ export default function Component() {
         </FilterWrapper>
         <FilterWrapper>
           <FormField
-            labelText='Brand'
+            labelText='Marque'
             labelClassName=''
             inputElement={
               <Input
                 type='text'
-                placeholder='Filter by brand'
+                placeholder='Filtrer par marque'
                 onChange={(s) => {
                   console.log(s)
                   setBrand(s.target.value as any)
@@ -98,12 +98,12 @@ export default function Component() {
         </FilterWrapper>
         <FilterWrapper>
           <FormField
-            labelText='Serial Number'
+            labelText='Numéro de série'
             labelClassName=''
             inputElement={
               <Input
                 type='text'
-                placeholder='Filter by serial number'
+                placeholder='Filtrer par numéro de série'
                 onChange={(s) => {
                   console.log(s)
                   setSerialNumber(s.target.value as any)
@@ -118,12 +118,12 @@ export default function Component() {
           return (
             <ListItem
               key={id}
-              title={`Device ${model}`}
-              subtitle={`Customer: ${customer.name}`}
-              footer={`Brand: ${brand}`}
+              title={`Appareil ${model}`}
+              subtitle={`Client: ${customer.name}`}
+              footer={`Marque: ${brand}`}
               button={
                 <Link href={`/dashboard/devices/${id}`}>
-                  <Button variant='outline'>View</Button>
+                  <Button variant='outline'>Voir</Button>
                 </Link>
               }
             />

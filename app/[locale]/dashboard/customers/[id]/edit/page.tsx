@@ -14,7 +14,7 @@ export default function EditCustomer({ params }: { params: { id: string } }) {
       })
       return customer
     } catch (error) {
-      console.error('Error fetching customer:', error)
+      console.error('Erreur lors de la récupération du client:', error)
       return
     }
   }

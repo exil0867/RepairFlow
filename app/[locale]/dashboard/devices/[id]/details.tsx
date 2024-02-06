@@ -36,31 +36,34 @@ export default function Component({ device }: any) {
             onClick={() => router.push(pathname + '/edit')}
             variant='outline'
           >
-            Edit
+            Modifier
           </Button>
-          <Button variant='outline'>Delete</Button>
+          <Button variant='outline'>Supprimer</Button>
         </>
       }
     >
       <div className='grid gap-6 md:gap-8'>
         <ViewFieldWrapper>
-          <ViewField title='Device Brand' value={device.brand} />
+          <ViewField title={`Marque de l'appareil`} value={device.brand} />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
-          <ViewField title='Device Model' value={device.model} />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField title='Device Serial Number' value={device.serialNumber} />
+          <ViewField title={`Modèle d'appareil`} value={device.model} />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
           <ViewField
-            title='Applications list'
+            title={`Numéro de série de l'appareil`}
+            value={device.serialNumber}
+          />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
+          <ViewField
+            title='Liste des articles'
             value={device.applications.length}
           />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
           <ViewField
-            title='Customer'
+            title='Client'
             value={
               <Link href={`/dashboard/customers/${device.customer.id}`}>
                 {device.customer.name}

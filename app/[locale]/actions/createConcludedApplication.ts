@@ -38,7 +38,7 @@ export default async function createConcludedApplication(
     })
 
     if (!validatedFields.success) {
-      throw new Error('Invalid user input', validatedFields.error)
+      throw new Error('Entrée utilisateur invalide.', validatedFields.error)
     }
 
     let response = await prisma.concludedApplication.create({
@@ -63,14 +63,14 @@ export default async function createConcludedApplication(
     response.cost = `${response.cost}` as any
 
     return {
-      message: 'Concluded Application created',
+      message: 'Article conclu créé',
       response: { response, ApplicationResponse },
       error: false,
     }
   } catch (error) {
     console.log(error)
     return {
-      message: 'An error occurred while creating the Concluded Application',
+      message: `Une erreur s'est produite lors de la création de l'article conclu`,
       error: true,
     }
   }

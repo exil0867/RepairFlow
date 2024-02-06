@@ -18,7 +18,7 @@ export default function EditApplication({
       })
       return application
     } catch (error) {
-      console.error('Error fetching application:', error)
+      console.error(`Erreur lors de la récupération de l'article:`, error)
       return
     }
   }

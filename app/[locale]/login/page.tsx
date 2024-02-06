@@ -17,9 +17,10 @@ export default function Login() {
               height={20}
             />
           </Link>
-          <h3 className='text-xl font-semibold'>Sign In</h3>
+          <h3 className='text-xl font-semibold'>Se connecter</h3>
           <p className='text-sm text-gray-500'>
-            Use your username and password to sign in
+            Utilisez votre nom d&apos;utilisateur et votre mot de passe pour
+            vous connecter
           </p>
         </div>
         <LoginForm />

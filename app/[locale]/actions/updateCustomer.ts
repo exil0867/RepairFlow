@@ -35,7 +35,7 @@ export default async function updateCustomer(
       phoneNumber,
     })
     if (!validatedFields.success) {
-      throw new Error('Invalid user input')
+      throw new Error('Entrée utilisateur invalide.')
     }
 
     const response = await prisma.customer.update({
@@ -52,14 +52,14 @@ export default async function updateCustomer(
     revalidatePath('/')
 
     return {
-      message: 'Customer updated',
+      message: 'Client mis à jour',
       response: response,
       error: false,
     }
   } catch (error) {
     console.log(error)
     return {
-      message: 'An error occurred while updating the customer',
+      message: `Une erreur s'est produite lors de la mise à jour du client`,
       error: true,
     }
   }

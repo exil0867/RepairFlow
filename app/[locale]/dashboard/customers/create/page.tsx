@@ -56,11 +56,11 @@ export default function CreateCustomer() {
   }, [pending, router, state])
   return (
     <Wrapper
-      title='Create customer'
+      title='Créer un client'
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
-            Create Customer
+            Créer un client
           </Button>
         </>
       }
@@ -68,11 +68,11 @@ export default function CreateCustomer() {
       <Form className='grid gap-6 md:gap-8' ref={myRef} action={formAction}>
         <FormFieldWrapper>
           <FormField
-            labelText='Customer Name'
+            labelText='Nom du client'
             inputElement={
               <Input
                 type='text'
-                placeholder='Customer Name'
+                placeholder='Nom du client'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('name', { required: true })}
               />
@@ -81,10 +81,10 @@ export default function CreateCustomer() {
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Customer Address'
+            labelText='Adresse du client'
             inputElement={
               <Textarea
-                placeholder='Customer Address'
+                placeholder='Adresse du client'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('address', { required: true })}
               />
@@ -93,11 +93,11 @@ export default function CreateCustomer() {
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Phone Number'
+            labelText='Numéro de téléphone'
             inputElement={
               <Input
                 type='text'
-                placeholder='Phone Number'
+                placeholder='Numéro de téléphone'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('phone_number', { required: true })}
               />

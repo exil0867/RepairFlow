@@ -72,11 +72,11 @@ export default function Component() {
       case 1:
         return (
           <div key={1}>
-            <Label className='block pb-4'>Customer</Label>
+            <Label className='block pb-4'>Client</Label>
             <Selector
               setObject={setCustomer_}
               object={customer_}
-              itemName={{ plurar: 'customers', singular: 'customer' }}
+              itemName={{ plurar: 'clients', singular: 'client' }}
               showList={open}
               setShowList={setOpen}
               creator={
@@ -89,7 +89,7 @@ export default function Component() {
                     }}
                   />
                   <DialogTrigger asChild>
-                    <Button variant='outline'>Create customer</Button>
+                    <Button variant='outline'>Créer un client</Button>
                   </DialogTrigger>
                 </>
               }
@@ -107,11 +107,11 @@ export default function Component() {
       case 2:
         return (
           <div key={2}>
-            <Label className='block pb-4'>Device</Label>
+            <Label className='block pb-4'>Appareil</Label>
             <Selector
               setObject={setDevice_}
               object={device_}
-              itemName={{ plurar: 'devices', singular: 'device' }}
+              itemName={{ plurar: 'appareils', singular: 'appareil' }}
               showList={open}
               setShowList={setOpen}
               creator={
@@ -125,7 +125,7 @@ export default function Component() {
                     }}
                   />
                   <DialogTrigger asChild>
-                    <Button variant='outline'>Create device</Button>
+                    <Button variant='outline'>Créer un appareil</Button>
                   </DialogTrigger>
                 </>
               }
@@ -162,7 +162,7 @@ export default function Component() {
                 variant='outline'
                 onClick={goToPreviousStep}
               >
-                Back
+                Arrière
               </Button>
             )}
             {currentStep < 3 && (
@@ -170,11 +170,11 @@ export default function Component() {
                 className='flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700'
                 onClick={goToNextStep}
               >
-                Next
+                Suivant
               </Button>
             )}
             <p className='mt-2 text-center text-sm text-gray-600'>
-              Step {currentStep} of 3
+              Étape {currentStep} sur 3
             </p>
           </>
         }

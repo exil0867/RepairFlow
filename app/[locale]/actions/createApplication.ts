@@ -43,7 +43,7 @@ export default async function createDevice(
     })
 
     if (!validatedFields.success) {
-      throw new Error('Invalid user input')
+      throw new Error('Entrée utilisateur invalide..')
     }
 
     const response = await prisma.application.create({
@@ -59,14 +59,14 @@ export default async function createDevice(
     revalidatePath('/')
 
     return {
-      message: 'Application created',
+      message: 'Article créée',
       response: response,
       error: false,
     }
   } catch (error) {
     console.log(error)
     return {
-      message: 'An error occurred while creating the application',
+      message: `Une erreur s'est produite lors de la création de l'article`,
       error: true,
     }
   }

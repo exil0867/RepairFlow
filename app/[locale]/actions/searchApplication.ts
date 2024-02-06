@@ -29,7 +29,7 @@ export default async function searchApplication(
         })
         return applications
       } catch (error) {
-        console.error('Error fetching applications:', error)
+        console.error(`Erreur lors de la récupération des articles:`, error)
         return []
       }
     }
@@ -41,7 +41,7 @@ export default async function searchApplication(
     return applications
   } catch (error) {
     return {
-      message: 'An error occurred while creating the application',
+      message: `Une erreur s'est produite lors de la recherche de l'article`,
       error: true,
     }
   }

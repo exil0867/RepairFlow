@@ -210,11 +210,11 @@ export default function Component({ children }: { children: React.ReactNode }) {
           <div className='flex h-[60px] items-center border-b px-6'>
             <Link className='flex items-center gap-2 font-semibold' href='#'>
               <LayoutDashboardIcon className='h-6 w-6' />
-              <span className=''>Dashboard</span>
+              <span className=''>Tableau de bord</span>
             </Link>
             <Button className='ml-auto h-8 w-8' size='icon' variant='outline'>
               <BellIcon className='h-4 w-4' />
-              <span className='sr-only'>Toggle notifications</span>
+              <span className='sr-only'>Basculer les notifications</span>
             </Button>
           </div>
           <div className='flex-1 overflow-auto py-2'>
@@ -224,7 +224,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
                 href='/dashboard'
               >
                 <HomeIcon className='h-4 w-4' />
-                Home
+                Accueil
               </Link>
               <div className='flex flex-col gap-2'>
                 <Link
@@ -232,14 +232,14 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   href='/dashboard/customers'
                 >
                   <TableIcon className='h-4 w-4' />
-                  Customers
+                  Clients
                 </Link>
                 <Link
                   className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ml-4'
                   href='/dashboard/customers/create'
                 >
                   <PlusIcon className='h-4 w-4' />
-                  Create Customer
+                  Créer un client
                 </Link>
               </div>
               <div className='flex flex-col gap-2'>
@@ -248,14 +248,14 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   href='/dashboard/devices'
                 >
                   <TableIcon className='h-4 w-4' />
-                  Devices
+                  Appareils
                 </Link>
                 <Link
                   className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ml-4'
                   href='/dashboard/devices/create'
                 >
                   <PlusIcon className='h-4 w-4' />
-                  Create Device
+                  Créer un appareil
                 </Link>
               </div>
               <div className='flex flex-col gap-2'>
@@ -264,7 +264,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   href='/dashboard/applications'
                 >
                   <TableIcon className='h-4 w-4' />
-                  Applications
+                  Des articles
                 </Link>
               </div>
               <Button
@@ -274,7 +274,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               >
                 <Link href={'/dashboard/wizard'}>
                   <PlusIcon className='h-4 w-4' />
-                  <span>Create Application</span>
+                  <span>Créer un article</span>
                 </Link>
               </Button>
             </nav>
@@ -285,7 +285,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
         <header className='flex h-14 lg:h-[60px] items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40'>
           <Link className='lg:hidden' href='#'>
             <LayoutDashboardIcon className='h-6 w-6' />
-            <span className='sr-only'>Home</span>
+            <span className='sr-only'>Accueil</span>
           </Link>
           <div className='w-full flex-1'>
             <form>
@@ -307,7 +307,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               variant='outline'
             >
               <UserIcon className='h-4 w-4' />
-              <span className='sr-only'>User Avatar</span>
+              <span className='sr-only'>Avatar de l&apos;utilisateur</span>
             </Button>
             {accountMenu && (
               <div className='relative'>
@@ -316,7 +316,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
                     className='block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white'
                     href='#'
                   >
-                    Account Settings
+                    Paramètres du compte
                   </Link>
                   <Button
                     onClick={async () => {
@@ -324,7 +324,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
                     }}
                     className='block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white'
                   >
-                    Log Out
+                    Se déconnecter
                   </Button>
                 </div>
               </div>

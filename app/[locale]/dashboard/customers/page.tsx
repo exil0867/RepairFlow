@@ -11,7 +11,7 @@ export default function DisplayCustomers() {
       })
       return customers
     } catch (error) {
-      console.error('Error fetching customers:', error)
+      console.error('Erreur lors de la récupération des clients:', error)
       return []
     }
   }

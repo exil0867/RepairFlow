@@ -17,7 +17,7 @@ export async function authenticate(
       password: formData.get('password'),
     })
     return {
-      message: 'Logged in',
+      message: 'Connecté',
       error: false,
     }
   } catch (error) {
@@ -25,12 +25,12 @@ export async function authenticate(
       switch (error.type) {
         case 'CredentialsSignin':
           return {
-            message: 'Invalid credentials.',
+            message: `Les informations d'identification invalides.`,
             error: true,
           }
         default:
           return {
-            message: 'Something went wrong.',
+            message: `Quelque chose s'est mal passé.`,
             error: true,
           }
       }

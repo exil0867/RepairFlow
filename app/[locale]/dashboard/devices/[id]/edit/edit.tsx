@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
-import setApplicationAsComplete from '@/app/actions/setApplicationAsComplete'
 import toast from 'react-hot-toast'
 import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
@@ -79,13 +78,12 @@ export default function Component({ device }: any) {
   }, [pending, state])
   return (
     <Wrapper
-      title='Edit device'
+      title={`Modifier l'appareil`}
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
-            Save
+            Sauvegarder
           </Button>
-          <Button variant='outline'>Reset</Button>
         </>
       }
     >
@@ -101,12 +99,12 @@ export default function Component({ device }: any) {
         >
           <FormFieldWrapper>
             <FormField
-              labelText='Device Brand'
+              labelText={`Marque de l'appareil`}
               inputElement={
                 <Input
                   type='text'
                   defaultValue={device.brand}
-                  placeholder='Device brand'
+                  placeholder={`Marque de l'appareil`}
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('brand', { required: true })}
                 />
@@ -115,11 +113,11 @@ export default function Component({ device }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Device Model'
+              labelText={`Modèle d'appareil`}
               inputElement={
                 <textarea
                   defaultValue={device.model}
-                  placeholder='Model'
+                  placeholder='Modèle'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('model', { required: true })}
                 />
@@ -128,11 +126,11 @@ export default function Component({ device }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Serial Number'
+              labelText='Numéro de série'
               inputElement={
                 <Textarea
                   defaultValue={device.serialNumber}
-                  placeholder='Serial Number'
+                  placeholder='Numéro de série'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('serial_number', { required: true })}
                 />
@@ -140,16 +138,16 @@ export default function Component({ device }: any) {
             />
           </FormFieldWrapper>
           <FormFieldWrapper>
-            <FormFieldSubWrapper subtitle='Customer'>
+            <FormFieldSubWrapper subtitle='Client'>
               <FormField
-                labelText='Selected customer:'
+                labelText='Client sélectionné:'
                 labelClassName=''
                 inputElement={
                   <Selector
                     className='border border-gray-300 p-2 rounded'
                     setObject={setCustomer_}
                     object={customer_}
-                    itemName={{ plurar: 'customers', singular: 'customer' }}
+                    itemName={{ plurar: 'clients', singular: 'client' }}
                     showList={open}
                     setShowList={(v: any) => {
                       setOpen(v)
@@ -164,7 +162,7 @@ export default function Component({ device }: any) {
                           }}
                         />
                         <DialogTrigger asChild>
-                          <Button variant='outline'>Create customer</Button>
+                          <Button variant='outline'>Créer un client</Button>
                         </DialogTrigger>
                       </>
                     }

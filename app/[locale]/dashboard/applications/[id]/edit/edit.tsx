@@ -79,20 +79,19 @@ export default function Component({ application }: any) {
   }, [pending, state])
   return (
     <Wrapper
-      title='Edit application'
+      title={`Modifier l'article`}
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
-            Save
+            Sauvegarder
           </Button>
-          <Button variant='outline'>Reset</Button>
         </>
       }
     >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <Form
           ref={myRef}
-          action={async (data) => {
+          action={async (data: { set: (arg0: string, arg1: any) => void }) => {
             data.set('device_id', device_.id)
             data.set('customer_id', customer_.id)
             data.set('id', application.id)
@@ -102,12 +101,12 @@ export default function Component({ application }: any) {
         >
           <FormFieldWrapper>
             <FormField
-              labelText='Application Subject'
+              labelText={`Sujet de l'article`}
               inputElement={
                 <Input
                   type='text'
                   defaultValue={application.subject}
-                  placeholder='Subject'
+                  placeholder='Sujet'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('subject', { required: true })}
                 />
@@ -116,7 +115,7 @@ export default function Component({ application }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Application Notes'
+              labelText={`Notes d'articles`}
               inputElement={
                 <textarea
                   defaultValue={application.notes}
@@ -129,20 +128,20 @@ export default function Component({ application }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Application Status'
+              labelText={`Statut de l'article`}
               inputElement={
                 <Select
                   defaultValue={application.status}
                   {...register('status', { required: true })}
                 >
                   <SelectTrigger className='w-[180px]'>
-                    <SelectValue placeholder='Select status' />
+                    <SelectValue placeholder='Sélectionnez le statut' />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value='PENDING'>Pending</SelectItem>
-                      <SelectItem value='COMPLETE'>Complete</SelectItem>
-                      <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                      <SelectItem value='PENDING'>En cours</SelectItem>
+                      <SelectItem value='COMPLETE'>Complet</SelectItem>
+                      <SelectItem value='CANCELLED'>Annulé</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -150,16 +149,16 @@ export default function Component({ application }: any) {
             />
           </FormFieldWrapper>
           <FormFieldWrapper>
-            <FormFieldSubWrapper subtitle='Device'>
+            <FormFieldSubWrapper subtitle='Client'>
               <FormField
-                labelText='Selected customer:'
+                labelText='Client sélectionné:'
                 labelClassName=''
                 inputElement={
                   <Selector
                     className='border border-gray-300 p-2 rounded'
                     setObject={setCustomer_}
                     object={customer_}
-                    itemName={{ plurar: 'customers', singular: 'customer' }}
+                    itemName={{ plurar: 'clients', singular: 'client' }}
                     showList={open}
                     setShowList={(v: any) => {
                       setOpen(v)
@@ -175,7 +174,7 @@ export default function Component({ application }: any) {
                           }}
                         />
                         <DialogTrigger asChild>
-                          <Button variant='outline'>Create customer</Button>
+                          <Button variant='outline'>Créer un client</Button>
                         </DialogTrigger>
                       </>
                     }
@@ -193,16 +192,16 @@ export default function Component({ application }: any) {
             </FormFieldSubWrapper>
           </FormFieldWrapper>
           <FormFieldWrapper>
-            <FormFieldSubWrapper subtitle='Device'>
+            <FormFieldSubWrapper subtitle='Appareil'>
               <FormField
-                labelText='Selected device:'
+                labelText='Appareil sélectionné:'
                 labelClassName=''
                 inputElement={
                   <Selector
                     className='border border-gray-300 p-2 rounded'
                     setObject={setDevice_}
                     object={device_}
-                    itemName={{ plurar: 'devices', singular: 'device' }}
+                    itemName={{ plurar: 'appareils', singular: 'Appareil' }}
                     showList={open2}
                     setShowList={setOpen2}
                     creator={
@@ -216,7 +215,7 @@ export default function Component({ application }: any) {
                           }}
                         />
                         <DialogTrigger asChild>
-                          <Button variant='outline'>Create device</Button>
+                          <Button variant='outline'>Créer un appareil</Button>
                         </DialogTrigger>
                       </>
                     }

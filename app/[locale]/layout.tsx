@@ -48,7 +48,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={inter.variable}>
         <Toaster />
-        <Suspense fallback='Loading...'>
+        <Suspense fallback='Chargement...'>
           <AuthStatus />
         </Suspense>
         {children}

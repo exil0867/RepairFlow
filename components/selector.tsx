@@ -55,7 +55,9 @@ function Selector({
             aria-expanded={showList}
             className='w-[200px] justify-between border border-gray-300 p-2 rounded text-gray-700'
           >
-            {object?.value ? object.value : `Select ${itemName.singular}...`}
+            {object?.value
+              ? object.value
+              : `Sélectionner ${itemName.singular}...`}
             <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>
@@ -66,7 +68,7 @@ function Selector({
               value={inputValue}
               placeholder={`Search  ${itemName.singular}...`}
             />
-            <CommandEmpty>No {itemName.plurar} found. </CommandEmpty>
+            <CommandEmpty>Aucun {itemName.plurar} trouvé. </CommandEmpty>
             <CommandGroup>
               {list.map((item: any) => (
                 <CommandItem

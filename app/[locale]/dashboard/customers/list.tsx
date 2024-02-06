@@ -35,16 +35,16 @@ export default function Component() {
     fetchData()
   }, [name])
   return (
-    <Wrapper title={'Customers'} footer={undefined}>
+    <Wrapper title={'Clients'} footer={undefined}>
       <FilterHeader>
         <FilterWrapper>
           <FormField
-            labelText='Name'
+            labelText='Nom'
             labelClassName=''
             inputElement={
               <Input
                 type='text'
-                placeholder='Filter by name'
+                placeholder='Filtrer par nom'
                 onChange={(s) => {
                   console.log(s)
                   setName(s.target.value as any)
@@ -59,12 +59,12 @@ export default function Component() {
           return (
             <ListItem
               key={id}
-              title={`Customer ${name}`}
-              subtitle={`Address: ${address}`}
-              footer={`Phone Number: ${phoneNumber}`}
+              title={`Client ${name}`}
+              subtitle={`Adresse: ${address}`}
+              footer={`Numéro de téléphone: ${phoneNumber}`}
               button={
                 <Link href={`/dashboard/customers/${id}`}>
-                  <Button variant='outline'>View</Button>
+                  <Button variant='outline'>Voir</Button>
                 </Link>
               }
             />

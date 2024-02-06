@@ -85,20 +85,20 @@ export default function DialogDemo({
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Create Device</DialogTitle>
+        <DialogTitle>Créer un appareil</DialogTitle>
         <DialogDescription>
-          Create a new device to be added to the database.
+          Créez un nouvel appareil à ajouter à la base de données.
         </DialogDescription>
       </DialogHeader>
       <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
         <input type='hidden' name='customer_id' value={customerId} />
         <FormFieldWrapper>
           <FormField
-            labelText='Serial Number'
+            labelText='Numéro de série'
             inputElement={
               <Input
                 type='text'
-                placeholder='Serial Number'
+                placeholder='Numéro de série'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('serial_number', { required: true })}
               />
@@ -107,11 +107,11 @@ export default function DialogDemo({
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Model'
+            labelText='Modèle'
             inputElement={
               <Input
                 type='text'
-                placeholder='Model'
+                placeholder='Modèle'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('model', { required: true })}
               />
@@ -120,11 +120,11 @@ export default function DialogDemo({
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Brand'
+            labelText='Marque'
             inputElement={
               <Input
                 type='text'
-                placeholder='Brand'
+                placeholder='Marque'
                 className='border border-gray-300 p-2 rounded text-gray-700'
                 {...register('brand', { required: true })}
               />
@@ -134,7 +134,7 @@ export default function DialogDemo({
       </Form>
       <DialogFooter>
         <Button variant='outline' onClick={handleSubmit}>
-          Create Customer
+          Créer un client
         </Button>
       </DialogFooter>
     </DialogContent>

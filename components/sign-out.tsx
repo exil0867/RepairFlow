@@ -10,7 +10,7 @@ export default function SignOut() {
         await signOut()
       }}
     >
-      Goddammit, sign me out!
+      Déconnectez-moi!
     </button>
   )
 }

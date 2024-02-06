@@ -48,9 +48,9 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Create Concluded Application</DialogTitle>
+        <DialogTitle>Conclure l&apos;article</DialogTitle>
         <DialogDescription>
-          Create a new Concluded Application to be added to the database.
+          Définir une conclusion pour l&apos;article
         </DialogDescription>
       </DialogHeader>
       <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
@@ -84,7 +84,7 @@ export default function Additional({ applicationId, onClose }: any) {
       </Form>
       <DialogFooter>
         <Button variant='outline' onClick={handleSubmit}>
-          Create Concluded Application
+          Conclure
         </Button>
       </DialogFooter>
     </DialogContent>

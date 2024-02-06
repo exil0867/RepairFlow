@@ -31,7 +31,7 @@ export default function Register() {
     })
 
     if (!validatedFields.success) {
-      return { message: 'Invalid user input', error: true }
+      return { message: 'Entrée utilisateur invalide.', error: true }
     }
 
     const user = await prisma.user.findUnique({
@@ -40,7 +40,7 @@ export default function Register() {
       },
     })
     if (user) {
-      return { message: 'User already exists', error: true }
+      return { message: `L'utilisateur existe déjà`, error: true }
     } else {
       await prisma.user.create({
         data: {
@@ -50,7 +50,7 @@ export default function Register() {
       })
     }
     return {
-      message: 'User created',
+      message: 'Utilisateur créé',
       error: false,
     }
   }
@@ -68,9 +68,10 @@ export default function Register() {
               height={20}
             />
           </Link>
-          <h3 className='text-xl font-semibold'>Sign Up</h3>
+          <h3 className='text-xl font-semibold'>S&apos;inscrire</h3>
           <p className='text-sm text-gray-500'>
-            Create an account with your username and password
+            Créez un compte avec votre nom d&apos;utilisateur et votre mot de
+            passe
           </p>
         </div>
         <RegisterForm registerUser={registerUser} />

@@ -52,7 +52,7 @@ const ReusableForm: React.FC<ReusableFormProps> = ({
           />
         </div>
       ))}
-      <button type='submit'>Submit</button>
+      <button type='submit'>Soumettre</button>
     </form>
   )
 }

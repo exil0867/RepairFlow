@@ -14,7 +14,7 @@ export default function EditDevice({ params }: { params: { id: string } }) {
       })
       return device
     } catch (error) {
-      console.error('Error fetching device:', error)
+      console.error(`Erreur de récupération de l'appareil:`, error)
       return
     }
   }

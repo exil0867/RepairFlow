@@ -49,8 +49,8 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Set the Application as pending</DialogTitle>
-        <DialogDescription>Are you sure?</DialogDescription>
+        <DialogTitle>Définir l&apos;article comme en attente</DialogTitle>
+        <DialogDescription>Es-tu sûr?</DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <Button
@@ -60,7 +60,7 @@ export default function Additional({ applicationId, onClose }: any) {
             onClose()
           }}
         >
-          Set Application as pending
+          Définir comme en attente
         </Button>
       </DialogFooter>
     </DialogContent>

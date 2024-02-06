@@ -38,7 +38,7 @@ export default async function updateDevice(
       customerId,
     })
     if (!validatedFields.success) {
-      throw new Error('Invalid user input')
+      throw new Error('Entrée utilisateur invalide.')
     }
 
     const response = await prisma.device.update({
@@ -56,14 +56,14 @@ export default async function updateDevice(
     revalidatePath('/')
 
     return {
-      message: 'Device updated',
+      message: 'Appareil mis à jour',
       response: response,
       error: false,
     }
   } catch (error) {
     console.log(error)
     return {
-      message: 'An error occurred while updating the device',
+      message: `Une erreur s'est produite lors de la mise à jour de l'appareil`,
       error: true,
     }
   }

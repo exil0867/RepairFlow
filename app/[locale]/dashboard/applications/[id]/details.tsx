@@ -63,19 +63,19 @@ export default function Component({ application }: any) {
         />
       )}
       <Wrapper
-        title='Application Details'
+        title={`Détails de l'article`}
         footer={
           <>
             <Button
               onClick={() => router.push(pathname + '/edit')}
               variant='outline'
             >
-              Edit
+              Modifier
             </Button>
-            <Button variant='outline'>Delete</Button>
+            <Button variant='outline'>Supprimer</Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant='outline'>Mark As</Button>
+                <Button variant='outline'>Marquer comme</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DialogTrigger asChild>
@@ -84,7 +84,7 @@ export default function Component({ application }: any) {
                       setOpenedDialog('COMPLETE')
                     }}
                   >
-                    Complete
+                    Complet
                   </DropdownMenuItem>
                 </DialogTrigger>
                 <DialogTrigger asChild>
@@ -93,7 +93,7 @@ export default function Component({ application }: any) {
                       setOpenedDialog('PENDING')
                     }}
                   >
-                    Pending
+                    En attente
                   </DropdownMenuItem>
                 </DialogTrigger>
                 <DialogTrigger asChild>
@@ -102,7 +102,7 @@ export default function Component({ application }: any) {
                       setOpenedDialog('CANCELLED')
                     }}
                   >
-                    Cancelled
+                    Annulé
                   </DropdownMenuItem>
                 </DialogTrigger>
               </DropdownMenuContent>
@@ -113,58 +113,64 @@ export default function Component({ application }: any) {
         <div className='grid gap-6 md:gap-8'>
           <ViewFieldWrapper>
             <ViewField
-              title='Application Subject'
+              title={`Sujet de l'article`}
               value={application.subject}
             />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
-            <ViewField title='Application Notes' value={application.notes} />
+            <ViewField
+              title={`Notes sur les articles`}
+              value={application.notes}
+            />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
-            <ViewField title='Application Status' value={application.status} />
+            <ViewField
+              title={`Statut de l'article`}
+              value={application.status}
+            />
           </ViewFieldWrapper>
           {application.conclusion && (
             <ViewFieldWrapper>
               <ViewFieldSubWrapper title='Conclusion'>
                 <ViewFieldSubWrapperField
-                  title='Changes:'
+                  title='Changements:'
                   value={application.conclusion.changes}
                 />
                 <ViewFieldSubWrapperField
-                  title='Cost:'
+                  title='Coût:'
                   value={application.conclusion.cost}
                 />
               </ViewFieldSubWrapper>
             </ViewFieldWrapper>
           )}
           <ViewFieldWrapper>
-            <ViewFieldSubWrapper title='Customer Details'>
+            <ViewFieldSubWrapper title='Détails du client'>
               <ViewFieldSubWrapperField
-                title='Name:'
+                title='Nom:'
                 value={application.customer.name}
               />
               <ViewFieldSubWrapperField
-                title='Address:'
+                title='Adresse:'
                 value={application.customer.address}
               />
               <ViewFieldSubWrapperField
-                title='Phone Number:'
+                title='Numéro de téléphone:'
                 value={application.customer.phoneNumber}
               />
             </ViewFieldSubWrapper>
           </ViewFieldWrapper>
           <ViewFieldWrapper>
-            <ViewFieldSubWrapper title='Device Details'>
+            <ViewFieldSubWrapper title={`Détails de l'appareil`}>
               <ViewFieldSubWrapperField
-                title='Serial Number:'
+                title='Numéro de série:'
                 value={application.device.serialNumber}
               />
               <ViewFieldSubWrapperField
-                title='Model:'
+                title='Modèle:'
                 value={application.device.model}
               />
               <ViewFieldSubWrapperField
-                title='Brand:'
+                title='Marque:'
                 value={application.device.brand}
               />
             </ViewFieldSubWrapper>
