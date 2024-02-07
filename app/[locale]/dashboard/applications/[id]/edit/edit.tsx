@@ -137,7 +137,7 @@ export default function Component({ application }: any) {
                   <SelectTrigger className='w-[180px]'>
                     <SelectValue placeholder='Sélectionnez le statut' />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className='bg-white'>
                     <SelectGroup>
                       <SelectItem value='PENDING'>En cours</SelectItem>
                       <SelectItem value='COMPLETE'>Complet</SelectItem>

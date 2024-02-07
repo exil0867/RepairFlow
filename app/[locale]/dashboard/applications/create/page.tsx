@@ -180,7 +180,7 @@ export default function CreateApplication() {
                     <SelectTrigger className='w-[180px]'>
                       <SelectValue placeholder='Select status' />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className='bg-white'>
                       <SelectGroup>
                         <SelectItem value='PENDING'>Pending</SelectItem>
                         <SelectItem value='COMPLETE'>Complete</SelectItem>
