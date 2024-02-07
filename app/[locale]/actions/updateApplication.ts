@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache'
 
 const applicationSchema = z.object({
   id: z.string().transform((val) => Number(val)),
-  status: z.enum(['COMPLETE', 'PENDING', 'CANCELLED']),
+  status: z.enum(['DIAGNOSING', 'COMPLETE', 'PENDING', 'CANCELLED']),
   subject: z.string(),
   notes: z.string(),
   deviceId: z.string().transform((val) => Number(val)),

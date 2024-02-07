@@ -11,7 +11,7 @@ const applicationSchema = z.object({
   notes: z.string(),
   deviceId: z.string().transform((val) => Number(val)),
   customerId: z.string().transform((val) => Number(val)),
-  status: z.enum(['COMPLETE', 'PENDING', 'CANCELLED']),
+  status: z.enum(['DIAGNOSING', 'COMPLETE', 'PENDING', 'CANCELLED']),
 })
 export type formRes = {
   message: string

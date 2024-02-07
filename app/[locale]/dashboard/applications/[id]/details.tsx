@@ -27,17 +27,26 @@ import { useState } from 'react'
 import Complete from './complete'
 import Pending from './pending'
 import Cancel from './cancel'
+import Diagnosing from './diagnosing'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [openedDialog, setOpenedDialog] = useState<
-    'COMPLETE' | 'PENDING' | 'CANCELLED' | null
+    'DIAGNOSING' | 'COMPLETE' | 'PENDING' | 'CANCELLED' | null
   >(null)
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      {openedDialog === 'DIAGNOSING' && (
+        <Diagnosing
+          applicationId={application.id}
+          onClose={() => {
+            setDialogOpen(false)
+          }}
+        />
+      )}
       {openedDialog === 'COMPLETE' && (
         <Complete
           applicationId={application.id}
@@ -78,6 +87,15 @@ export default function Component({ application }: any) {
                 <Button variant='outline'>Marquer comme</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem
+                    onClick={() => {
+                      setOpenedDialog('DIAGNOSING')
+                    }}
+                  >
+                    Diagnostic
+                  </DropdownMenuItem>
+                </DialogTrigger>
                 <DialogTrigger asChild>
                   <DropdownMenuItem
                     onClick={() => {
@@ -129,13 +147,19 @@ export default function Component({ application }: any) {
               value={application.status}
             />
           </ViewFieldWrapper>
+          {application.diagnosis && (
+            <ViewFieldWrapper>
+              <ViewFieldSubWrapper title='Diagnostic'>
+                <ViewFieldSubWrapperField
+                  title='Problème:'
+                  value={application.diagnosis.issue}
+                />
+              </ViewFieldSubWrapper>
+            </ViewFieldWrapper>
+          )}
           {application.conclusion && (
             <ViewFieldWrapper>
               <ViewFieldSubWrapper title='Conclusion'>
-                <ViewFieldSubWrapperField
-                  title='Changements:'
-                  value={application.conclusion.changes}
-                />
                 <ViewFieldSubWrapperField
                   title='Coût:'
                   value={application.conclusion.cost}

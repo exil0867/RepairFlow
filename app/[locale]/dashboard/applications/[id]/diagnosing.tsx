@@ -15,6 +15,7 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import createConcludedApplication from '@/app/actions/createConcludedApplication'
 import toast from 'react-hot-toast'
+import updateApplicationStatus from '@/app/actions/updateApplicationStatus'
 
 export default function Additional({ applicationId, onClose }: any) {
   const [state, formAction] = useFormState(createConcludedApplication as any, {
@@ -48,30 +49,18 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Conclure l&apos;article</DialogTitle>
-        <DialogDescription>
-          Définir une conclusion pour l&apos;article
-        </DialogDescription>
+        <DialogTitle>Définir l&apos;article comme diagnostic</DialogTitle>
+        <DialogDescription>Es-tu sûr?</DialogDescription>
       </DialogHeader>
-      <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
-        <input type='hidden' name='application_id' value={applicationId} />
-        <FormFieldWrapper>
-          <FormField
-            labelText='Coût'
-            inputElement={
-              <Input
-                type='text'
-                placeholder='Coût'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('cost', { required: true })}
-              />
-            }
-          />
-        </FormFieldWrapper>
-      </Form>
       <DialogFooter>
-        <Button variant='outline' onClick={handleSubmit}>
-          Conclure
+        <Button
+          variant='outline'
+          onClick={async () => {
+            await updateApplicationStatus(applicationId, 'DIAGNOSING')
+            onClose()
+          }}
+        >
+          Diagnostiquer
         </Button>
       </DialogFooter>
     </DialogContent>

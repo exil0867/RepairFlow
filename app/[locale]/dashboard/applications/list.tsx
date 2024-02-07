@@ -29,9 +29,9 @@ export default function Component() {
   const [customer_, setCustomer_] = useState(undefined) as any
   const [device_, setDevice_] = useState(undefined)
   const [subject, setSubject] = useState(undefined)
-  const [status, setStatus] = useState<'PENDING' | 'COMPLETE' | 'CANCELLED'>(
-    'PENDING',
-  )
+  const [status, setStatus] = useState<
+    'DIAGNOSING' | 'PENDING' | 'COMPLETE' | 'CANCELLED'
+  >('PENDING')
   useEffect(() => {
     async function fetchData() {
       const filtered = (await searchApplication(
@@ -136,6 +136,7 @@ export default function Component() {
                 </SelectTrigger>
                 <SelectContent className='bg-white'>
                   <SelectGroup>
+                    <SelectItem value='DIAGNOSING'>Diagnosing</SelectItem>
                     <SelectItem value='PENDING'>Pending</SelectItem>
                     <SelectItem value='COMPLETE'>Complete</SelectItem>
                     <SelectItem value='CANCELLED'>Cancelled</SelectItem>

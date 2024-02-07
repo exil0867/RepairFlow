@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache'
 import { Prisma } from '@prisma/client'
 
 const concludedApplicationSchema = z.object({
-  cost: z.string().transform((val) => new Prisma.Decimal(val)),
+  issue: z.string(),
   applicationId: z.string().transform((val) => Number(val)),
 })
 export type formRes = {
@@ -22,14 +22,14 @@ export default async function createConcludedApplication(
   data: FormData,
 ): Promise<formRes> {
   try {
-    const cost = data.get('cost')
+    const issue = data.get('issue')
     const applicationId = data.get('application_id')
     const validatedFields = concludedApplicationSchema.safeParse({
-      cost,
+      issue,
       applicationId,
     })
     console.log({
-      cost,
+      issue,
       applicationId,
     })
 
@@ -37,9 +37,9 @@ export default async function createConcludedApplication(
       throw new Error('Entrée utilisateur invalide.', validatedFields.error)
     }
 
-    let response = await prisma.concludedApplication.create({
+    let response = await prisma.diagnosedApplication.create({
       data: {
-        cost: validatedFields.data.cost,
+        issue: validatedFields.data.issue,
         applicationId: validatedFields.data.applicationId,
       },
     })
@@ -49,23 +49,21 @@ export default async function createConcludedApplication(
         id: response.applicationId,
       },
       data: {
-        status: 'COMPLETE',
+        status: 'PENDING',
       },
     })
 
     revalidatePath('/')
 
-    response.cost = `${response.cost}` as any
-
     return {
-      message: 'Article conclu créé',
+      message: 'Article diagnostiqué créé',
       response: { response, ApplicationResponse },
       error: false,
     }
   } catch (error) {
     console.log(error)
     return {
-      message: `Une erreur s'est produite lors de la création de l'article conclu`,
+      message: `Une erreur s'est produite lors de la création de l'article diagnostiqué`,
       error: true,
     }
   }
