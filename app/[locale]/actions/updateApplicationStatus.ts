@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 const applicationSchema = z.object({
   id: z.number(),
-  status: z.enum(['DIAGNOSING', 'COMPLETE', 'PENDING', 'CANCELLED']),
+  status: z.enum(['COMPLETE', 'PENDING', 'CANCELLED']),
 })
 
 export default async function updateApplicationStatus(
@@ -27,7 +27,6 @@ export default async function updateApplicationStatus(
         let updatedApplication = await prisma.application.update({
           include: {
             conclusion: true,
-            diagnosis: true,
           },
           where: {
             id: id,
@@ -40,24 +39,16 @@ export default async function updateApplicationStatus(
           throw new Error(
             `Impossible de trouver ou de mettre à jour l'article.`,
           )
-        // if (
-        //   ['CANCELLED', 'PENDING', 'DIAGNOSING'].includes(
-        //     validatedFields.data.status,
-        //   )
-        // ) {
-        //   if (updatedApplication.conclusion)
-        //     await prisma.concludedApplication.delete({
-        //       where: {
-        //         applicationId: updatedApplication.id,
-        //       },
-        //     })
-        //   if (updatedApplication.diagnosis)
-        //     await prisma.diagnosedApplication.delete({
-        //       where: {
-        //         applicationId: updatedApplication.id,
-        //       },
-        //     })
-        // }
+        if (
+          ['CANCELLED', 'PENDING'].includes(validatedFields.data.status) &&
+          updatedApplication.conclusion
+        ) {
+          await prisma.concludedApplication.delete({
+            where: {
+              applicationId: updatedApplication.id,
+            },
+          })
+        }
         if (updatedApplication.conclusion) {
           updatedApplication.conclusion.cost =
             `${updatedApplication.conclusion.cost}` as any

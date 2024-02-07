@@ -33,18 +33,11 @@ model Application {
   customer   Customer              @relation(fields: [customerId], references: [id])
   device     Device                @relation(fields: [deviceId], references: [id])
   conclusion ConcludedApplication?
-  diagnosis  DiagnosedApplication?
-}
-
-model DiagnosedApplication {
-  id            Int         @id @default(autoincrement())
-  issue         String
-  applicationId Int         @unique
-  application   Application @relation(fields: [applicationId], references: [id])
 }
 
 model ConcludedApplication {
   id            Int         @id @default(autoincrement())
+  changes       String
   cost          Decimal
   applicationId Int         @unique
   application   Application @relation(fields: [applicationId], references: [id])
@@ -61,7 +54,6 @@ model Device {
 }
 
 enum Status {
-  DIAGNOSING
   COMPLETE
   PENDING
   CANCELLED

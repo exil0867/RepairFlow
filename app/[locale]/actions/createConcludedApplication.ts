@@ -8,6 +8,7 @@ import { revalidatePath } from 'next/cache'
 import { Prisma } from '@prisma/client'
 
 const concludedApplicationSchema = z.object({
+  changes: z.string(),
   cost: z.string().transform((val) => new Prisma.Decimal(val)),
   applicationId: z.string().transform((val) => Number(val)),
 })
@@ -22,13 +23,16 @@ export default async function createConcludedApplication(
   data: FormData,
 ): Promise<formRes> {
   try {
+    const changes = data.get('changes')
     const cost = data.get('cost')
     const applicationId = data.get('application_id')
     const validatedFields = concludedApplicationSchema.safeParse({
+      changes,
       cost,
       applicationId,
     })
     console.log({
+      changes,
       cost,
       applicationId,
     })
@@ -39,6 +43,7 @@ export default async function createConcludedApplication(
 
     let response = await prisma.concludedApplication.create({
       data: {
+        changes: validatedFields.data.changes,
         cost: validatedFields.data.cost,
         applicationId: validatedFields.data.applicationId,
       },

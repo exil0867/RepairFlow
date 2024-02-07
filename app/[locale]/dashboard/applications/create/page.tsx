@@ -182,7 +182,6 @@ export default function CreateApplication() {
                     </SelectTrigger>
                     <SelectContent className='bg-white'>
                       <SelectGroup>
-                        <SelectItem value='DIAGNOSING'>Diagnosing</SelectItem>
                         <SelectItem value='PENDING'>Pending</SelectItem>
                         <SelectItem value='COMPLETE'>Complete</SelectItem>
                         <SelectItem value='CANCELLED'>Cancelled</SelectItem>

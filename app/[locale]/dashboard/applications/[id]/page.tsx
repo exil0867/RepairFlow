@@ -15,7 +15,6 @@ export default function DisplayApplication({
           device: true,
           customer: true,
           conclusion: true,
-          diagnosis: true,
         },
       })
       return application
