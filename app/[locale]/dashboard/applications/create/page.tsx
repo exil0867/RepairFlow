@@ -37,7 +37,7 @@ import {
 } from '@/components/ui/select'
 import Selector from '@/components/selector'
 import CustomerModal from '../../wizard/customer-modal'
-import { transformArray } from '@/lib/utils'
+import { renderStatus, transformArray } from '@/lib/utils'
 import searchCustomer from '@/app/actions/searchCustomer'
 import DeviceModal from '../../wizard/device-modal'
 import searchDevice from '@/app/actions/searchDevice'
@@ -124,11 +124,11 @@ export default function CreateApplication() {
   }, [pending, router, state])
   return (
     <Wrapper
-      title='Create Application'
+      title='Créer un article'
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
-            Create Application
+            Créer un article
           </Button>
         </>
       }
@@ -146,11 +146,11 @@ export default function CreateApplication() {
           >
             <FormFieldWrapper>
               <FormField
-                labelText='Application Subject'
+                labelText={`Sujet de l'article`}
                 inputElement={
                   <Input
                     type='text'
-                    placeholder='Application Subject'
+                    placeholder={`Sujet de l'article`}
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('subject', { required: true })}
                   />
@@ -159,10 +159,10 @@ export default function CreateApplication() {
             </FormFieldWrapper>
             <FormFieldWrapper>
               <FormField
-                labelText='Application Notes'
+                labelText={`Notes d'article`}
                 inputElement={
                   <Textarea
-                    placeholder='Application Notes'
+                    placeholder={`Notes d'article`}
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('notes', { required: true })}
                   />
@@ -171,20 +171,20 @@ export default function CreateApplication() {
             </FormFieldWrapper>
             <FormFieldWrapper>
               <FormField
-                labelText='Application Status'
+                labelText={`Statut de l'article`}
                 inputElement={
                   <Select
                     defaultValue={status ? status.toUpperCase() : undefined}
                     {...register('status', { required: true })}
                   >
                     <SelectTrigger className='w-[180px]'>
-                      <SelectValue placeholder='Select status' />
+                      <SelectValue placeholder='Sélectionnez le statut' />
                     </SelectTrigger>
                     <SelectContent className='bg-white'>
                       <SelectGroup>
-                        <SelectItem value='PENDING'>Pending</SelectItem>
-                        <SelectItem value='COMPLETE'>Complete</SelectItem>
-                        <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                        <SelectItem value='REPAIRING'>Réparer</SelectItem>
+                        <SelectItem value='REPAIRED'>Réparé</SelectItem>
+                        <SelectItem value='CANCELLED'>Annulé</SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>
@@ -192,16 +192,16 @@ export default function CreateApplication() {
               />
             </FormFieldWrapper>
             <FormFieldWrapper>
-              <FormFieldSubWrapper subtitle='Device'>
+              <FormFieldSubWrapper subtitle='Client'>
                 <FormField
-                  labelText='Selected customer:'
+                  labelText='Client sélectionné:'
                   labelClassName=''
                   inputElement={
                     <Selector
                       className='border border-gray-300 p-2 rounded'
                       setObject={setCustomer_}
                       object={customer_}
-                      itemName={{ plurar: 'customers', singular: 'customer' }}
+                      itemName={{ plurar: 'clients', singular: 'client' }}
                       showList={open}
                       setShowList={(v: any) => {
                         setOpen(v)
@@ -216,7 +216,7 @@ export default function CreateApplication() {
                             }}
                           />
                           <DialogTrigger asChild>
-                            <Button variant='outline'>Create customer</Button>
+                            <Button variant='outline'>Créer un client</Button>
                           </DialogTrigger>
                         </>
                       }
@@ -234,16 +234,16 @@ export default function CreateApplication() {
               </FormFieldSubWrapper>
             </FormFieldWrapper>
             <FormFieldWrapper>
-              <FormFieldSubWrapper subtitle='Device'>
+              <FormFieldSubWrapper subtitle='Appareil'>
                 <FormField
-                  labelText='Selected device:'
+                  labelText='Appareil sélectionné:'
                   labelClassName=''
                   inputElement={
                     <Selector
                       className='border border-gray-300 p-2 rounded'
                       setObject={setDevice_}
                       object={device_}
-                      itemName={{ plurar: 'devices', singular: 'device' }}
+                      itemName={{ plurar: 'appareils', singular: 'appareil' }}
                       showList={open2}
                       setShowList={setOpen2}
                       creator={
@@ -257,7 +257,7 @@ export default function CreateApplication() {
                             }}
                           />
                           <DialogTrigger asChild>
-                            <Button variant='outline'>Create device</Button>
+                            <Button variant='outline'>Créer un appareil</Button>
                           </DialogTrigger>
                         </>
                       }

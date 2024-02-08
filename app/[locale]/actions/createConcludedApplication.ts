@@ -54,7 +54,7 @@ export default async function createConcludedApplication(
         id: response.applicationId,
       },
       data: {
-        status: 'COMPLETE',
+        status: 'REPAIRED',
       },
     })
 

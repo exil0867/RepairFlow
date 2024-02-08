@@ -54,7 +54,7 @@ model Device {
 }
 
 enum Status {
-  COMPLETE
-  PENDING
+  REPAIRED
+  REPAIRING
   CANCELLED
 }

@@ -6,7 +6,7 @@ import { z } from 'zod'
 
 const applicationSchema = z.object({
   id: z.number(),
-  status: z.enum(['COMPLETE', 'PENDING', 'CANCELLED']),
+  status: z.enum(['REPAIRED', 'REPAIRING', 'CANCELLED']),
 })
 
 export default async function updateApplicationStatus(
@@ -40,7 +40,7 @@ export default async function updateApplicationStatus(
             `Impossible de trouver ou de mettre à jour l'article.`,
           )
         if (
-          ['CANCELLED', 'PENDING'].includes(validatedFields.data.status) &&
+          ['CANCELLED', 'REPAIRING'].includes(validatedFields.data.status) &&
           updatedApplication.conclusion
         ) {
           await prisma.concludedApplication.delete({

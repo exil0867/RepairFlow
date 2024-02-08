@@ -7,7 +7,7 @@ import searchApplication from '../../actions/searchApplication'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Selector from '@/components/selector'
-import { transformArray } from '@/lib/utils'
+import { renderStatus, transformArray } from '@/lib/utils'
 import searchCustomer from '../../actions/searchCustomer'
 import searchDevice from '@/app/actions/searchDevice'
 import {
@@ -29,8 +29,8 @@ export default function Component() {
   const [customer_, setCustomer_] = useState(undefined) as any
   const [device_, setDevice_] = useState(undefined)
   const [subject, setSubject] = useState(undefined)
-  const [status, setStatus] = useState<'PENDING' | 'COMPLETE' | 'CANCELLED'>(
-    'PENDING',
+  const [status, setStatus] = useState<'REPAIRING' | 'REPAIRED' | 'CANCELLED'>(
+    'REPAIRING',
   )
   useEffect(() => {
     async function fetchData() {
@@ -48,17 +48,17 @@ export default function Component() {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   return (
-    <Wrapper title={'Applications'} footer={undefined}>
+    <Wrapper title={'Articles'} footer={undefined}>
       <FilterHeader>
         <FilterWrapper>
           <FormField
-            labelText='Customer'
+            labelText='Client'
             labelClassName=''
             inputElement={
               <Selector
                 setObject={setCustomer_}
                 object={customer_}
-                itemName={{ plurar: 'customers', singular: 'customer' }}
+                itemName={{ plurar: 'clients', singular: 'client' }}
                 showList={open}
                 setShowList={(v: any) => {
                   setOpen(v)
@@ -78,13 +78,13 @@ export default function Component() {
         </FilterWrapper>
         <FilterWrapper>
           <FormField
-            labelText='Device'
+            labelText='Appareil'
             labelClassName=''
             inputElement={
               <Selector
                 setObject={setDevice_}
                 object={device_}
-                itemName={{ plurar: 'devices', singular: 'device' }}
+                itemName={{ plurar: 'appareils', singular: 'appareil' }}
                 showList={open2}
                 setShowList={setOpen2}
                 getObjects={async (e: any) => {
@@ -107,12 +107,12 @@ export default function Component() {
         </FilterWrapper>
         <FilterWrapper>
           <FormField
-            labelText='Subject'
+            labelText='Sujet'
             labelClassName=''
             inputElement={
               <Input
                 type='text'
-                placeholder='Filter by subject'
+                placeholder='Filtrer par sujet'
                 onChange={(s) => {
                   console.log(s)
                   setSubject(s.target.value as any)
@@ -123,7 +123,7 @@ export default function Component() {
         </FilterWrapper>
         <FilterWrapper>
           <FormField
-            labelText='Status'
+            labelText='Statut'
             labelClassName=''
             inputElement={
               <Select
@@ -132,13 +132,13 @@ export default function Component() {
                 value={status}
               >
                 <SelectTrigger className='w-[180px] border-gray-300 p-2 rounded text-gray-700'>
-                  <SelectValue placeholder='Select status' />
+                  <SelectValue placeholder='Sélectionnez le statut' />
                 </SelectTrigger>
                 <SelectContent className='bg-white'>
                   <SelectGroup>
-                    <SelectItem value='PENDING'>Pending</SelectItem>
-                    <SelectItem value='COMPLETE'>Complete</SelectItem>
-                    <SelectItem value='CANCELLED'>Cancelled</SelectItem>
+                    <SelectItem value='REPAIRING'>Réparation</SelectItem>
+                    <SelectItem value='REPAIRED'>Réparé</SelectItem>
+                    <SelectItem value='CANCELLED'>Annulé</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

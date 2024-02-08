@@ -24,30 +24,31 @@ import {
 } from '@/components/view'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { useState } from 'react'
-import Complete from './complete'
-import Pending from './pending'
+import Repaired from './repaired'
+import Repairing from './repairing'
 import Cancel from './cancel'
+import { renderStatus } from '@/lib/utils'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [openedDialog, setOpenedDialog] = useState<
-    'COMPLETE' | 'PENDING' | 'CANCELLED' | null
+    'REPAIRED' | 'REPAIRING' | 'CANCELLED' | null
   >(null)
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      {openedDialog === 'COMPLETE' && (
-        <Complete
+      {openedDialog === 'REPAIRED' && (
+        <Repaired
           applicationId={application.id}
           onClose={() => {
             setDialogOpen(false)
           }}
         />
       )}
-      {openedDialog === 'PENDING' && (
-        <Pending
+      {openedDialog === 'REPAIRING' && (
+        <Repairing
           applicationId={application.id}
           onClose={() => {
             setDialogOpen(false)
@@ -81,19 +82,19 @@ export default function Component({ application }: any) {
                 <DialogTrigger asChild>
                   <DropdownMenuItem
                     onClick={() => {
-                      setOpenedDialog('COMPLETE')
+                      setOpenedDialog('REPAIRED')
                     }}
                   >
-                    Complet
+                    Réparé
                   </DropdownMenuItem>
                 </DialogTrigger>
                 <DialogTrigger asChild>
                   <DropdownMenuItem
                     onClick={() => {
-                      setOpenedDialog('PENDING')
+                      setOpenedDialog('REPAIRING')
                     }}
                   >
-                    En attente
+                    Réparation
                   </DropdownMenuItem>
                 </DialogTrigger>
                 <DialogTrigger asChild>
@@ -126,7 +127,7 @@ export default function Component({ application }: any) {
           <ViewFieldWrapper>
             <ViewField
               title={`Statut de l'article`}
-              value={application.status}
+              value={renderStatus(application.status)}
             />
           </ViewFieldWrapper>
           {application.conclusion && (

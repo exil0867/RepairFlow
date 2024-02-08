@@ -49,18 +49,18 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Définir l&apos;article comme en attente</DialogTitle>
+        <DialogTitle>Définir l&apos;article comme réparation</DialogTitle>
         <DialogDescription>Es-tu sûr?</DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <Button
           variant='outline'
           onClick={async () => {
-            await updateApplicationStatus(applicationId, 'PENDING')
+            await updateApplicationStatus(applicationId, 'REPAIRING')
             onClose()
           }}
         >
-          Définir comme en attente
+          Définir comme réparation
         </Button>
       </DialogFooter>
     </DialogContent>

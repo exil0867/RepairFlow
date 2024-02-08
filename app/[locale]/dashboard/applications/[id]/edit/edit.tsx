@@ -20,7 +20,7 @@ import createApplication from '@/app/actions/createApplication'
 import Selector from '@/components/selector'
 import CustomerModal from '../../../wizard/customer-modal'
 import { Dialog, DialogTrigger } from '@radix-ui/react-dialog'
-import { transformArray } from '@/lib/utils'
+import { renderStatus, transformArray } from '@/lib/utils'
 import searchCustomer from '@/app/actions/searchCustomer'
 import DeviceModal from '../../../wizard/device-modal'
 import searchDevice from '@/app/actions/searchDevice'
@@ -139,8 +139,8 @@ export default function Component({ application }: any) {
                   </SelectTrigger>
                   <SelectContent className='bg-white'>
                     <SelectGroup>
-                      <SelectItem value='PENDING'>En cours</SelectItem>
-                      <SelectItem value='COMPLETE'>Complet</SelectItem>
+                      <SelectItem value='REPAIRING'>Réparation</SelectItem>
+                      <SelectItem value='REPAIRED'>Réparé</SelectItem>
                       <SelectItem value='CANCELLED'>Annulé</SelectItem>
                     </SelectGroup>
                   </SelectContent>

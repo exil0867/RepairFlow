@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/table'
 import BarChart from './bar-chart'
 import Link from 'next/link'
+import { renderStatus } from '@/lib/utils'
 
 type Props = {}
 
@@ -78,7 +79,7 @@ async function page({}: Props) {
                       <TableRow key={id}>
                         <TableCell className='font-medium'>{id}</TableCell>
                         <TableCell>{subject}</TableCell>
-                        <TableCell>{status}</TableCell>
+                        <TableCell>{renderStatus(status)}</TableCell>
                         <TableCell>
                           <Link href={`/dashboard/customers/${customer.id}`}>
                             {customer.name}
