@@ -11,8 +11,7 @@ export async function authenticate(
   try {
     console.log(formData.get('username'))
     await signIn('credentials', {
-      redirect: true,
-      redirectTo: '/dashboard',
+      redirect: false,
       username: formData.get('username'),
       password: formData.get('password'),
     })

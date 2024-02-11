@@ -4,6 +4,7 @@ import RegisterForm from './register-form'
 import { hash } from 'bcrypt'
 import Link from 'next/link'
 import { z } from 'zod'
+import { Button } from '@/components/ui/button'
 
 const schema = z.object({
   username: z.string({
@@ -55,26 +56,25 @@ export default function Register() {
     }
   }
   return (
-    <div className='flex h-screen w-screen items-center justify-center bg-gray-50'>
-      <div className='z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl'>
-        <div className='flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center sm:px-16'>
-          <Link href='/'>
-            <Image
-              src='/logo.png'
-              priority
-              alt='Logo'
-              className='h-10 w-10 rounded-full'
-              width={20}
-              height={20}
-            />
-          </Link>
-          <h3 className='text-xl font-semibold'>S&apos;inscrire</h3>
-          <p className='text-sm text-gray-500'>
-            Créez un compte avec votre nom d&apos;utilisateur et votre mot de
-            passe
+    <div className='flex items-center min-h-screen p-6 md:p-10'>
+      <div className='mx-auto space-y-8 w-full max-w-sm'>
+        <div className='space-y-2 text-center'>
+          <h1 className='text-3xl font-bold'>S&apos;inscrire</h1>
+          <p className='text-gray-500 dark:text-gray-400'>
+            Entrez un nom d&apos;utilisateur et un mot de passe ci-dessous pour
+            créer un compte
           </p>
         </div>
-        <RegisterForm registerUser={registerUser} />
+        <div className='space-y-4'>
+          <RegisterForm registerUser={registerUser} />
+        </div>
+        <div className='space-y-2'>
+          <Link className='w-full' href='login'>
+            <Button className='w-full' variant='outline'>
+              Se connecter
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   )

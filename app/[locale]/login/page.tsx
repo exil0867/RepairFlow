@@ -1,29 +1,29 @@
 import Image from 'next/image'
 import LoginForm from './login-form'
 import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 export default function Login() {
   return (
-    <div className='flex h-screen w-screen items-center justify-center bg-gray-50'>
-      <div className='z-10 w-full max-w-md overflow-hidden rounded-2xl border border-gray-100 shadow-xl'>
-        <div className='flex flex-col items-center justify-center space-y-3 border-b border-gray-200 bg-white px-4 py-6 pt-8 text-center sm:px-16'>
-          <Link href='/'>
-            <Image
-              src='/logo.png'
-              priority
-              alt='Logo'
-              className='h-10 w-10 rounded-full'
-              width={20}
-              height={20}
-            />
-          </Link>
-          <h3 className='text-xl font-semibold'>Se connecter</h3>
-          <p className='text-sm text-gray-500'>
-            Utilisez votre nom d&apos;utilisateur et votre mot de passe pour
-            vous connecter
+    <div className='flex items-center min-h-screen p-6 md:p-10'>
+      <div className='mx-auto space-y-8 w-full max-w-sm'>
+        <div className='space-y-2 text-center'>
+          <h1 className='text-3xl font-bold'>Se connecter</h1>
+          <p className='text-gray-500 dark:text-gray-400'>
+            Entrez votre nom d&apos;utilisateur ci-dessous pour vous connecter à
+            votre compte
           </p>
         </div>
-        <LoginForm />
+        <div className='space-y-4'>
+          <LoginForm />
+        </div>
+        <div className='space-y-2'>
+          <Link className='w-full' href='register'>
+            <Button className='w-full' variant='outline'>
+              S&apos;inscrire
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   )

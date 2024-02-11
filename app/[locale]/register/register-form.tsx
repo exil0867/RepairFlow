@@ -5,6 +5,9 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { registerRes } from './page'
+import { Button } from '@/components/ui/button'
+import { FormField, FormFieldWrapper } from '@/components/form'
+import { Input } from '@/components/ui/input'
 
 export default function RegisterForm({ registerUser }: { registerUser: any }) {
   const {
@@ -35,18 +38,37 @@ export default function RegisterForm({ registerUser }: { registerUser: any }) {
 
   return (
     <form action={formAction}>
-      <input
-        type='text'
-        placeholder='username'
-        {...register('username', { required: true })}
-      />
-      <input
-        type='password'
-        placeholder='password'
-        {...register('password', { required: true })}
-      />
-
-      <input type='submit' />
+      <FormFieldWrapper>
+        <FormField
+          labelText={`Nom d'utilisateur`}
+          inputElement={
+            <Input
+              placeholder={`Nom d'utilisateur`}
+              type='text'
+              className='border border-gray-300 p-2 rounded text-gray-700'
+              {...register('username', { required: true })}
+            />
+          }
+        />
+      </FormFieldWrapper>
+      <FormFieldWrapper>
+        <FormField
+          labelText='Mot de passe'
+          inputElement={
+            <Input
+              placeholder='Mot de passe'
+              type='password'
+              className='border border-gray-300 p-2 rounded text-gray-700'
+              {...register('password', { required: true })}
+            />
+          }
+        />
+      </FormFieldWrapper>
+      <div className={`space-y-2 mt-6 bg-slate-900 text-white `}>
+        <Button disabled={pending} type='submit' className='w-full'>
+          S&apos;inscrire
+        </Button>
+      </div>
     </form>
   )
 }
