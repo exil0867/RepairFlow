@@ -23,6 +23,7 @@ import { ListItem } from '@/components/list'
 import Wrapper from '@/components/wrapper'
 import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
+import EmptyList from '@/components/empty-list'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -32,8 +33,10 @@ export default function Component() {
   const [status, setStatus] = useState<'REPAIRING' | 'REPAIRED' | 'CANCELLED'>(
     'REPAIRING',
   )
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
+      setLoading(true)
       const filtered = (await searchApplication(
         (customer_ as any)?.id as any,
         (device_ as any)?.id as any,
@@ -42,6 +45,7 @@ export default function Component() {
       )) as any
       console.log('adsfasdf ', filtered)
       setList(filtered)
+      setLoading(false)
     }
     fetchData()
   }, [customer_, device_, status, subject])
@@ -147,21 +151,25 @@ export default function Component() {
         </FilterWrapper>
       </FilterHeader>
       <div className='flex flex-col gap-2'>
-        {list.map(({ id, device, customer }: any) => {
-          return (
-            <ListItem
-              key={id}
-              title={`Application ${id}`}
-              subtitle={`Device: ${device.model}`}
-              footer={`Customer: ${customer.name}`}
-              button={
-                <Link href={`/dashboard/applications/${id}`}>
-                  <Button variant='outline'>Voir</Button>
-                </Link>
-              }
-            />
-          )
-        })}
+        {list.length === 0 && !loading ? (
+          <EmptyList itemsName='Article' />
+        ) : (
+          list.map(({ id, device, customer }: any) => {
+            return (
+              <ListItem
+                key={id}
+                title={`Application ${id}`}
+                subtitle={`Device: ${device.model}`}
+                footer={`Customer: ${customer.name}`}
+                button={
+                  <Link href={`/dashboard/applications/${id}`}>
+                    <Button variant='outline'>Voir</Button>
+                  </Link>
+                }
+              />
+            )
+          })
+        )}
       </div>
     </Wrapper>
   )

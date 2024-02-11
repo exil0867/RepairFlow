@@ -23,14 +23,18 @@ import { ListItem } from '@/components/list'
 import Wrapper from '@/components/wrapper'
 import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
+import EmptyList from '@/components/empty-list'
 
 export default function Component() {
   const [list, setList] = useState([])
   const [name, setName] = useState(undefined)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
+      setLoading(true)
       const filtered = (await searchCustomer(undefined, name)) as any
       setList(filtered)
+      setLoading(false)
     }
     fetchData()
   }, [name])
@@ -55,21 +59,25 @@ export default function Component() {
         </FilterWrapper>
       </FilterHeader>
       <div className='flex flex-col gap-2'>
-        {list.map(({ id, name, address, phoneNumber }) => {
-          return (
-            <ListItem
-              key={id}
-              title={`Client ${name}`}
-              subtitle={`Adresse: ${address}`}
-              footer={`Numéro de téléphone: ${phoneNumber}`}
-              button={
-                <Link href={`/dashboard/customers/${id}`}>
-                  <Button variant='outline'>Voir</Button>
-                </Link>
-              }
-            />
-          )
-        })}
+        {list.length === 0 && !loading ? (
+          <EmptyList itemsName='Client' />
+        ) : (
+          list.map(({ id, name, address, phoneNumber }) => {
+            return (
+              <ListItem
+                key={id}
+                title={`Client ${name}`}
+                subtitle={`Adresse: ${address}`}
+                footer={`Numéro de téléphone: ${phoneNumber}`}
+                button={
+                  <Link href={`/dashboard/customers/${id}`}>
+                    <Button variant='outline'>Voir</Button>
+                  </Link>
+                }
+              />
+            )
+          })
+        )}
       </div>
     </Wrapper>
   )

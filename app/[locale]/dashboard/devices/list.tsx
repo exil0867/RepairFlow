@@ -14,6 +14,7 @@ import { ListItem } from '@/components/list'
 import Wrapper from '@/components/wrapper'
 import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
+import EmptyList from '@/components/empty-list'
 
 export default function Component() {
   const [list, setList] = useState([])
@@ -23,8 +24,10 @@ export default function Component() {
   const [customer_, setCustomer_] = useState(undefined)
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
+      setLoading(true)
       const filtered = (await searchDevice(
         undefined,
         model,
@@ -33,6 +36,7 @@ export default function Component() {
         (customer_ as any)?.id as any,
       )) as any
       setList(filtered)
+      setLoading(false)
     }
     fetchData()
   }, [brand, customer_, model, serialNumber])
@@ -114,21 +118,25 @@ export default function Component() {
         </FilterWrapper>
       </FilterHeader>
       <div className='flex flex-col gap-2'>
-        {list.map(({ id, model, brand, customer }: any) => {
-          return (
-            <ListItem
-              key={id}
-              title={`Appareil ${model}`}
-              subtitle={`Client: ${customer.name}`}
-              footer={`Marque: ${brand}`}
-              button={
-                <Link href={`/dashboard/devices/${id}`}>
-                  <Button variant='outline'>Voir</Button>
-                </Link>
-              }
-            />
-          )
-        })}
+        {list.length === 0 && !loading ? (
+          <EmptyList itemsName='Appareil' />
+        ) : (
+          list.map(({ id, model, brand, customer }: any) => {
+            return (
+              <ListItem
+                key={id}
+                title={`Appareil ${model}`}
+                subtitle={`Client: ${customer.name}`}
+                footer={`Marque: ${brand}`}
+                button={
+                  <Link href={`/dashboard/devices/${id}`}>
+                    <Button variant='outline'>Voir</Button>
+                  </Link>
+                }
+              />
+            )
+          })
+        )}
       </div>
     </Wrapper>
   )
