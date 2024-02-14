@@ -73,7 +73,7 @@ async function page({}: Props) {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Recent Articles</CardTitle>
+          <CardTitle>Articles récents</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
