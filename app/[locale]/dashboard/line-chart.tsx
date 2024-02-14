@@ -12,19 +12,14 @@ import { JSX, ClassAttributes, HTMLAttributes } from 'react'
 export default function BarChart(
   props: JSX.IntrinsicAttributes &
     ClassAttributes<HTMLDivElement> &
-    HTMLAttributes<HTMLDivElement>,
+    HTMLAttributes<HTMLDivElement> & {
+      data: any
+    },
 ) {
   return (
     <div {...props}>
       <ResponsiveBar
-        data={[
-          { name: 'Jan', count: 111 },
-          { name: 'Feb', count: 157 },
-          { name: 'Mar', count: 129 },
-          { name: 'Apr', count: 150 },
-          { name: 'May', count: 119 },
-          { name: 'Jun', count: 72 },
-        ]}
+        data={props.data}
         keys={['count']}
         indexBy='name'
         margin={{ top: 0, right: 0, bottom: 40, left: 40 }}

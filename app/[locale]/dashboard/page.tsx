@@ -63,6 +63,41 @@ async function page({}: Props) {
 
     return pieChartData
   }
+  async function getApplicationsCreatedPerMonth() {
+    const today = new Date()
+    const lastYear = new Date(today)
+    lastYear.setFullYear(lastYear.getFullYear() - 1)
+
+    const applications = await prisma.application.findMany({
+      where: {
+        // Filter applications from the last year
+        createdAt: {
+          gte: lastYear,
+          lte: today,
+        },
+      },
+      select: {
+        createdAt: true,
+      },
+    })
+
+    // Initialize an array to store monthly counts
+    const monthlyCounts = Array.from({ length: 12 }, () => 0)
+
+    // Count applications created each month
+    applications.forEach((application) => {
+      const month = application.createdAt.getMonth()
+      monthlyCounts[month] += 1
+    })
+
+    // Format data for line chart
+    const lineChartData = monthlyCounts.map((count, index) => ({
+      name: new Date(0, index).toLocaleString('default', { month: 'short' }), // Convert month index to month name
+      count,
+    }))
+
+    return lineChartData
+  }
   const getRecentApplications = async () => {
     try {
       return await prisma.application.findMany({
@@ -81,6 +116,7 @@ async function page({}: Props) {
   }
   const recentApplications = await getRecentApplications()
   const applicationStatusCounts = await getApplicationStatusCounts()
+  const applicationStatusCountsLine = await getApplicationsCreatedPerMonth()
   return (
     <>
       <div className='flex items-center'>
@@ -89,22 +125,25 @@ async function page({}: Props) {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <Card>
           <CardHeader>
-            <CardTitle>Line Chart</CardTitle>
+            <CardTitle>Articles par mois</CardTitle>
             <CardDescription>
-              A simple linear chart displaying the number of applications
-              accepted per day over the past 30 days.
+              Un graphique linéaire affichant le nombre d&apos;articles créés
+              par mois au cours de l&apos;année écoulée.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <LineChart className='w-full aspect-[2/1]' />
+            <LineChart
+              data={applicationStatusCountsLine}
+              className='w-full aspect-[2/1]'
+            />
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Graphique à barres</CardTitle>
+            <CardTitle>Statuts des articles par pourcentage</CardTitle>
             <CardDescription>
-              A simple linear chart displaying the number of applications
-              accepted per day over the past 30 days.
+              Un diagramme circulaire montrant le nombre d&apos;articles par
+              statut, créés au cours de l&apos;année écoulée.
             </CardDescription>
           </CardHeader>
           <CardContent>
