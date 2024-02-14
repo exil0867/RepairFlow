@@ -19,10 +19,50 @@ import BarChart from './bar-chart'
 import LineChart from './line-chart'
 import Link from 'next/link'
 import { renderStatus } from '@/lib/utils'
+import { Status } from '@prisma/client'
 
 type Props = {}
 
 async function page({}: Props) {
+  async function getApplicationStatusCounts() {
+    const today = new Date()
+    const lastYear = new Date(today)
+    lastYear.setFullYear(lastYear.getFullYear() - 1)
+
+    const applications = await prisma.application.findMany({
+      where: {
+        // Filter applications from the last year
+        createdAt: {
+          gte: lastYear,
+          lte: today,
+        },
+      },
+      select: {
+        status: true,
+      },
+    })
+
+    // Count applications for each status
+    const statusCounts: Record<Status, number> = {
+      REPAIRED: 0,
+      REPAIRING: 0,
+      CANCELLED: 0,
+    }
+
+    applications.forEach((application) => {
+      statusCounts[application.status] += 1
+    })
+
+    // Format data for pie chart
+    const pieChartData = Object.entries(statusCounts).map(
+      ([status, count]) => ({
+        id: renderStatus(status),
+        value: count,
+      }),
+    )
+
+    return pieChartData
+  }
   const getRecentApplications = async () => {
     try {
       return await prisma.application.findMany({
@@ -40,6 +80,7 @@ async function page({}: Props) {
     }
   }
   const recentApplications = await getRecentApplications()
+  const applicationStatusCounts = await getApplicationStatusCounts()
   return (
     <>
       <div className='flex items-center'>
@@ -67,7 +108,10 @@ async function page({}: Props) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <BarChart className='w-full aspect-[1/1]' />
+            <BarChart
+              data={applicationStatusCounts}
+              className='w-full aspect-[1/1]'
+            />
           </CardContent>
         </Card>
       </div>

@@ -6,29 +6,24 @@ import { JSX, ClassAttributes, HTMLAttributes } from 'react'
 export default function LabelledpieChart(
   props: JSX.IntrinsicAttributes &
     ClassAttributes<HTMLDivElement> &
-    HTMLAttributes<HTMLDivElement>,
+    HTMLAttributes<HTMLDivElement> & {
+      data: any
+    },
 ) {
   return (
     <div {...props}>
       <ResponsivePie
-        data={[
-          { id: 'Jan', value: 111 },
-          { id: 'Feb', value: 157 },
-          { id: 'Mar', value: 129 },
-          { id: 'Apr', value: 150 },
-          { id: 'May', value: 119 },
-          { id: 'Jun', value: 72 },
-        ]}
+        data={props.data}
         sortByValue
-        margin={{ top: 30, right: 50, bottom: 30, left: 50 }}
+        margin={{ top: 50, right: 100, bottom: 50, left: 100 }}
         innerRadius={0.5}
         padAngle={1}
         cornerRadius={3}
         activeOuterRadiusOffset={2}
         borderWidth={1}
         arcLinkLabelsThickness={1}
-        enableArcLabels={false}
-        colors={['#2563eb']}
+        enableArcLabels={true}
+        colors={['#117e23', '#b8a70f', '#b31313']}
         theme={{
           tooltip: {
             chip: {
