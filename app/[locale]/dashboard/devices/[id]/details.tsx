@@ -63,6 +63,7 @@ export default function Component({ device }: any) {
             title='Liste des articles'
             value={
               <Link
+                className='underline'
                 href={`/dashboard/applications?customerId=${device.id}&customerIdLabel=${device.model}`}
               >
                 {device.applications.length}
@@ -74,7 +75,10 @@ export default function Component({ device }: any) {
           <ViewField
             title='Client'
             value={
-              <Link href={`/dashboard/customers/${device.customer.id}`}>
+              <Link
+                className='underline'
+                href={`/dashboard/customers/${device.customer.id}`}
+              >
                 {device.customer.name}
               </Link>
             }

@@ -157,6 +157,7 @@ export default function Component({ application }: any) {
                 title='Référence:'
                 value={
                   <Link
+                    className='underline'
                     href={`/dashboard/customers/${application.customer.id}`}
                   >
                     {application.device.id}
@@ -182,7 +183,10 @@ export default function Component({ application }: any) {
               <ViewFieldSubWrapperField
                 title='Référence:'
                 value={
-                  <Link href={`/dashboard/devices/${application.device.id}`}>
+                  <Link
+                    className='underline'
+                    href={`/dashboard/devices/${application.device.id}`}
+                  >
                     {application.device.id}
                   </Link>
                 }
