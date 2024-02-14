@@ -81,7 +81,7 @@ function Selector({
                 : `Aucun ${itemName.plurar} trouvé.`}
             </CommandEmpty>
             <CommandGroup>
-              {list.map((item: any) => (
+              {list.slice(0, 6).map((item: any) => (
                 <CommandItem
                   key={item.id}
                   value={item.value}
