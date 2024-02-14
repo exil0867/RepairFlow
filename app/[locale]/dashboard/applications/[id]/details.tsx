@@ -28,6 +28,7 @@ import Repaired from './repaired'
 import Repairing from './repairing'
 import Cancel from './cancel'
 import { renderStatus } from '@/lib/utils'
+import Link from 'next/link'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
@@ -153,6 +154,16 @@ export default function Component({ application }: any) {
           <ViewFieldWrapper>
             <ViewFieldSubWrapper title='Détails du client'>
               <ViewFieldSubWrapperField
+                title='Référence:'
+                value={
+                  <Link
+                    href={`/dashboard/customers/${application.customer.id}`}
+                  >
+                    {application.device.id}
+                  </Link>
+                }
+              />
+              <ViewFieldSubWrapperField
                 title='Nom:'
                 value={application.customer.name}
               />
@@ -168,6 +179,14 @@ export default function Component({ application }: any) {
           </ViewFieldWrapper>
           <ViewFieldWrapper>
             <ViewFieldSubWrapper title={`Détails de l'appareil`}>
+              <ViewFieldSubWrapperField
+                title='Référence:'
+                value={
+                  <Link href={`/dashboard/devices/${application.device.id}`}>
+                    {application.device.id}
+                  </Link>
+                }
+              />
               <ViewFieldSubWrapperField
                 title='Numéro de série:'
                 value={application.device.serialNumber}

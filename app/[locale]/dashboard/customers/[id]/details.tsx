@@ -22,6 +22,7 @@ import {
   ViewFieldSubWrapperField,
   ViewFieldWrapper,
 } from '@/components/view'
+import Link from 'next/link'
 
 export default function Component({ customer }: any) {
   const pathname = usePathname()
@@ -59,13 +60,25 @@ export default function Component({ customer }: any) {
         <ViewFieldWrapper>
           <ViewField
             title='Liste des articles'
-            value={customer.applications.length}
+            value={
+              <Link
+                href={`/dashboard/applications?customerId=${customer.id}&customerIdLabel=${customer.name}`}
+              >
+                {customer.applications.length}
+              </Link>
+            }
           />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
           <ViewField
             title='Liste des appareils'
-            value={customer.devices.length}
+            value={
+              <Link
+                href={`/dashboard/devices?customerId=${customer.id}&customerIdLabel=${customer.name}`}
+              >
+                {customer.devices.length}
+              </Link>
+            }
           />
         </ViewFieldWrapper>
       </div>

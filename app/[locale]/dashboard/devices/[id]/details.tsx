@@ -61,7 +61,13 @@ export default function Component({ device }: any) {
         <ViewFieldWrapper>
           <ViewField
             title='Liste des articles'
-            value={device.applications.length}
+            value={
+              <Link
+                href={`/dashboard/applications?customerId=${device.id}&customerIdLabel=${device.model}`}
+              >
+                {device.applications.length}
+              </Link>
+            }
           />
         </ViewFieldWrapper>
         <ViewFieldWrapper>
