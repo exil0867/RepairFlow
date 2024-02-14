@@ -30,6 +30,7 @@ export default function Component() {
   const [customer_, setCustomer_] = useState(undefined) as any
   const [device_, setDevice_] = useState(undefined)
   const [subject, setSubject] = useState(undefined)
+  const [id, setId] = useState(undefined)
   const [status, setStatus] = useState<'REPAIRING' | 'REPAIRED' | 'CANCELLED'>(
     'REPAIRING',
   )
@@ -38,6 +39,7 @@ export default function Component() {
     async function fetchData() {
       setLoading(true)
       const filtered = (await searchApplication(
+        id as any,
         (customer_ as any)?.id as any,
         (device_ as any)?.id as any,
         subject,
@@ -48,12 +50,28 @@ export default function Component() {
       setLoading(false)
     }
     fetchData()
-  }, [customer_, device_, status, subject])
+  }, [customer_, device_, id, status, subject])
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   return (
     <Wrapper title={'Articles'} footer={undefined}>
       <FilterHeader>
+        <FilterWrapper>
+          <FormField
+            labelText='Référence'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filtrer par référence'
+                onChange={(s) => {
+                  console.log(s)
+                  setId(s.target.value as any)
+                }}
+              />
+            }
+          />
+        </FilterWrapper>
         <FilterWrapper>
           <FormField
             labelText='Client'

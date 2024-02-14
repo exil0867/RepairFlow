@@ -29,18 +29,35 @@ export default function Component() {
   const [list, setList] = useState([])
   const [name, setName] = useState(undefined)
   const [loading, setLoading] = useState(true)
+  const [id, setId] = useState(undefined)
   useEffect(() => {
     async function fetchData() {
       setLoading(true)
-      const filtered = (await searchCustomer(undefined, name)) as any
+      const filtered = (await searchCustomer(id, name)) as any
       setList(filtered)
       setLoading(false)
     }
     fetchData()
-  }, [name])
+  }, [id, name])
   return (
     <Wrapper title={'Clients'} footer={undefined}>
       <FilterHeader>
+        <FilterWrapper>
+          <FormField
+            labelText='Référence'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filtrer par référence'
+                onChange={(s) => {
+                  console.log(s)
+                  setId(s.target.value as any)
+                }}
+              />
+            }
+          />
+        </FilterWrapper>
         <FilterWrapper>
           <FormField
             labelText='Nom'

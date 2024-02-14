@@ -23,13 +23,13 @@ export default function Component() {
   const [brand, setBrand] = useState(undefined)
   const [customer_, setCustomer_] = useState(undefined)
   const [open, setOpen] = useState(false)
-  const [open2, setOpen2] = useState(false)
+  const [id, setId] = useState(undefined)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
       setLoading(true)
       const filtered = (await searchDevice(
-        undefined,
+        id,
         model,
         brand,
         serialNumber,
@@ -39,10 +39,26 @@ export default function Component() {
       setLoading(false)
     }
     fetchData()
-  }, [brand, customer_, model, serialNumber])
+  }, [brand, customer_, id, model, serialNumber])
   return (
     <Wrapper title={'Appareils'} footer={undefined}>
       <FilterHeader>
+        <FilterWrapper>
+          <FormField
+            labelText='Référence'
+            labelClassName=''
+            inputElement={
+              <Input
+                type='text'
+                placeholder='Filtrer par référence'
+                onChange={(s) => {
+                  console.log(s)
+                  setId(s.target.value as any)
+                }}
+              />
+            }
+          />
+        </FilterWrapper>
         <FilterWrapper>
           <FormField
             labelText='Client'

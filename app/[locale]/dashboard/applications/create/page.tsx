@@ -66,7 +66,7 @@ export default function CreateApplication() {
     if (!customerId) return
     const getCustomer = async () => {
       const customer = transformArray(
-        await searchCustomer(customerId ? Number(customerId) : undefined),
+        await searchCustomer(customerId ? customerId : undefined),
         'name',
       )
       setCustomer_(customer[0])
@@ -78,7 +78,7 @@ export default function CreateApplication() {
     if (!deviceId) return
     const getDevice = async () => {
       const device = transformArray(
-        await searchDevice(deviceId ? Number(deviceId) : undefined),
+        await searchDevice(deviceId ? deviceId : undefined),
         'model',
       )
       setDevice_(device[0])
