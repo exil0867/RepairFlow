@@ -266,6 +266,13 @@ export default function Component({ children }: { children: React.ReactNode }) {
                   <TableIcon className='h-4 w-4' />
                   Des articles
                 </Link>
+                <Link
+                  className='flex items-center gap-3 rounded-lg px-3 py-2 text-gray-500 transition-all hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50 ml-4'
+                  href='/dashboard/applications/create'
+                >
+                  <PlusIcon className='h-4 w-4' />
+                  Créer un article
+                </Link>
               </div>
               <Button
                 asChild
@@ -274,7 +281,7 @@ export default function Component({ children }: { children: React.ReactNode }) {
               >
                 <Link href={'/dashboard/wizard'}>
                   <PlusIcon className='h-4 w-4' />
-                  <span>Créer un article</span>
+                  <span>Initier un article</span>
                 </Link>
               </Button>
             </nav>
