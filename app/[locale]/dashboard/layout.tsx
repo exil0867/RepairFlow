@@ -212,10 +212,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
               <LayoutDashboardIcon className='h-6 w-6' />
               <span className=''>Tableau de bord</span>
             </Link>
-            <Button className='ml-auto h-8 w-8' size='icon' variant='outline'>
-              <BellIcon className='h-4 w-4' />
-              <span className='sr-only'>Basculer les notifications</span>
-            </Button>
           </div>
           <div className='flex-1 overflow-auto py-2'>
             <nav className='grid items-start px-4 text-sm font-medium'>
