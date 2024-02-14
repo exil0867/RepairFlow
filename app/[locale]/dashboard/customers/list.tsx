@@ -86,7 +86,7 @@ export default function Component() {
             return (
               <ListItem
                 key={id}
-                title={`Client ${name}`}
+                title={`${name} #${id}`}
                 subtitle={`Adresse: ${address}`}
                 footer={`Numéro de téléphone: ${phoneNumber}`}
                 button={

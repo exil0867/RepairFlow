@@ -191,13 +191,13 @@ export default function Component() {
         {list.length === 0 && !loading ? (
           <EmptyList itemsName='Article' />
         ) : (
-          list.map(({ id, device, customer }: any) => {
+          list.map(({ subject, id, device, customer }: any) => {
             return (
               <ListItem
                 key={id}
-                title={`Application ${id}`}
-                subtitle={`Device: ${device.model}`}
-                footer={`Customer: ${customer.name}`}
+                title={`${subject} #${id}`}
+                subtitle={`Appareil: ${device.model}`}
+                footer={`Client: ${customer.name}`}
                 button={
                   <Link href={`/dashboard/applications/${id}`}>
                     <Button variant='outline'>Voir</Button>

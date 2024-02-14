@@ -154,7 +154,7 @@ export default function Component() {
             return (
               <ListItem
                 key={id}
-                title={`Appareil ${model}`}
+                title={`${model} #${id}`}
                 subtitle={`Client: ${customer.name}`}
                 footer={`Marque: ${brand}`}
                 button={
