@@ -50,7 +50,7 @@ export default function Component() {
   )
   const [id, setId] = useState(searchId ? searchId : undefined)
   const [status, setStatus] = useState<'REPAIRING' | 'REPAIRED' | 'CANCELLED'>(
-    searchStatus ? searchStatus.toUpperCase() : 'REPAIRING',
+    searchStatus ? searchStatus.toUpperCase() : undefined,
   )
   const [loading, setLoading] = useState(true)
   useEffect(() => {
