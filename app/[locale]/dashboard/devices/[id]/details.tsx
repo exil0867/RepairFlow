@@ -44,6 +44,9 @@ export default function Component({ device }: any) {
     >
       <div className='grid gap-6 md:gap-8'>
         <ViewFieldWrapper>
+          <ViewField title={`Référence de l'appareil`} value={device.id} />
+        </ViewFieldWrapper>
+        <ViewFieldWrapper>
           <ViewField title={`Marque de l'appareil`} value={device.brand} />
         </ViewFieldWrapper>
         <ViewFieldWrapper>

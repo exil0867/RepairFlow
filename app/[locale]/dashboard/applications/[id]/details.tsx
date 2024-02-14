@@ -114,6 +114,12 @@ export default function Component({ application }: any) {
         <div className='grid gap-6 md:gap-8'>
           <ViewFieldWrapper>
             <ViewField
+              title={`Référence de l'article`}
+              value={application.id}
+            />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField
               title={`Sujet de l'article`}
               value={application.subject}
             />
