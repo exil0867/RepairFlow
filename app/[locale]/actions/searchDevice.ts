@@ -11,7 +11,7 @@ export default async function searchDevice(
   model?: string,
   brand?: string,
   serialNumber?: string,
-  customerId?: number,
+  customerId?: string,
 ) {
   try {
     const fetchDevices = async () => {
@@ -25,7 +25,7 @@ export default async function searchDevice(
             model: model ? { contains: model } : undefined,
             brand: brand ? { contains: brand } : undefined,
             serialNumber: serialNumber ? { contains: serialNumber } : undefined,
-            customerId,
+            customerId: customerId ? Number(customerId) : undefined,
           },
         })
         return devices

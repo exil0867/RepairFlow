@@ -24,15 +24,33 @@ import Wrapper from '@/components/wrapper'
 import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
+import { useSearchParams } from 'next/navigation'
 
 export default function Component() {
+  const searchDeviceId = useSearchParams().get('deviceId')
+  const searchDeviceIdLabel = useSearchParams().get('deviceIdLabel')
+  const searchCustomerId = useSearchParams().get('customerId')
+  const searchCustomerIdLabel = useSearchParams().get('customerIdLabel')
+  const searchStatus = useSearchParams().get('status') as any
+  const searchId = useSearchParams().get('id')
+  const searchSubject = useSearchParams().get('subject')
   const [list, setList] = useState([])
-  const [customer_, setCustomer_] = useState(undefined) as any
-  const [device_, setDevice_] = useState(undefined)
-  const [subject, setSubject] = useState(undefined)
-  const [id, setId] = useState(undefined)
+  const [customer_, setCustomer_] = useState(
+    searchCustomerId
+      ? { id: searchCustomerId, value: searchCustomerIdLabel }
+      : undefined,
+  ) as any
+  const [device_, setDevice_] = useState(
+    searchDeviceId
+      ? { id: searchDeviceId, value: searchDeviceIdLabel }
+      : undefined,
+  )
+  const [subject, setSubject] = useState(
+    searchSubject ? searchSubject : undefined,
+  )
+  const [id, setId] = useState(searchId ? searchId : undefined)
   const [status, setStatus] = useState<'REPAIRING' | 'REPAIRED' | 'CANCELLED'>(
-    'REPAIRING',
+    searchStatus ? searchStatus.toUpperCase() : 'REPAIRING',
   )
   const [loading, setLoading] = useState(true)
   useEffect(() => {
@@ -135,6 +153,7 @@ export default function Component() {
               <Input
                 type='text'
                 placeholder='Filtrer par sujet'
+                defaultValue={subject}
                 onChange={(s) => {
                   console.log(s)
                   setSubject(s.target.value as any)

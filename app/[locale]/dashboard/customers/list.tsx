@@ -24,12 +24,15 @@ import Wrapper from '@/components/wrapper'
 import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
+import { useSearchParams } from 'next/navigation'
 
 export default function Component() {
+  const searchId = useSearchParams().get('id')
+  const searchName = useSearchParams().get('name')
   const [list, setList] = useState([])
-  const [name, setName] = useState(undefined)
+  const [name, setName] = useState(searchName ? searchName : undefined)
   const [loading, setLoading] = useState(true)
-  const [id, setId] = useState(undefined)
+  const [id, setId] = useState(searchId ? searchId : undefined)
   useEffect(() => {
     async function fetchData() {
       setLoading(true)

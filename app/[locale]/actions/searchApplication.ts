@@ -7,9 +7,9 @@ import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
 export default async function searchApplication(
-  id?: number,
-  customerId?: number,
-  deviceId?: number,
+  id?: string,
+  customerId?: string,
+  deviceId?: string,
   subject?: string,
   status?: 'REPAIRING' | 'REPAIRED' | 'CANCELLED',
 ) {
@@ -19,8 +19,8 @@ export default async function searchApplication(
         const applications = await prisma.application.findMany({
           where: {
             id: id ? Number(id) : undefined,
-            customerId: customerId ? customerId : undefined,
-            deviceId: deviceId ? deviceId : undefined,
+            customerId: customerId ? Number(customerId) : undefined,
+            deviceId: deviceId ? Number(deviceId) : undefined,
             subject: subject ? { contains: subject } : undefined,
             status: status ? status : undefined,
           },

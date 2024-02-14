@@ -15,15 +15,28 @@ import Wrapper from '@/components/wrapper'
 import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
+import { useSearchParams } from 'next/navigation'
 
 export default function Component() {
+  const searchId = useSearchParams().get('id')
+  const searchModel = useSearchParams().get('model')
+  const searchBrand = useSearchParams().get('brand')
+  const searchSerialNumber = useSearchParams().get('serialNumber')
+  const searchCustomerId = useSearchParams().get('customerId')
+  const searchCustomerIdLabel = useSearchParams().get('customerIdLabel')
   const [list, setList] = useState([])
-  const [model, setModel] = useState(undefined)
-  const [serialNumber, setSerialNumber] = useState(undefined)
-  const [brand, setBrand] = useState(undefined)
-  const [customer_, setCustomer_] = useState(undefined)
+  const [model, setModel] = useState(searchModel ? searchModel : undefined)
+  const [serialNumber, setSerialNumber] = useState(
+    searchSerialNumber ? searchSerialNumber : undefined,
+  )
+  const [brand, setBrand] = useState(searchBrand ? searchBrand : undefined)
+  const [customer_, setCustomer_] = useState(
+    searchCustomerId
+      ? { id: searchCustomerId, value: searchCustomerIdLabel }
+      : undefined,
+  )
   const [open, setOpen] = useState(false)
-  const [id, setId] = useState(undefined)
+  const [id, setId] = useState(searchId ? searchId : undefined)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
