@@ -23,6 +23,7 @@ interface FormFieldProps {
   labelClassName?: string
   inputElement: ReactElement
   inputClassName?: string
+  required?: boolean
 }
 
 export const FormField: React.FC<FormFieldProps> = ({
@@ -30,10 +31,13 @@ export const FormField: React.FC<FormFieldProps> = ({
   labelClassName = 'text-lg font-semibold text-gray-600',
   inputElement,
   inputClassName = 'border border-gray-300 p-2 rounded text-gray-700',
+  required = false,
 }) => {
   return (
     <>
-      <Label className={labelClassName}>{labelText}</Label>
+      <Label className={labelClassName}>
+        {labelText} {required && <span className='ml-1 text-red-500'>*</span>}
+      </Label>
       {React.cloneElement(inputElement, {
         className: `${inputClassName} ${inputElement.props.className || ''}`,
       })}

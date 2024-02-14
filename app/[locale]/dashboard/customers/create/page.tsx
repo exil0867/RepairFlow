@@ -1,10 +1,12 @@
 'use client'
 import { z } from 'zod'
-import createCustomer from '@/app/actions/createCustomer'
+import createCustomer, { formRes } from '@/app/actions/createCustomer'
 import { useFormState, useFormStatus } from 'react-dom'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { FieldPath, useForm } from 'react-hook-form'
 import { useEffect, useRef } from 'react'
+import { ErrorMessage } from '@hookform/error-message'
 import toast from 'react-hot-toast'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '@/components/ui/input'
@@ -12,21 +14,19 @@ import { Button } from '@/components/ui/button'
 import Form, { FormField, FormFieldWrapper } from '@/components/form'
 import { Textarea } from '@/components/ui/textarea'
 import Wrapper from '@/components/wrapper'
+import useZodForm from '@/hooks/useZodForm'
+import { createApplication } from '@/app/validation'
+import { InputError } from '@/components/inputError'
 
-const schema = z.object({
-  name: z.string(),
-  address: z.string(),
-  phoneNumber: z.string(),
-})
-
-export type formRes = {
-  message: string
-  error: boolean
+export interface FormValues {
+  name: string
+  address: string
+  phoneNumber: string
 }
 
 export default function CreateCustomer() {
   const router = useRouter()
-  const [state, formAction] = useFormState(createCustomer as any, {
+  const [state, formAction] = useFormState<formRes, FormData>(createCustomer, {
     message: null,
     response: null as any,
     error: null,
@@ -42,16 +42,26 @@ export default function CreateCustomer() {
   const {
     reset,
     register,
-    formState: { errors },
-  } = useForm()
+    formState: { errors, isValid },
+    setError,
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(createApplication),
+  })
 
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
       router.push(`/dashboard/customers/${state?.response?.id}`)
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
   }, [pending, router, state])
   return (
@@ -69,13 +79,17 @@ export default function CreateCustomer() {
         <FormFieldWrapper>
           <FormField
             labelText='Nom du client'
+            required
             inputElement={
-              <Input
-                type='text'
-                placeholder='Nom du client'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('name', { required: true })}
-              />
+              <>
+                <Input
+                  type='text'
+                  placeholder='Nom du client'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('name')}
+                />
+                <ErrorMessage name='name' errors={errors} as={<InputError />} />
+              </>
             }
           />
         </FormFieldWrapper>
@@ -83,11 +97,18 @@ export default function CreateCustomer() {
           <FormField
             labelText='Adresse du client'
             inputElement={
-              <Textarea
-                placeholder='Adresse du client'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('address', { required: true })}
-              />
+              <>
+                <Textarea
+                  placeholder='Adresse du client'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('address', { required: true })}
+                />
+                <ErrorMessage
+                  name='address'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
             }
           />
         </FormFieldWrapper>
@@ -95,12 +116,19 @@ export default function CreateCustomer() {
           <FormField
             labelText='Numéro de téléphone'
             inputElement={
-              <Input
-                type='text'
-                placeholder='Numéro de téléphone'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('phone_number', { required: true })}
-              />
+              <>
+                <Input
+                  type='text'
+                  placeholder='Numéro de téléphone'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('phoneNumber', { required: true })}
+                />
+                <ErrorMessage
+                  name='phoneNumber'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
             }
           />
         </FormFieldWrapper>

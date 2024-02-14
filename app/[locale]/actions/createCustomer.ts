@@ -3,54 +3,38 @@ import Image from 'next/image'
 import prisma from '@/lib/prisma'
 import { hash } from 'bcrypt'
 import Link from 'next/link'
-import { z } from 'zod'
+import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
+import { createApplication } from '../validation'
 
-const deviceSchema = z.object({
-  serialNumber: z.string(),
-  model: z.string(),
-  brand: z.string(),
-})
-
-const applicationSchema = z.object({
-  deviceId: z.string().transform((val) => Number(val)),
-  customerId: z.string().transform((val) => Number(val)),
-})
 export type formRes = {
-  message: string
+  message: string | null
   response?: any
-  error: boolean
-}
+  error: boolean | null
+  errors?: Array<{
+    path: string
+    message: string
+  }>
+} | null
 
-const schema = z.object({
-  name: z.string(),
-  address: z.string(),
-  phoneNumber: z.string(),
-})
 export default async function createCustomer(
-  prevState: any,
+  prevState: formRes | null,
   data: FormData,
 ): Promise<formRes> {
   try {
-    const name = data.get('name')
-    const address = data.get('address')
-    const phoneNumber = data.get('phone_number')
+    const { name, address, phoneNumber } = createApplication.parse(data)
 
-    const validatedFields = schema.safeParse({
-      name: name,
-      address: address,
-      phoneNumber: phoneNumber,
+    console.log({
+      name,
+      address,
+      phoneNumber,
     })
-
-    if (!validatedFields.success) {
-      throw new Error('Entrée utilisateur invalide.')
-    }
 
     const response = await prisma.customer.create({
       data: {
-        name: validatedFields.data.name,
-        address: validatedFields.data.address,
-        phoneNumber: validatedFields.data.phoneNumber,
+        name,
+        address,
+        phoneNumber,
       },
     })
     revalidatePath('/')
@@ -60,6 +44,16 @@ export default async function createCustomer(
       error: false,
     }
   } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        error: true,
+        message: 'Données de formulaire invalides',
+        errors: error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+        })),
+      }
+    }
     return {
       message: `Une erreur s'est produite lors de la création du client`,
       error: true,
