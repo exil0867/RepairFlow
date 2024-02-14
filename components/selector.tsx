@@ -30,10 +30,17 @@ function Selector({
 }: any) {
   const [list, setList] = useState([])
   const [inputValue, setInputValue] = useState('')
+  const [shouldType, setShouldType] = useState(true)
   useEffect(() => {
+    if (inputValue === '') {
+      setList([])
+      setShouldType(true)
+      return
+    }
     async function fetchData() {
       const filtered = (await getObjects(inputValue)) as any
       setList(filtered)
+      setShouldType(false)
     }
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,9 +73,13 @@ function Selector({
             <CommandInput
               onValueChange={setInputValue}
               value={inputValue}
-              placeholder={`Search  ${itemName.singular}...`}
+              placeholder={`Rechercher un ${itemName.singular}...`}
             />
-            <CommandEmpty>Aucun {itemName.plurar} trouvé. </CommandEmpty>
+            <CommandEmpty>
+              {shouldType
+                ? `Veuillez rechercher un ${itemName.singular}`
+                : `Aucun ${itemName.plurar} trouvé.`}
+            </CommandEmpty>
             <CommandGroup>
               {list.map((item: any) => (
                 <CommandItem
