@@ -185,7 +185,7 @@ async function page({}: Props) {
                         </TableCell>
                         <TableCell>
                           <Link
-                            className='underline'
+                            className='underline text-blue-500'
                             href={`/dashboard/devices/${device.id}`}
                           >
                             {device.model}

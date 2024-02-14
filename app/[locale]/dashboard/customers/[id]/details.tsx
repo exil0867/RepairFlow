@@ -62,7 +62,7 @@ export default function Component({ customer }: any) {
             title='Liste des articles'
             value={
               <Link
-                className='underline'
+                className='underline text-blue-500'
                 href={`/dashboard/applications?customerId=${customer.id}&customerIdLabel=${customer.name}`}
               >
                 {customer.applications.length}
@@ -75,7 +75,7 @@ export default function Component({ customer }: any) {
             title='Liste des appareils'
             value={
               <Link
-                className='underline'
+                className='underline text-blue-500'
                 href={`/dashboard/devices?customerId=${customer.id}&customerIdLabel=${customer.name}`}
               >
                 {customer.devices.length}

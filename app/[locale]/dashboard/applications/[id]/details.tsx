@@ -157,7 +157,7 @@ export default function Component({ application }: any) {
                 title='Référence:'
                 value={
                   <Link
-                    className='underline'
+                    className='underline text-blue-500'
                     href={`/dashboard/customers/${application.customer.id}`}
                   >
                     {application.device.id}
@@ -184,7 +184,7 @@ export default function Component({ application }: any) {
                 title='Référence:'
                 value={
                   <Link
-                    className='underline'
+                    className='underline text-blue-500'
                     href={`/dashboard/devices/${application.device.id}`}
                   >
                     {application.device.id}
