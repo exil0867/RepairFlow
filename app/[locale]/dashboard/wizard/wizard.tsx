@@ -153,7 +153,7 @@ export default function Component() {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <Wrapper
-        title='Create Application'
+        title='Créer un article'
         footer={
           <>
             {currentStep > 1 && (
