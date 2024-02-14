@@ -29,7 +29,7 @@ export default function Component({ device }: any) {
   const router = useRouter()
   return (
     <Wrapper
-      title='Device Details'
+      title={`Détails de l'appareil`}
       footer={
         <>
           <Button
