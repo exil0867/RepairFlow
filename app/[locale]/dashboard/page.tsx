@@ -1,5 +1,11 @@
 import React from 'react'
-import { CardTitle, CardHeader, CardContent, Card } from '@/components/ui/card'
+import {
+  CardTitle,
+  CardHeader,
+  CardContent,
+  Card,
+  CardDescription,
+} from '@/components/ui/card'
 import prisma from '@/lib/prisma'
 import {
   TableHead,
@@ -10,6 +16,7 @@ import {
   Table,
 } from '@/components/ui/table'
 import BarChart from './bar-chart'
+import LineChart from './line-chart'
 import Link from 'next/link'
 import { renderStatus } from '@/lib/utils'
 
@@ -41,18 +48,26 @@ async function page({}: Props) {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <Card>
           <CardHeader>
-            <CardTitle>Graphique linéaire</CardTitle>
+            <CardTitle>Line Chart</CardTitle>
+            <CardDescription>
+              A simple linear chart displaying the number of applications
+              accepted per day over the past 30 days.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* <CurvedlineChart className='w-full aspect-[4/3]' /> */}
+            <LineChart className='w-full aspect-[2/1]' />
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Graphique à barres</CardTitle>
+            <CardDescription>
+              A simple linear chart displaying the number of applications
+              accepted per day over the past 30 days.
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <BarChart className='w-full aspect-[4/3]' />
+            <BarChart className='w-full aspect-[1/1]' />
           </CardContent>
         </Card>
       </div>

@@ -1,86 +1,47 @@
 'use client'
-import { ResponsiveBar } from '@nivo/bar'
-export default function BarChart(props: any) {
+import { ResponsivePie } from '@nivo/pie'
+import { CardContent, Card } from '@/components/ui/card'
+import { JSX, ClassAttributes, HTMLAttributes } from 'react'
+
+export default function LabelledpieChart(
+  props: JSX.IntrinsicAttributes &
+    ClassAttributes<HTMLDivElement> &
+    HTMLAttributes<HTMLDivElement>,
+) {
   return (
     <div {...props}>
-      <ResponsiveBar
+      <ResponsivePie
         data={[
-          {
-            name: 'A',
-            data: 111,
-          },
-          {
-            name: 'B',
-            data: 157,
-          },
-          {
-            name: 'C',
-            data: 129,
-          },
-          {
-            name: 'D',
-            data: 187,
-          },
-          {
-            name: 'E',
-            data: 119,
-          },
-          {
-            name: 'F',
-            data: 22,
-          },
-          {
-            name: 'G',
-            data: 101,
-          },
-          {
-            name: 'H',
-            data: 83,
-          },
+          { id: 'Jan', value: 111 },
+          { id: 'Feb', value: 157 },
+          { id: 'Mar', value: 129 },
+          { id: 'Apr', value: 150 },
+          { id: 'May', value: 119 },
+          { id: 'Jun', value: 72 },
         ]}
-        keys={['data']}
-        indexBy='name'
-        margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
-        padding={0.3}
-        valueScale={{ type: 'linear' }}
-        indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'paired' }}
+        sortByValue
+        margin={{ top: 30, right: 50, bottom: 30, left: 50 }}
+        innerRadius={0.5}
+        padAngle={1}
+        cornerRadius={3}
+        activeOuterRadiusOffset={2}
         borderWidth={1}
-        borderColor={{
-          from: 'color',
-          modifiers: [['darker', 0.2]],
-        }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'Name',
-          legendPosition: 'middle',
-          legendOffset: 45,
-          truncateTickAt: 0,
-        }}
-        axisLeft={{
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: 'Number',
-          legendPosition: 'middle',
-          legendOffset: -45,
-          truncateTickAt: 0,
-        }}
+        arcLinkLabelsThickness={1}
+        enableArcLabels={false}
+        colors={['#2563eb']}
         theme={{
           tooltip: {
+            chip: {
+              borderRadius: '9999px',
+            },
             container: {
               fontSize: '12px',
+              textTransform: 'capitalize',
+              borderRadius: '6px',
             },
           },
         }}
-        labelSkipWidth={12}
-        labelSkipHeight={12}
         role='application'
-        ariaLabel='A bar chart showing data'
       />
     </div>
   )
