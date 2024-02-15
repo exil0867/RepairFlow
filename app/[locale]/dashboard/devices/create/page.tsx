@@ -40,6 +40,7 @@ export default function CreateCustomer() {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [clientIsEmpty, setClientIsEmpty] = useState<boolean | null>(null)
 
   const [customer_, setCustomer_] = useState<any>(null)
   const router = useRouter()
@@ -100,6 +101,11 @@ export default function CreateCustomer() {
           className='grid gap-6 md:gap-8'
           ref={myRef}
           action={async (data: FormData) => {
+            if (!customer_) {
+              setClientIsEmpty(true)
+            } else {
+              setClientIsEmpty(false)
+            }
             data.set('customerId', customer_?.id)
             formAction(data)
           }}
@@ -203,11 +209,9 @@ export default function CreateCustomer() {
                         return s
                       }}
                     />
-                    <ErrorMessage
-                      name='customerId'
-                      errors={errors}
-                      as={<InputError />}
-                    />
+                    {clientIsEmpty && (
+                      <InputError>Le client est requis</InputError>
+                    )}
                   </>
                 }
               />

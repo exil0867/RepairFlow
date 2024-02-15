@@ -59,6 +59,7 @@ export default function Component({ device }: any) {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [clientIsEmpty, setClientIsEmpty] = useState<boolean | null>(null)
 
   const initialCustomer = transformArray([device.customer], 'name')[0]
   const [customer_, setCustomer_] = useState(initialCustomer)
@@ -76,6 +77,11 @@ export default function Component({ device }: any) {
   const handleSubmit = (e: any) => {
     console.log('dadsadadsad')
     e.preventDefault()
+    if (!customer_) {
+      setClientIsEmpty(true)
+    } else {
+      setClientIsEmpty(false)
+    }
     myRef.current.requestSubmit()
   }
   const {
@@ -218,11 +224,9 @@ export default function Component({ device }: any) {
                         return s
                       }}
                     />
-                    <ErrorMessage
-                      name='customerId'
-                      errors={errors}
-                      as={<InputError />}
-                    />
+                    {clientIsEmpty && (
+                      <InputError>Le client est requis</InputError>
+                    )}
                   </>
                 }
               />
