@@ -3,7 +3,7 @@ import { z } from 'zod'
 import createCustomer from '@/app/actions/createCustomer'
 import { useFormState, useFormStatus } from 'react-dom'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { FieldPath, useForm } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Label } from '@radix-ui/react-label'
@@ -22,16 +22,17 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import CustomerModal from '../../wizard/customer-modal'
 import Selector from '@/components/selector'
 import searchCustomer from '@/app/actions/searchCustomer'
+import { FormResponse } from '@/app/actions/type'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { validateCreateDevice } from '@/app/validation'
+import { ErrorMessage } from '@hookform/error-message'
+import { InputError } from '@/components/inputError'
 
-const schema = z.object({
-  name: z.string(),
-  address: z.string(),
-  phoneNumber: z.string(),
-})
-
-export type formRes = {
-  message: string
-  error: boolean
+export interface FormValues {
+  customerId: string
+  brand: string
+  model: string
+  serialNumber: string
 }
 
 export default function CreateCustomer() {
@@ -42,11 +43,14 @@ export default function CreateCustomer() {
 
   const [customer_, setCustomer_] = useState<any>(null)
   const router = useRouter()
-  const [state, formAction]: any = useFormState(createDevice as any, {
-    message: null,
-    response: null as any,
-    error: null,
-  })
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    createDevice,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
   const { pending } = useFormStatus()
 
   const myRef = useRef(null) as any
@@ -59,15 +63,25 @@ export default function CreateCustomer() {
     reset,
     register,
     formState: { errors },
-  } = useForm()
+    setError,
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateCreateDevice),
+  })
 
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
       router.push(`/dashboard/devices/${state?.response?.id}`)
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
   }, [pending, router, state])
   return (
@@ -85,8 +99,8 @@ export default function CreateCustomer() {
         <Form
           className='grid gap-6 md:gap-8'
           ref={myRef}
-          action={async (data: any) => {
-            data.set('customer_id', customer_?.id)
+          action={async (data: FormData) => {
+            data.set('customerId', customer_?.id)
             formAction(data)
           }}
         >
@@ -94,24 +108,39 @@ export default function CreateCustomer() {
             <FormField
               labelText={`Marque de l'appareil`}
               inputElement={
-                <Input
-                  type='text'
-                  placeholder={`Marque de l'appareil`}
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('brand', { required: true })}
-                />
+                <>
+                  <Input
+                    type='text'
+                    placeholder={`Marque de l'appareil`}
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('brand')}
+                  />
+                  <ErrorMessage
+                    name='brand'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
               labelText={`Modèle d'appareil`}
+              required
               inputElement={
-                <Textarea
-                  placeholder={`Modèle d'appareil`}
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('model', { required: true })}
-                />
+                <>
+                  <Textarea
+                    placeholder={`Modèle d'appareil`}
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('model')}
+                  />
+                  <ErrorMessage
+                    name='model'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>
@@ -119,11 +148,18 @@ export default function CreateCustomer() {
             <FormField
               labelText={`Numéro de série`}
               inputElement={
-                <Textarea
-                  placeholder='Numéro de série'
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('serial_number', { required: true })}
-                />
+                <>
+                  <Textarea
+                    placeholder='Numéro de série'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('serialNumber')}
+                  />
+                  <ErrorMessage
+                    name='serialNumber'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>
@@ -131,40 +167,48 @@ export default function CreateCustomer() {
             <FormFieldSubWrapper subtitle='Client'>
               <FormField
                 labelText='Client sélectionné:'
+                required
                 labelClassName=''
                 inputElement={
-                  <Selector
-                    className='border border-gray-300 p-2 rounded'
-                    setObject={setCustomer_}
-                    object={customer_}
-                    itemName={{ plurar: 'clients', singular: 'client' }}
-                    showList={open}
-                    setShowList={(v: any) => {
-                      setOpen(v)
-                    }}
-                    creator={
-                      <>
-                        <CustomerModal
-                          setCustomer_={setCustomer_}
-                          onClose={() => {
-                            setOpen(false)
-                            setDialogOpen(false)
-                          }}
-                        />
-                        <DialogTrigger asChild>
-                          <Button variant='outline'>Créer un client</Button>
-                        </DialogTrigger>
-                      </>
-                    }
-                    getObjects={async (e: any) => {
-                      const s = transformArray(
-                        await searchCustomer(undefined, e),
-                        'name',
-                      )
-                      console.log(s, 'hi', e)
-                      return s
-                    }}
-                  />
+                  <>
+                    <Selector
+                      className='border border-gray-300 p-2 rounded'
+                      setObject={setCustomer_}
+                      object={customer_}
+                      itemName={{ plurar: 'clients', singular: 'client' }}
+                      showList={open}
+                      setShowList={(v: any) => {
+                        setOpen(v)
+                      }}
+                      creator={
+                        <>
+                          <CustomerModal
+                            setCustomer_={setCustomer_}
+                            onClose={() => {
+                              setOpen(false)
+                              setDialogOpen(false)
+                            }}
+                          />
+                          <DialogTrigger asChild>
+                            <Button variant='outline'>Créer un client</Button>
+                          </DialogTrigger>
+                        </>
+                      }
+                      getObjects={async (e: any) => {
+                        const s = transformArray(
+                          await searchCustomer(undefined, e),
+                          'name',
+                        )
+                        console.log(s, 'hi', e)
+                        return s
+                      }}
+                    />
+                    <ErrorMessage
+                      name='customerId'
+                      errors={errors}
+                      as={<InputError />}
+                    />
+                  </>
                 }
               />
             </FormFieldSubWrapper>

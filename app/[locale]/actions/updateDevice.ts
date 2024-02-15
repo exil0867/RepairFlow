@@ -3,53 +3,28 @@ import Image from 'next/image'
 import prisma from '@/lib/prisma'
 import { hash } from 'bcrypt'
 import Link from 'next/link'
-import { z } from 'zod'
+import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
-
-const deviceSchema = z.object({
-  id: z.string().transform((val) => Number(val)),
-  model: z.string(),
-  brand: z.string(),
-  serialNumber: z.string(),
-  customerId: z.string().transform((val) => Number(val)),
-})
-export type formRes = {
-  message: string
-  response?: any
-  error: boolean
-}
+import { FormResponse } from './type'
+import { validateUpdateDevice } from '../validation'
 
 export default async function updateDevice(
-  prevState: any,
+  prevState: FormResponse,
   data: FormData,
-): Promise<formRes> {
+): Promise<FormResponse> {
   try {
-    const id = data.get('id')
-    const model = data.get('model')
-    const brand = data.get('brand')
-    const serialNumber = data.get('serial_number')
-    const customerId = data.get('customer_id')
-
-    const validatedFields = deviceSchema.safeParse({
-      id,
-      model,
-      brand,
-      serialNumber,
-      customerId,
-    })
-    if (!validatedFields.success) {
-      throw new Error('Entrée utilisateur invalide.')
-    }
+    const { customerId, serialNumber, model, brand, id } =
+      validateUpdateDevice.parse(data)
 
     const response = await prisma.device.update({
       where: {
-        id: validatedFields.data.id,
+        id,
       },
       data: {
-        model: validatedFields.data.model,
-        brand: validatedFields.data.brand,
-        serialNumber: validatedFields.data.serialNumber,
-        customerId: validatedFields.data.customerId,
+        model,
+        brand,
+        serialNumber,
+        customerId,
       },
     })
 
@@ -61,7 +36,17 @@ export default async function updateDevice(
       error: false,
     }
   } catch (error) {
-    console.log(error)
+    if (error instanceof ZodError) {
+      console.log(error.errors[0])
+      return {
+        error: true,
+        message: 'Données de formulaire invalides',
+        errors: error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+        })),
+      }
+    }
     return {
       message: `Une erreur s'est produite lors de la mise à jour de l'appareil`,
       error: true,

@@ -11,9 +11,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
+import { FieldPath, useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import { useFormState, useFormStatus } from 'react-dom'
 import createApplication from '@/app/actions/createApplication'
 import Selector from '@/components/selector'
@@ -40,6 +39,19 @@ import Form, {
   FormFieldSubWrapper,
   FormFieldWrapper,
 } from '@/components/form'
+import { FormResponse } from '@/app/actions/type'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { validateUpdateDevice } from '@/app/validation'
+import { useRouter } from 'next/navigation'
+import { ErrorMessage } from '@hookform/error-message'
+import { InputError } from '@/components/inputError'
+
+export interface FormValues {
+  customerId: string
+  brand: string
+  model: string
+  serialNumber: string
+}
 
 export default function Component({ device }: any) {
   const { id, brand, model, serialNumber } = device
@@ -50,11 +62,15 @@ export default function Component({ device }: any) {
 
   const initialCustomer = transformArray([device.customer], 'name')[0]
   const [customer_, setCustomer_] = useState(initialCustomer)
-  const [state, formAction] = useFormState(updateDevice as any, {
-    message: null,
-    response: null as any,
-    error: null,
-  }) as any
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    updateDevice,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
+  const router = useRouter()
   const { pending } = useFormStatus()
   const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
@@ -65,17 +81,27 @@ export default function Component({ device }: any) {
   const {
     reset,
     register,
+    setError,
     formState: { errors },
-  } = useForm()
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateUpdateDevice),
+  })
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
-      // router.push(`/devices/${state?.response?.id}`)
+      router.push(`/dashboard/devices/${state?.response?.id}`)
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
-  }, [pending, state])
+  }, [pending, router, state])
   return (
     <Wrapper
       title={`Modifier l'appareil`}
@@ -90,9 +116,9 @@ export default function Component({ device }: any) {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <Form
           ref={myRef}
-          action={async (data: { set: (arg0: string, arg1: any) => void }) => {
+          action={async (data: FormData) => {
             data.set('id', device.id)
-            data.set('customer_id', customer_.id)
+            data.set('customerId', customer_.id)
             formAction(data)
           }}
           className='grid gap-6 md:gap-8'
@@ -106,7 +132,7 @@ export default function Component({ device }: any) {
                   defaultValue={device.brand}
                   placeholder={`Marque de l'appareil`}
                   className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('brand', { required: true })}
+                  {...register('brand')}
                 />
               }
             />
@@ -114,13 +140,21 @@ export default function Component({ device }: any) {
           <FormFieldWrapper>
             <FormField
               labelText={`Modèle d'appareil`}
+              required
               inputElement={
-                <textarea
-                  defaultValue={device.model}
-                  placeholder='Modèle'
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('model', { required: true })}
-                />
+                <>
+                  <Textarea
+                    defaultValue={device.model}
+                    placeholder='Modèle'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('model')}
+                  />
+                  <ErrorMessage
+                    name='model'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>
@@ -128,53 +162,68 @@ export default function Component({ device }: any) {
             <FormField
               labelText='Numéro de série'
               inputElement={
-                <Textarea
-                  defaultValue={device.serialNumber}
-                  placeholder='Numéro de série'
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('serial_number', { required: true })}
-                />
+                <>
+                  <Textarea
+                    defaultValue={device.serialNumber}
+                    placeholder='Numéro de série'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('serialNumber')}
+                  />
+                  <ErrorMessage
+                    name='serialNumber'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormFieldSubWrapper subtitle='Client'>
               <FormField
+                required
                 labelText='Client sélectionné:'
                 labelClassName=''
                 inputElement={
-                  <Selector
-                    className='border border-gray-300 p-2 rounded'
-                    setObject={setCustomer_}
-                    object={customer_}
-                    itemName={{ plurar: 'clients', singular: 'client' }}
-                    showList={open}
-                    setShowList={(v: any) => {
-                      setOpen(v)
-                    }}
-                    creator={
-                      <>
-                        <CustomerModal
-                          setCustomer_={setCustomer_}
-                          onClose={() => {
-                            setOpen(false)
-                            setDialogOpen(false)
-                          }}
-                        />
-                        <DialogTrigger asChild>
-                          <Button variant='outline'>Créer un client</Button>
-                        </DialogTrigger>
-                      </>
-                    }
-                    getObjects={async (e: any) => {
-                      const s = transformArray(
-                        await searchCustomer(undefined, e),
-                        'name',
-                      )
-                      console.log(s, 'hi', e)
-                      return s
-                    }}
-                  />
+                  <>
+                    <Selector
+                      className='border border-gray-300 p-2 rounded'
+                      setObject={setCustomer_}
+                      object={customer_}
+                      itemName={{ plurar: 'clients', singular: 'client' }}
+                      showList={open}
+                      setShowList={(v: any) => {
+                        setOpen(v)
+                      }}
+                      creator={
+                        <>
+                          <CustomerModal
+                            setCustomer_={setCustomer_}
+                            onClose={() => {
+                              setOpen(false)
+                              setDialogOpen(false)
+                            }}
+                          />
+                          <DialogTrigger asChild>
+                            <Button variant='outline'>Créer un client</Button>
+                          </DialogTrigger>
+                        </>
+                      }
+                      getObjects={async (e: any) => {
+                        const s = transformArray(
+                          await searchCustomer(undefined, e),
+                          'name',
+                        )
+                        console.log(s, 'hi', e)
+                        return s
+                      }}
+                    />
+                    <ErrorMessage
+                      name='customerId'
+                      errors={errors}
+                      as={<InputError />}
+                    />
+                  </>
                 }
               />
             </FormFieldSubWrapper>

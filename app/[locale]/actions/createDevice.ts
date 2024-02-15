@@ -3,58 +3,25 @@ import Image from 'next/image'
 import prisma from '@/lib/prisma'
 import { hash } from 'bcrypt'
 import Link from 'next/link'
-import { z } from 'zod'
+import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
+import { FormResponse } from './type'
+import { validateCreateDevice } from '../validation'
 
-const deviceSchema = z.object({
-  customerId: z.string().transform((val) => Number(val)),
-  serialNumber: z.string(),
-  model: z.string(),
-  brand: z.string(),
-})
-
-const applicationSchema = z.object({
-  deviceId: z.string().transform((val) => Number(val)),
-  customerId: z.string().transform((val) => Number(val)),
-})
-export type formRes = {
-  message: string
-  response?: any
-  error: boolean
-}
-
-const schema = z.object({
-  name: z.string(),
-  address: z.string(),
-  phoneNumber: z.string(),
-})
 export default async function createDevice(
-  prevState: any,
+  prevState: FormResponse,
   data: FormData,
-): Promise<formRes> {
+): Promise<FormResponse> {
   try {
-    const customerId = data.get('customer_id')
-    const serialNumber = data.get('serial_number')
-    const model = data.get('model')
-    const brand = data.get('brand')
-
-    const validatedFields = deviceSchema.safeParse({
-      customerId: customerId,
-      serialNumber: serialNumber,
-      model: model,
-      brand: brand,
-    })
-
-    if (!validatedFields.success) {
-      throw new Error('Entrée utilisateur invalide.')
-    }
-
+    const { customerId, serialNumber, model, brand } =
+      validateCreateDevice.parse(data)
+    console.log(customerId)
     const response = await prisma.device.create({
       data: {
-        customerId: validatedFields.data.customerId,
-        serialNumber: validatedFields.data.serialNumber,
-        model: validatedFields.data.model,
-        brand: validatedFields.data.brand,
+        customerId,
+        serialNumber,
+        model,
+        brand,
       },
     })
 
@@ -66,6 +33,16 @@ export default async function createDevice(
       error: false,
     }
   } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        error: true,
+        message: 'Données de formulaire invalides',
+        errors: error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+        })),
+      }
+    }
     return {
       message: `Une erreur s'est produite lors de la création de l'appareil.`,
       error: true,

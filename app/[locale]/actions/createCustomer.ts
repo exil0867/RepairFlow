@@ -5,7 +5,7 @@ import { hash } from 'bcrypt'
 import Link from 'next/link'
 import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
-import { validateCreateCustomer } from '../validation'
+import { validateCreateCustomer, validateUpdateCustomer } from '../validation'
 import { FormResponse } from './type'
 
 export default async function createCustomer(
