@@ -1,6 +1,6 @@
 'use client'
 import { z } from 'zod'
-import createCustomer, { formRes } from '@/app/actions/createCustomer'
+import createCustomer from '@/app/actions/createCustomer'
 import { useFormState, useFormStatus } from 'react-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -15,8 +15,9 @@ import Form, { FormField, FormFieldWrapper } from '@/components/form'
 import { Textarea } from '@/components/ui/textarea'
 import Wrapper from '@/components/wrapper'
 import useZodForm from '@/hooks/useZodForm'
-import { createApplication } from '@/app/validation'
+import { validateCreateCustomer } from '@/app/validation'
 import { InputError } from '@/components/inputError'
+import { FormResponse } from '@/app/actions/type'
 
 export interface FormValues {
   name: string
@@ -26,11 +27,14 @@ export interface FormValues {
 
 export default function CreateCustomer() {
   const router = useRouter()
-  const [state, formAction] = useFormState<formRes, FormData>(createCustomer, {
-    message: null,
-    response: null as any,
-    error: null,
-  })
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    createCustomer,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
   const { pending } = useFormStatus()
 
   const myRef = useRef(null) as any
@@ -46,7 +50,7 @@ export default function CreateCustomer() {
     setError,
   } = useForm<FormValues>({
     mode: 'all',
-    resolver: zodResolver(createApplication),
+    resolver: zodResolver(validateCreateCustomer),
   })
 
   useEffect(() => {

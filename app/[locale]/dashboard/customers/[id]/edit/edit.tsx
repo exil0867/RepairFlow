@@ -11,11 +11,10 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
-import { useForm } from 'react-hook-form'
+import { FieldPath, useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { useFormState, useFormStatus } from 'react-dom'
-import createApplication from '@/app/actions/createApplication'
 import Selector from '@/components/selector'
 import CustomerModal from '../../../wizard/customer-modal'
 import { Dialog, DialogTrigger } from '@radix-ui/react-dialog'
@@ -39,18 +38,34 @@ import Form, {
   FormFieldSubWrapper,
   FormFieldWrapper,
 } from '@/components/form'
+import { FormResponse } from '@/app/actions/type'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { validateUpdateCustomer } from '@/app/validation'
+import { ErrorMessage } from '@hookform/error-message'
+import { InputError } from '@/components/inputError'
+
+export interface FormValues {
+  name: string
+  address: string
+  phoneNumber: string
+  id: string
+}
 
 export default function Component({ customer }: any) {
+  const router = useRouter()
   const { id, name, address, phoneNumber } = customer
   // const router = useRouter()
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [state, formAction] = useFormState(updateCustomer as any, {
-    message: null,
-    response: null as any,
-    error: null,
-  }) as any
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    updateCustomer,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
   const { pending } = useFormStatus()
   const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
@@ -62,16 +77,26 @@ export default function Component({ customer }: any) {
     reset,
     register,
     formState: { errors },
-  } = useForm()
+    setError,
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateUpdateCustomer),
+  })
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
-      // router.push(`/customers/${state?.response?.id}`)
+      router.push(`/dashboard/customers/${state?.response?.id}`)
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
-  }, [pending, state])
+  }, [pending, router, state])
   return (
     <Wrapper
       title='Modifier le client'
@@ -86,7 +111,7 @@ export default function Component({ customer }: any) {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <Form
           ref={myRef}
-          action={async (data: { set: (arg0: string, arg1: any) => void }) => {
+          action={async (data: FormData) => {
             data.set('id', customer.id)
             formAction(data)
           }}
@@ -95,14 +120,22 @@ export default function Component({ customer }: any) {
           <FormFieldWrapper>
             <FormField
               labelText='Nom du client'
+              required
               inputElement={
-                <Input
-                  type='text'
-                  defaultValue={customer.name}
-                  placeholder='Nom du client'
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('name', { required: true })}
-                />
+                <>
+                  <Input
+                    type='text'
+                    defaultValue={customer.name}
+                    placeholder='Nom du client'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('name')}
+                  />
+                  <ErrorMessage
+                    name='name'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>
@@ -110,12 +143,19 @@ export default function Component({ customer }: any) {
             <FormField
               labelText='Adresse du client'
               inputElement={
-                <Textarea
-                  defaultValue={customer.address}
-                  placeholder='Adresse du client'
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('address', { required: true })}
-                />
+                <>
+                  <Textarea
+                    defaultValue={customer.address}
+                    placeholder='Adresse du client'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('address', { required: true })}
+                  />
+                  <ErrorMessage
+                    name='address'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>
@@ -123,13 +163,20 @@ export default function Component({ customer }: any) {
             <FormField
               labelText='Numéro de téléphone'
               inputElement={
-                <Input
-                  type='text'
-                  defaultValue={customer.phoneNumber}
-                  placeholder='Numéro de téléphone'
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('phone_number', { required: true })}
-                />
+                <>
+                  <Input
+                    type='text'
+                    defaultValue={customer.phoneNumber}
+                    placeholder='Numéro de téléphone'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('phoneNumber', { required: true })}
+                  />
+                  <ErrorMessage
+                    name='phoneNumber'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
               }
             />
           </FormFieldWrapper>

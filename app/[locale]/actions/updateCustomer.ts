@@ -3,49 +3,26 @@ import Image from 'next/image'
 import prisma from '@/lib/prisma'
 import { hash } from 'bcrypt'
 import Link from 'next/link'
-import { z } from 'zod'
+import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
-
-const customerSchema = z.object({
-  id: z.string().transform((val) => Number(val)),
-  name: z.string(),
-  address: z.string(),
-  phoneNumber: z.string(),
-})
-export type formRes = {
-  message: string
-  response?: any
-  error: boolean
-}
+import { FormResponse } from './type'
+import { validateUpdateCustomer } from '../validation'
 
 export default async function updateCustomer(
-  prevState: any,
+  prevState: FormResponse,
   data: FormData,
-): Promise<formRes> {
+): Promise<FormResponse> {
   try {
-    const id = data.get('id')
-    const name = data.get('name')
-    const address = data.get('address')
-    const phoneNumber = data.get('phone_number')
-
-    const validatedFields = customerSchema.safeParse({
-      id,
-      name,
-      address,
-      phoneNumber,
-    })
-    if (!validatedFields.success) {
-      throw new Error('Entrée utilisateur invalide.')
-    }
-
+    const { id, name, address, phoneNumber } =
+      validateUpdateCustomer.parse(data)
     const response = await prisma.customer.update({
       where: {
-        id: validatedFields.data.id,
+        id,
       },
       data: {
-        name: validatedFields.data.name,
-        address: validatedFields.data.address,
-        phoneNumber: validatedFields.data.phoneNumber,
+        name,
+        address,
+        phoneNumber,
       },
     })
 
@@ -57,7 +34,16 @@ export default async function updateCustomer(
       error: false,
     }
   } catch (error) {
-    console.log(error)
+    if (error instanceof ZodError) {
+      return {
+        error: true,
+        message: 'Données de formulaire invalides',
+        errors: error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+        })),
+      }
+    }
     return {
       message: `Une erreur s'est produite lors de la mise à jour du client`,
       error: true,

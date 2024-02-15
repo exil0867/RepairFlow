@@ -5,24 +5,15 @@ import { hash } from 'bcrypt'
 import Link from 'next/link'
 import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
-import { createApplication } from '../validation'
-
-export type formRes = {
-  message: string | null
-  response?: any
-  error: boolean | null
-  errors?: Array<{
-    path: string
-    message: string
-  }>
-} | null
+import { validateCreateCustomer } from '../validation'
+import { FormResponse } from './type'
 
 export default async function createCustomer(
-  prevState: formRes | null,
+  prevState: FormResponse,
   data: FormData,
-): Promise<formRes> {
+): Promise<FormResponse> {
   try {
-    const { name, address, phoneNumber } = createApplication.parse(data)
+    const { name, address, phoneNumber } = validateCreateCustomer.parse(data)
 
     console.log({
       name,
