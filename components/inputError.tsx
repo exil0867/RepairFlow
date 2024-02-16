@@ -1,7 +1,16 @@
+import { cn } from '@/lib/utils'
 import React from 'react'
 
-export function InputError({ children }: { children?: React.ReactNode }) {
+export function InputError({
+  children,
+  className = '',
+}: {
+  children?: React.ReactNode
+  className?: string
+}) {
   return (
-    <span className='text-sm text-red-500 dark:text-red-400'>{children}</span>
+    <span className={cn('text-sm text-red-500 dark:text-red-400', className)}>
+      {children}
+    </span>
   )
 }

@@ -7,7 +7,6 @@ import toast from 'react-hot-toast'
 import { useFormState, useFormStatus } from 'react-dom'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { formRes } from '../customers/create/page'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { transformArray } from '@/lib/utils'
 import CustomerModal from './customer-modal'
@@ -33,6 +32,7 @@ import searchCustomer from '../../actions/searchCustomer'
 import Selector from '@/components/selector'
 import searchDevice from '../../actions/searchDevice'
 import Wrapper from '@/components/wrapper'
+import { InputError } from '@/components/inputError'
 
 export default function Component() {
   const [open, setOpen] = useState(false)
@@ -48,8 +48,23 @@ export default function Component() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
 
+  const [customerIsSelected, setCustomerIsSelected] = useState<boolean | null>(
+    null,
+  )
+  const [deviceIsSelected, setDeviceIsSelected] = useState<boolean | null>(null)
+
   const goToNextStep = (event: any) => {
     event.preventDefault()
+    if (currentStep === 1) {
+      if (customer_.id === 0) {
+        return setCustomerIsSelected(false)
+      }
+    }
+    if (currentStep === 2) {
+      if (device_.id === 0) {
+        return setDeviceIsSelected(false)
+      }
+    }
     setCurrentStep((prevStep) => prevStep + 1)
   }
 
@@ -71,80 +86,90 @@ export default function Component() {
     switch (currentStep) {
       case 1:
         return (
-          <div key={1}>
-            <Label className='block pb-4'>Client</Label>
-            <Selector
-              setObject={setCustomer_}
-              object={customer_}
-              itemName={{ plurar: 'clients', singular: 'client' }}
-              showList={open}
-              setShowList={setOpen}
-              creator={
-                <>
-                  <CustomerModal
-                    setCustomer_={setCustomer_}
-                    onClose={() => {
-                      setOpen(false)
-                      setDialogOpen(false)
-                    }}
-                  />
-                  <DialogTrigger asChild>
-                    <Button variant='outline'>Créer un client</Button>
-                  </DialogTrigger>
-                </>
-              }
-              getObjects={async (e: any) => {
-                const s = transformArray(
-                  await searchCustomer(undefined, e),
-                  'name',
-                )
-                console.log(s, 'hi', e)
-                return s
-              }}
-            />
-          </div>
+          <>
+            <div key={1}>
+              <Label className='block pb-4'>Client</Label>
+              <Selector
+                setObject={setCustomer_}
+                object={customer_}
+                itemName={{ plurar: 'clients', singular: 'client' }}
+                showList={open}
+                setShowList={setOpen}
+                creator={
+                  <>
+                    <CustomerModal
+                      setCustomer_={setCustomer_}
+                      onClose={() => {
+                        setOpen(false)
+                        setDialogOpen(false)
+                      }}
+                    />
+                    <DialogTrigger asChild>
+                      <Button variant='outline'>Créer un client</Button>
+                    </DialogTrigger>
+                  </>
+                }
+                getObjects={async (e: any) => {
+                  const s = transformArray(
+                    await searchCustomer(undefined, e),
+                    'name',
+                  )
+                  console.log(s, 'hi', e)
+                  return s
+                }}
+              />
+            </div>
+            {!customerIsSelected && customerIsSelected !== null && (
+              <InputError>Veuillez sélectionner un client</InputError>
+            )}
+          </>
         )
       case 2:
         return (
-          <div key={2}>
-            <Label className='block pb-4'>Appareil</Label>
-            <Selector
-              setObject={setDevice_}
-              object={device_}
-              itemName={{ plurar: 'appareils', singular: 'appareil' }}
-              showList={open}
-              setShowList={setOpen}
-              creator={
-                <>
-                  <DeviceModal
-                    setDevice_={setDevice_}
-                    customerId={customer_.id}
-                    onClose={() => {
-                      setOpen(false)
-                      setDialogOpen(false)
-                    }}
-                  />
-                  <DialogTrigger asChild>
-                    <Button variant='outline'>Créer un appareil</Button>
-                  </DialogTrigger>
-                </>
-              }
-              getObjects={async (e: any) => {
-                const s = transformArray(
-                  await searchDevice(
-                    undefined,
-                    e,
-                    undefined,
-                    undefined,
-                    customer_.id,
-                  ),
-                  'model',
-                )
-                console.log(s, 'hi', e)
-                return s
-              }}
-            />
-          </div>
+          <>
+            <div key={2}>
+              <Label className='block pb-4'>Appareil</Label>
+              <Selector
+                setObject={setDevice_}
+                object={device_}
+                itemName={{ plurar: 'appareils', singular: 'appareil' }}
+                showList={open}
+                setShowList={setOpen}
+                creator={
+                  <>
+                    <DeviceModal
+                      setDevice_={setDevice_}
+                      customerId={customer_.id}
+                      onClose={() => {
+                        setOpen(false)
+                        setDialogOpen(false)
+                      }}
+                    />
+                    <DialogTrigger asChild>
+                      <Button variant='outline'>Créer un appareil</Button>
+                    </DialogTrigger>
+                  </>
+                }
+                getObjects={async (e: any) => {
+                  const s = transformArray(
+                    await searchDevice(
+                      undefined,
+                      e,
+                      undefined,
+                      undefined,
+                      customer_.id as any,
+                    ),
+                    'model',
+                  )
+                  console.log(s, 'hi', e)
+                  return s
+                }}
+              />
+            </div>
+            {!deviceIsSelected && deviceIsSelected !== null && (
+              <InputError>Veuillez sélectionner un appareil</InputError>
+            )}
+          </>
         )
       default:
         return null
@@ -179,6 +204,11 @@ export default function Component() {
           </>
         }
       >
+        <p className='mb-5'>
+          Dans cette page, le processus de lancement d&apos;un nouvel article
+          commence par la sélection d&apos;un client, suivi par la sélection de
+          son appareil et enfin par le remplissage du formulaire d&apos;article.
+        </p>
         {renderStep()}
       </Wrapper>
     </Dialog>
