@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useForm } from 'react-hook-form'
+import { FieldPath, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useFormState, useFormStatus } from 'react-dom'
 import { useEffect, useRef, useState } from 'react'
@@ -39,6 +39,18 @@ import Form, {
   FormFieldWrapper,
 } from '@/components/form'
 import { Textarea } from '@/components/ui/textarea'
+import { validateCreateDevice } from '../../validation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormResponse } from '../../actions/type'
+import { ErrorMessage } from '@hookform/error-message'
+import { InputError } from '@/components/inputError'
+
+export interface FormValues {
+  customerId: string
+  brand: string
+  model: string
+  serialNumber: string
+}
 
 export default function DialogDemo({
   setDevice_,
@@ -52,13 +64,20 @@ export default function DialogDemo({
   const {
     reset,
     register,
+    setError,
     formState: { errors },
-  } = useForm()
-  const [state, formAction] = useFormState(createDevice as any, {
-    message: null,
-    response: null as any,
-    error: null,
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateCreateDevice),
   })
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    createDevice,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
 
   const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
@@ -68,6 +87,7 @@ export default function DialogDemo({
 
   const { pending } = useFormStatus()
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
@@ -79,6 +99,11 @@ export default function DialogDemo({
       onClose()
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
   }, [pending, reset, setDevice_, state])
 
@@ -91,17 +116,24 @@ export default function DialogDemo({
         </DialogDescription>
       </DialogHeader>
       <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
-        <input type='hidden' name='customer_id' value={customerId} />
+        <input type='hidden' name='customerId' value={customerId} />
         <FormFieldWrapper>
           <FormField
             labelText='Numéro de série'
             inputElement={
-              <Input
-                type='text'
-                placeholder='Numéro de série'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('serial_number', { required: true })}
-              />
+              <>
+                <Input
+                  type='text'
+                  placeholder='Numéro de série'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('serialNumber', { required: true })}
+                />
+                <ErrorMessage
+                  name='serialNumber'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
             }
           />
         </FormFieldWrapper>
@@ -109,12 +141,19 @@ export default function DialogDemo({
           <FormField
             labelText='Modèle'
             inputElement={
-              <Input
-                type='text'
-                placeholder='Modèle'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('model', { required: true })}
-              />
+              <>
+                <Input
+                  type='text'
+                  placeholder='Modèle'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('model', { required: true })}
+                />
+                <ErrorMessage
+                  name='model'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
             }
           />
         </FormFieldWrapper>
@@ -122,12 +161,19 @@ export default function DialogDemo({
           <FormField
             labelText='Marque'
             inputElement={
-              <Input
-                type='text'
-                placeholder='Marque'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('brand', { required: true })}
-              />
+              <>
+                <Input
+                  type='text'
+                  placeholder='Marque'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('brand', { required: true })}
+                />
+                <ErrorMessage
+                  name='brand'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
             }
           />
         </FormFieldWrapper>
