@@ -59,7 +59,7 @@ export default function Component({ device }: any) {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [clientIsEmpty, setClientIsEmpty] = useState<boolean | null>(null)
+  const [customerIsEmpty, setCustomerIsEmpty] = useState<boolean | null>(null)
 
   const initialCustomer = transformArray([device.customer], 'name')[0]
   const [customer_, setCustomer_] = useState(initialCustomer)
@@ -78,9 +78,9 @@ export default function Component({ device }: any) {
     console.log('dadsadadsad')
     e.preventDefault()
     if (!customer_) {
-      setClientIsEmpty(true)
+      setCustomerIsEmpty(true)
     } else {
-      setClientIsEmpty(false)
+      setCustomerIsEmpty(false)
     }
     myRef.current.requestSubmit()
   }
@@ -183,54 +183,6 @@ export default function Component({ device }: any) {
                 </>
               }
             />
-          </FormFieldWrapper>
-          <FormFieldWrapper>
-            <FormFieldSubWrapper subtitle='Client'>
-              <FormField
-                required
-                labelText='Client sélectionné:'
-                labelClassName=''
-                inputElement={
-                  <>
-                    <Selector
-                      className='border border-gray-300 p-2 rounded'
-                      setObject={setCustomer_}
-                      object={customer_}
-                      itemName={{ plurar: 'clients', singular: 'client' }}
-                      showList={open}
-                      setShowList={(v: any) => {
-                        setOpen(v)
-                      }}
-                      creator={
-                        <>
-                          <CustomerModal
-                            setCustomer_={setCustomer_}
-                            onClose={() => {
-                              setOpen(false)
-                              setDialogOpen(false)
-                            }}
-                          />
-                          <DialogTrigger asChild>
-                            <Button variant='outline'>Créer un client</Button>
-                          </DialogTrigger>
-                        </>
-                      }
-                      getObjects={async (e: any) => {
-                        const s = transformArray(
-                          await searchCustomer(undefined, e),
-                          'name',
-                        )
-                        console.log(s, 'hi', e)
-                        return s
-                      }}
-                    />
-                    {clientIsEmpty && (
-                      <InputError>Le client est requis</InputError>
-                    )}
-                  </>
-                }
-              />
-            </FormFieldSubWrapper>
           </FormFieldWrapper>
         </Form>
       </Dialog>

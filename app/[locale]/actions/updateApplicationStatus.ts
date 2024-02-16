@@ -2,12 +2,8 @@
 import prisma from '@/lib/prisma'
 import { Application } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
-import { z } from 'zod'
-
-const applicationSchema = z.object({
-  id: z.number(),
-  status: z.enum(['REPAIRED', 'REPAIRING', 'CANCELLED']),
-})
+import { ZodError, z } from 'zod'
+import { validateUpdateArticleStatus } from '../validation'
 
 export default async function updateApplicationStatus(
   id: number,
@@ -16,23 +12,16 @@ export default async function updateApplicationStatus(
   try {
     const fetchApplication = async () => {
       try {
-        const validatedFields = applicationSchema.safeParse({
-          id: id,
-          status: status,
-        })
-
-        if (!validatedFields.success) {
-          throw new Error('Entrée utilisateur invalide.')
-        }
+        const parsedData = validateUpdateArticleStatus.parse({ id, status })
         let updatedApplication = await prisma.application.update({
           include: {
             conclusion: true,
           },
           where: {
-            id: id,
+            id: parsedData.id,
           },
           data: {
-            status: validatedFields.data.status,
+            status: parsedData.status,
           },
         })
         if (!updatedApplication)
@@ -40,7 +29,7 @@ export default async function updateApplicationStatus(
             `Impossible de trouver ou de mettre à jour l'article.`,
           )
         if (
-          ['CANCELLED', 'REPAIRING'].includes(validatedFields.data.status) &&
+          ['CANCELLED', 'REPAIRING'].includes(parsedData.status) &&
           updatedApplication.conclusion
         ) {
           await prisma.concludedApplication.delete({
@@ -72,6 +61,16 @@ export default async function updateApplicationStatus(
 
     return application
   } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        error: true,
+        message: 'Données de formulaire invalides',
+        errors: error.issues.map((issue) => ({
+          path: issue.path.join('.'),
+          message: issue.message,
+        })),
+      }
+    }
     return {
       message: `Une erreur s'est produite lors de la définition du statut de l'article`,
       error: true,

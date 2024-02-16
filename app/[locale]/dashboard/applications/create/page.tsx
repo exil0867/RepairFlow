@@ -3,7 +3,7 @@ import { z } from 'zod'
 import createCustomer from '@/app/actions/createCustomer'
 import { useFormState, useFormStatus } from 'react-dom'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { FieldPath, useForm } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Label } from '@radix-ui/react-label'
@@ -42,19 +42,24 @@ import searchCustomer from '@/app/actions/searchCustomer'
 import DeviceModal from '../../wizard/device-modal'
 import searchDevice from '@/app/actions/searchDevice'
 import { useParams } from 'next/navigation'
+import { FormResponse } from '@/app/actions/type'
+import { validateCreateArticle } from '@/app/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { InputError } from '@/components/inputError'
+import { ErrorMessage } from '@hookform/error-message'
 
-const schema = z.object({
-  name: z.string(),
-  address: z.string(),
-  phoneNumber: z.string(),
-})
-
-export type formRes = {
-  message: string
-  error: boolean
+export interface FormValues {
+  subject: string
+  notes: string
+  deviceId: string
+  customerId: string
+  status: 'REPAIRED' | 'REPAIRING' | 'CANCELLED'
 }
 
 export default function CreateApplication() {
+  const [customerIsEmpty, setCustomerIsEmpty] = useState<boolean | null>(null)
+  const [deviceIsEmpty, setDeviceIsEmpty] = useState<boolean | null>(null)
+  const [statusIsEmpty, setStatusIsEmpty] = useState<boolean | null>(null)
   const customerId = useSearchParams().get('customerId')
   const deviceId = useSearchParams().get('deviceId')
   const status = useSearchParams().get('status')
@@ -94,11 +99,14 @@ export default function CreateApplication() {
     value: '',
     id: 0,
   })
-  const [state, formAction] = useFormState(createApplication as any, {
-    message: null,
-    response: null as any,
-    error: null,
-  })
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    createApplication,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
   const { pending } = useFormStatus()
 
   const myRef = useRef(null) as any
@@ -110,16 +118,26 @@ export default function CreateApplication() {
   const {
     reset,
     register,
+    setError,
     formState: { errors },
-  } = useForm()
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateCreateArticle),
+  })
 
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
       router.push(`/dashboard/applications/${state?.response?.id}`)
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
   }, [pending, router, state])
   return (
@@ -138,9 +156,19 @@ export default function CreateApplication() {
           <Form
             className='grid gap-6 md:gap-8'
             ref={myRef}
-            action={async (data) => {
-              data.set('device_id', device_.id)
-              data.set('customer_id', customer_.id)
+            action={async (data: FormData) => {
+              if (device_.id === 0) {
+                setDeviceIsEmpty(true)
+              } else {
+                setDeviceIsEmpty(false)
+              }
+              data.set('deviceId', String(device_.id))
+              if (customer_.id === 0) {
+                setCustomerIsEmpty(true)
+              } else {
+                setCustomerIsEmpty(false)
+              }
+              data.set('customerId', String(customer_.id))
               formAction(data)
             }}
           >
@@ -148,12 +176,19 @@ export default function CreateApplication() {
               <FormField
                 labelText={`Sujet de l'article`}
                 inputElement={
-                  <Input
-                    type='text'
-                    placeholder={`Sujet de l'article`}
-                    className='border border-gray-300 p-2 rounded text-gray-700'
-                    {...register('subject', { required: true })}
-                  />
+                  <>
+                    <Input
+                      type='text'
+                      placeholder={`Sujet de l'article`}
+                      className='border border-gray-300 p-2 rounded text-gray-700'
+                      {...register('subject')}
+                    />
+                    <ErrorMessage
+                      name='subject'
+                      errors={errors}
+                      as={<InputError />}
+                    />
+                  </>
                 }
               />
             </FormFieldWrapper>
@@ -161,11 +196,18 @@ export default function CreateApplication() {
               <FormField
                 labelText={`Notes d'article`}
                 inputElement={
-                  <Textarea
-                    placeholder={`Notes d'article`}
-                    className='border border-gray-300 p-2 rounded text-gray-700'
-                    {...register('notes', { required: true })}
-                  />
+                  <>
+                    <Textarea
+                      placeholder={`Notes d'article`}
+                      className='border border-gray-300 p-2 rounded text-gray-700'
+                      {...register('notes')}
+                    />
+                    <ErrorMessage
+                      name='notes'
+                      errors={errors}
+                      as={<InputError />}
+                    />
+                  </>
                 }
               />
             </FormFieldWrapper>
@@ -173,21 +215,28 @@ export default function CreateApplication() {
               <FormField
                 labelText={`Statut de l'article`}
                 inputElement={
-                  <Select
-                    defaultValue={status ? status.toUpperCase() : undefined}
-                    {...register('status', { required: true })}
-                  >
-                    <SelectTrigger className='w-[180px]'>
-                      <SelectValue placeholder='Sélectionnez le statut' />
-                    </SelectTrigger>
-                    <SelectContent className='bg-white'>
-                      <SelectGroup>
-                        <SelectItem value='REPAIRING'>Réparer</SelectItem>
-                        <SelectItem value='REPAIRED'>Réparé</SelectItem>
-                        <SelectItem value='CANCELLED'>Annulé</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <>
+                    <Select
+                      defaultValue={status ? status.toUpperCase() : undefined}
+                      {...register('status')}
+                    >
+                      <SelectTrigger className='w-[180px] border border-gray-300 p-2 rounded'>
+                        <SelectValue placeholder='Sélectionnez le statut' />
+                      </SelectTrigger>
+                      <SelectContent className='bg-white'>
+                        <SelectGroup>
+                          <SelectItem value='REPAIRING'>Réparer</SelectItem>
+                          <SelectItem value='REPAIRED'>Réparé</SelectItem>
+                          <SelectItem value='CANCELLED'>Annulé</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <ErrorMessage
+                      name='status'
+                      errors={errors}
+                      as={<InputError />}
+                    />
+                  </>
                 }
               />
             </FormFieldWrapper>
@@ -197,38 +246,43 @@ export default function CreateApplication() {
                   labelText='Client sélectionné:'
                   labelClassName=''
                   inputElement={
-                    <Selector
-                      className='border border-gray-300 p-2 rounded'
-                      setObject={setCustomer_}
-                      object={customer_}
-                      itemName={{ plurar: 'clients', singular: 'client' }}
-                      showList={open}
-                      setShowList={(v: any) => {
-                        setOpen(v)
-                      }}
-                      creator={
-                        <>
-                          <CustomerModal
-                            setCustomer_={setCustomer_}
-                            onClose={() => {
-                              setOpen(false)
-                              setDialogOpen(false)
-                            }}
-                          />
-                          <DialogTrigger asChild>
-                            <Button variant='outline'>Créer un client</Button>
-                          </DialogTrigger>
-                        </>
-                      }
-                      getObjects={async (e: any) => {
-                        const s = transformArray(
-                          await searchCustomer(undefined, e),
-                          'name',
-                        )
-                        console.log(s, 'hi', e)
-                        return s
-                      }}
-                    />
+                    <>
+                      <Selector
+                        className='border border-gray-300 p-2 rounded'
+                        setObject={setCustomer_}
+                        object={customer_}
+                        itemName={{ plurar: 'clients', singular: 'client' }}
+                        showList={open}
+                        setShowList={(v: any) => {
+                          setOpen(v)
+                        }}
+                        creator={
+                          <>
+                            <CustomerModal
+                              setCustomer_={setCustomer_}
+                              onClose={() => {
+                                setOpen(false)
+                                setDialogOpen(false)
+                              }}
+                            />
+                            <DialogTrigger asChild>
+                              <Button variant='outline'>Créer un client</Button>
+                            </DialogTrigger>
+                          </>
+                        }
+                        getObjects={async (e: any) => {
+                          const s = transformArray(
+                            await searchCustomer(undefined, e),
+                            'name',
+                          )
+                          console.log(s, 'hi', e)
+                          return s
+                        }}
+                      />
+                      {customerIsEmpty && (
+                        <InputError>Le client est requis</InputError>
+                      )}
+                    </>
                   }
                 />
               </FormFieldSubWrapper>
@@ -239,43 +293,50 @@ export default function CreateApplication() {
                   labelText='Appareil sélectionné:'
                   labelClassName=''
                   inputElement={
-                    <Selector
-                      className='border border-gray-300 p-2 rounded'
-                      setObject={setDevice_}
-                      object={device_}
-                      itemName={{ plurar: 'appareils', singular: 'appareil' }}
-                      showList={open2}
-                      setShowList={setOpen2}
-                      creator={
-                        <>
-                          <DeviceModal
-                            setDevice_={setDevice_}
-                            customerId={customer_.id}
-                            onClose={() => {
-                              setOpen(false)
-                              setDialogOpen(false)
-                            }}
-                          />
-                          <DialogTrigger asChild>
-                            <Button variant='outline'>Créer un appareil</Button>
-                          </DialogTrigger>
-                        </>
-                      }
-                      getObjects={async (e: any) => {
-                        const s = transformArray(
-                          await searchDevice(
-                            undefined,
-                            e,
-                            undefined,
-                            undefined,
-                            customer_.id,
-                          ),
-                          'model',
-                        )
-                        console.log(s, 'hi', e)
-                        return s
-                      }}
-                    />
+                    <>
+                      <Selector
+                        className='border border-gray-300 p-2 rounded'
+                        setObject={setDevice_}
+                        object={device_}
+                        itemName={{ plurar: 'appareils', singular: 'appareil' }}
+                        showList={open2}
+                        setShowList={setOpen2}
+                        creator={
+                          <>
+                            <DeviceModal
+                              setDevice_={setDevice_}
+                              customerId={customer_.id}
+                              onClose={() => {
+                                setOpen(false)
+                                setDialogOpen(false)
+                              }}
+                            />
+                            <DialogTrigger asChild>
+                              <Button variant='outline'>
+                                Créer un appareil
+                              </Button>
+                            </DialogTrigger>
+                          </>
+                        }
+                        getObjects={async (e: any) => {
+                          const s = transformArray(
+                            await searchDevice(
+                              undefined,
+                              e,
+                              undefined,
+                              undefined,
+                              customer_.id as any,
+                            ),
+                            'model',
+                          )
+                          console.log(s, 'hi', e)
+                          return s
+                        }}
+                      />
+                      {deviceIsEmpty && (
+                        <InputError>Le appareil est requis</InputError>
+                      )}
+                    </>
                   }
                 />
               </FormFieldSubWrapper>

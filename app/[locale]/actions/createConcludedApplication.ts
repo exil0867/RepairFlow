@@ -6,46 +6,22 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { Prisma } from '@prisma/client'
-
-const concludedApplicationSchema = z.object({
-  changes: z.string(),
-  cost: z.string().transform((val) => new Prisma.Decimal(val)),
-  applicationId: z.string().transform((val) => Number(val)),
-})
-export type formRes = {
-  message: string
-  response?: any
-  error: boolean
-}
+import { validateCreateConcludedArticle } from '../validation'
+import { FormResponse } from './type'
 
 export default async function createConcludedApplication(
-  prevState: any,
+  prevState: FormResponse,
   data: FormData,
-): Promise<formRes> {
+): Promise<FormResponse> {
   try {
-    const changes = data.get('changes')
-    const cost = data.get('cost')
-    const applicationId = data.get('application_id')
-    const validatedFields = concludedApplicationSchema.safeParse({
-      changes,
-      cost,
-      applicationId,
-    })
-    console.log({
-      changes,
-      cost,
-      applicationId,
-    })
-
-    if (!validatedFields.success) {
-      throw new Error('Entrée utilisateur invalide.', validatedFields.error)
-    }
+    const { changes, cost, applicationId } =
+      validateCreateConcludedArticle.parse(data)
 
     let response = await prisma.concludedApplication.create({
       data: {
-        changes: validatedFields.data.changes,
-        cost: validatedFields.data.cost,
-        applicationId: validatedFields.data.applicationId,
+        changes,
+        cost,
+        applicationId,
       },
     })
 

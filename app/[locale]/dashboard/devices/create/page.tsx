@@ -40,7 +40,7 @@ export default function CreateCustomer() {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [clientIsEmpty, setClientIsEmpty] = useState<boolean | null>(null)
+  const [customerIsEmpty, setClientIsEmpty] = useState<boolean | null>(null)
 
   const [customer_, setCustomer_] = useState<any>(null)
   const router = useRouter()
@@ -209,7 +209,7 @@ export default function CreateCustomer() {
                         return s
                       }}
                     />
-                    {clientIsEmpty && (
+                    {customerIsEmpty && (
                       <InputError>Le client est requis</InputError>
                     )}
                   </>
