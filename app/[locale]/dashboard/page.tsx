@@ -179,7 +179,10 @@ async function page({}: Props) {
                         <TableCell>{subject}</TableCell>
                         <TableCell>{renderStatus(status)}</TableCell>
                         <TableCell>
-                          <Link href={`/dashboard/customers/${customer.id}`}>
+                          <Link
+                            className='underline text-blue-500'
+                            href={`/dashboard/customers/${customer.id}`}
+                          >
                             {customer.name}
                           </Link>
                         </TableCell>
