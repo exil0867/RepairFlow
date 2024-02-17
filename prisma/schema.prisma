@@ -21,6 +21,7 @@ model Customer {
   name         String
   address      String
   phoneNumber  String
+  taxId        String
   applications Application[]
   devices      Device[]
   createdAt    DateTime      @default(now())
@@ -34,8 +35,8 @@ model Application {
   notes      String?
   deviceId   Int
   customerId Int
-  customer   Customer              @relation(fields: [customerId], references: [id])
-  device     Device                @relation(fields: [deviceId], references: [id])
+  customer   Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  device     Device                @relation(fields: [deviceId], references: [id], onDelete: Cascade)
   conclusion ConcludedApplication?
   createdAt  DateTime              @default(now())
   updatedAt  DateTime              @updatedAt
@@ -46,7 +47,7 @@ model ConcludedApplication {
   changes       String
   cost          Decimal
   applicationId Int         @unique
-  application   Application @relation(fields: [applicationId], references: [id])
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 }
@@ -57,7 +58,7 @@ model Device {
   model        String
   brand        String
   customerId   Int
-  customer     Customer      @relation(fields: [customerId], references: [id])
+  customer     Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
   applications Application[]
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt

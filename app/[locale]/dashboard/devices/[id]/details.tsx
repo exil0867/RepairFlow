@@ -23,68 +23,97 @@ import {
   ViewFieldSubWrapperField,
   ViewFieldWrapper,
 } from '@/components/view'
+import deleteDevice from '@/app/actions/deleteDevice'
+import Delete from './delete'
+import { useState } from 'react'
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 
 export default function Component({ device }: any) {
   const pathname = usePathname()
   const router = useRouter()
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [openedDeleteDialog, setOpenedDeleteDialog] = useState<boolean>(false)
   return (
-    <Wrapper
-      title={`Détails de l'appareil`}
-      footer={
-        <>
-          <Button
-            onClick={() => router.push(pathname + '/edit')}
-            variant='outline'
-          >
-            Modifier
-          </Button>
-          <Button variant='outline'>Supprimer</Button>
-        </>
-      }
-    >
-      <div className='grid gap-6 md:gap-8'>
-        <ViewFieldWrapper>
-          <ViewField title={`Référence de l'appareil`} value={device.id} />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField title={`Marque de l'appareil`} value={device.brand} />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField title={`Modèle d'appareil`} value={device.model} />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField
-            title={`Numéro de série de l'appareil`}
-            value={device.serialNumber}
+    <>
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        {openedDeleteDialog && (
+          <Delete
+            id={device.id}
+            onClose={() => {
+              setDialogOpen(false)
+              setOpenedDeleteDialog(false)
+            }}
           />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField
-            title='Liste des articles'
-            value={
-              <Link
-                className='underline text-blue-500'
-                href={`/dashboard/applications?customerId=${device.id}&customerIdLabel=${device.model}`}
+        )}
+
+        <Wrapper
+          title={`Détails de l'appareil`}
+          footer={
+            <>
+              <Button
+                onClick={() => router.push(pathname + '/edit')}
+                variant='outline'
               >
-                {device.applications.length}
-              </Link>
-            }
-          />
-        </ViewFieldWrapper>
-        <ViewFieldWrapper>
-          <ViewField
-            title='Client'
-            value={
-              <Link
-                className='underline text-blue-500'
-                href={`/dashboard/customers/${device.customer.id}`}
-              >
-                {device.customer.name}
-              </Link>
-            }
-          />
-        </ViewFieldWrapper>
-      </div>
-    </Wrapper>
+                Modifier
+              </Button>
+              <DialogTrigger asChild>
+                <Button
+                  variant='outline'
+                  onClick={() => {
+                    setOpenedDeleteDialog(true)
+                  }}
+                >
+                  Supprimer
+                </Button>
+              </DialogTrigger>
+            </>
+          }
+        >
+          <div className='grid gap-6 md:gap-8'>
+            <ViewFieldWrapper>
+              <ViewField title={`Référence de l'appareil`} value={device.id} />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField title={`Marque de l'appareil`} value={device.brand} />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField title={`Modèle d'appareil`} value={device.model} />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField
+                title={`Numéro de série de l'appareil`}
+                value={device.serialNumber}
+              />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField
+                title='Liste des articles'
+                value={
+                  <Link
+                    className='underline text-blue-500'
+                    href={`/dashboard/applications?customerId=${device.id}&customerIdLabel=${device.model}`}
+                  >
+                    {device.applications.length}
+                  </Link>
+                }
+              />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField
+                title='Client'
+                value={
+                  <Link
+                    className='underline text-blue-500'
+                    href={`/dashboard/customers/${device.customer.id}`}
+                  >
+                    {device.customer.name}
+                  </Link>
+                }
+              />
+            </ViewFieldWrapper>
+          </div>
+        </Wrapper>
+      </Dialog>
+    </>
   )
 }

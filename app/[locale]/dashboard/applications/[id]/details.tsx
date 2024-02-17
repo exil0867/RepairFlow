@@ -29,38 +29,53 @@ import Repairing from './repairing'
 import Cancel from './cancel'
 import { renderStatus } from '@/lib/utils'
 import Link from 'next/link'
+import deleteApplication from '@/app/actions/deleteApplication'
+import Delete from './delete'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [openedDialog, setOpenedDialog] = useState<
+  const [openedStatusDialog, setOpenedStatusDialog] = useState<
     'REPAIRED' | 'REPAIRING' | 'CANCELLED' | null
   >(null)
+  const [openedDeleteDialog, setOpenedDeleteDialog] = useState<boolean>(false)
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      {openedDialog === 'REPAIRED' && (
+      {openedStatusDialog === 'REPAIRED' && (
         <Repaired
           applicationId={application.id}
           onClose={() => {
             setDialogOpen(false)
+            setOpenedStatusDialog(null)
           }}
         />
       )}
-      {openedDialog === 'REPAIRING' && (
+      {openedStatusDialog === 'REPAIRING' && (
         <Repairing
           applicationId={application.id}
           onClose={() => {
             setDialogOpen(false)
+            setOpenedStatusDialog(null)
           }}
         />
       )}
-      {openedDialog === 'CANCELLED' && (
+      {openedStatusDialog === 'CANCELLED' && (
         <Cancel
           applicationId={application.id}
           onClose={() => {
             setDialogOpen(false)
+            setOpenedStatusDialog(null)
+          }}
+        />
+      )}
+      {openedDeleteDialog && (
+        <Delete
+          id={application.id}
+          onClose={() => {
+            setDialogOpen(false)
+            setOpenedDeleteDialog(false)
           }}
         />
       )}
@@ -74,7 +89,17 @@ export default function Component({ application }: any) {
             >
               Modifier
             </Button>
-            <Button variant='outline'>Supprimer</Button>
+            <DialogTrigger asChild>
+              <Button
+                variant='outline'
+                onClick={() => {
+                  setOpenedDeleteDialog(true)
+                  setOpenedStatusDialog(null)
+                }}
+              >
+                Supprimer
+              </Button>
+            </DialogTrigger>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant='outline'>Marquer comme</Button>
@@ -83,7 +108,8 @@ export default function Component({ application }: any) {
                 <DialogTrigger asChild>
                   <DropdownMenuItem
                     onClick={() => {
-                      setOpenedDialog('REPAIRED')
+                      setOpenedStatusDialog('REPAIRED')
+                      setOpenedDeleteDialog(false)
                     }}
                   >
                     Réparé
@@ -92,7 +118,8 @@ export default function Component({ application }: any) {
                 <DialogTrigger asChild>
                   <DropdownMenuItem
                     onClick={() => {
-                      setOpenedDialog('REPAIRING')
+                      setOpenedStatusDialog('REPAIRING')
+                      setOpenedDeleteDialog(false)
                     }}
                   >
                     Réparation
@@ -101,7 +128,8 @@ export default function Component({ application }: any) {
                 <DialogTrigger asChild>
                   <DropdownMenuItem
                     onClick={() => {
-                      setOpenedDialog('CANCELLED')
+                      setOpenedStatusDialog('CANCELLED')
+                      setOpenedDeleteDialog(false)
                     }}
                   >
                     Annulé
@@ -171,6 +199,10 @@ export default function Component({ application }: any) {
               <ViewFieldSubWrapperField
                 title='Adresse:'
                 value={application.customer.address}
+              />
+              <ViewFieldSubWrapperField
+                title='Matricule fiscal:'
+                value={application.customer.taxId}
               />
               <ViewFieldSubWrapperField
                 title='Numéro de téléphone:'

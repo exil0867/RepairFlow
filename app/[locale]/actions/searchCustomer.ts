@@ -6,7 +6,11 @@ import Link from 'next/link'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 
-export default async function searchCustomer(id?: string, query?: string) {
+export default async function searchCustomer(
+  id?: string,
+  query?: string,
+  taxId?: string,
+) {
   try {
     const fetchCustomers = async () => {
       try {
@@ -14,6 +18,7 @@ export default async function searchCustomer(id?: string, query?: string) {
           where: {
             id: id ? Number(id) : undefined,
             name: query ? { contains: query } : undefined,
+            taxId: taxId ? { contains: taxId } : undefined,
           },
           include: {
             applications: true,

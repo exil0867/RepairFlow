@@ -23,6 +23,7 @@ export interface FormValues {
   name: string
   address: string
   phoneNumber: string
+  taxId: string
 }
 
 export default function CreateCustomer() {
@@ -105,7 +106,7 @@ export default function CreateCustomer() {
                 <Textarea
                   placeholder='Adresse du client'
                   className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('address', { required: true })}
+                  {...register('address')}
                 />
                 <ErrorMessage
                   name='address'
@@ -125,10 +126,30 @@ export default function CreateCustomer() {
                   type='text'
                   placeholder='Numéro de téléphone'
                   className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('phoneNumber', { required: true })}
+                  {...register('phoneNumber')}
                 />
                 <ErrorMessage
                   name='phoneNumber'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Matricule fiscal'
+            inputElement={
+              <>
+                <Input
+                  type='text'
+                  placeholder='Matricule fiscal'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('taxId')}
+                />
+                <ErrorMessage
+                  name='taxId'
                   errors={errors}
                   as={<InputError />}
                 />

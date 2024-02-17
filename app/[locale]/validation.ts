@@ -6,6 +6,7 @@ export const validateCreateCustomer = zfd.formData({
   name: z.string().min(1, { message: 'Le nom est requis' }).max(50),
   address: z.string(),
   phoneNumber: z.string(),
+  taxId: z.string(),
 })
 
 export const validateUpdateCustomer = zfd.formData({
@@ -13,6 +14,7 @@ export const validateUpdateCustomer = zfd.formData({
   name: z.string().min(1, { message: 'Le nom est requis' }).max(50),
   address: z.string(),
   phoneNumber: z.string(),
+  taxId: z.string(),
 })
 
 export const validateCreateDevice = zfd.formData({

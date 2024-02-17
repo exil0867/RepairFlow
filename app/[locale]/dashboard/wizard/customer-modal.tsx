@@ -48,6 +48,7 @@ export interface FormValues {
   name: string
   address: string
   phoneNumber: string
+  taxId: string
 }
 
 export default function DialogDemo({
@@ -157,6 +158,26 @@ export default function DialogDemo({
                 />
                 <ErrorMessage
                   name='phoneNumber'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Matricule fiscal'
+            inputElement={
+              <>
+                <Input
+                  type='text'
+                  placeholder='Matricule fiscal'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('taxId')}
+                />
+                <ErrorMessage
+                  name='taxId'
                   errors={errors}
                   as={<InputError />}
                 />

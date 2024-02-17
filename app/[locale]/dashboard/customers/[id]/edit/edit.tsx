@@ -49,6 +49,7 @@ export interface FormValues {
   address: string
   phoneNumber: string
   id: string
+  taxId: string
 }
 
 export default function Component({ customer }: any) {
@@ -173,6 +174,27 @@ export default function Component({ customer }: any) {
                   />
                   <ErrorMessage
                     name='phoneNumber'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
+              }
+            />
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText='Matricule fiscal'
+              inputElement={
+                <>
+                  <Input
+                    type='text'
+                    defaultValue={customer.taxId}
+                    placeholder='Matricule fiscal'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('taxId')}
+                  />
+                  <ErrorMessage
+                    name='taxId'
                     errors={errors}
                     as={<InputError />}
                   />
