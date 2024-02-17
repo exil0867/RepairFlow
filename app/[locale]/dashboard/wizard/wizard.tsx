@@ -78,7 +78,7 @@ export default function Component() {
   useEffect(() => {
     if (currentStep === 3)
       router.push(
-        `/dashboard/applications/create?customerId=${customer_.id}&deviceId=${device_.id}&status=repairing`,
+        `/dashboard/applications/create?customerId=${customer_.id}&deviceId=${device_.id}&status=diagnosing`,
       )
   }, [currentStep, customer_.id, device_.id, router])
 

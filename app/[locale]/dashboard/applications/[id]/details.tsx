@@ -31,18 +31,28 @@ import { renderStatus } from '@/lib/utils'
 import Link from 'next/link'
 import deleteApplication from '@/app/actions/deleteApplication'
 import Delete from './delete'
+import Diagnosing from './diagnosing'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
   const [openedStatusDialog, setOpenedStatusDialog] = useState<
-    'REPAIRED' | 'REPAIRING' | 'CANCELLED' | null
+    'DIAGNOSING' | 'REPAIRED' | 'REPAIRING' | 'CANCELLED' | null
   >(null)
   const [openedDeleteDialog, setOpenedDeleteDialog] = useState<boolean>(false)
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      {openedStatusDialog === 'DIAGNOSING' && (
+        <Diagnosing
+          applicationId={application.id}
+          onClose={() => {
+            setDialogOpen(false)
+            setOpenedStatusDialog(null)
+          }}
+        />
+      )}
       {openedStatusDialog === 'REPAIRED' && (
         <Repaired
           applicationId={application.id}
@@ -108,6 +118,16 @@ export default function Component({ application }: any) {
                 <DialogTrigger asChild>
                   <DropdownMenuItem
                     onClick={() => {
+                      setOpenedStatusDialog('DIAGNOSING')
+                      setOpenedDeleteDialog(false)
+                    }}
+                  >
+                    Diagnostic
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem
+                    onClick={() => {
                       setOpenedStatusDialog('REPAIRED')
                       setOpenedDeleteDialog(false)
                     }}
@@ -165,13 +185,19 @@ export default function Component({ application }: any) {
               value={renderStatus(application.status)}
             />
           </ViewFieldWrapper>
+          {application.diagnosis && (
+            <ViewFieldWrapper>
+              <ViewFieldSubWrapper title='Diagnostic'>
+                <ViewFieldSubWrapperField
+                  title='Problème:'
+                  value={application.diagnosis.issue}
+                />
+              </ViewFieldSubWrapper>
+            </ViewFieldWrapper>
+          )}
           {application.conclusion && (
             <ViewFieldWrapper>
               <ViewFieldSubWrapper title='Conclusion'>
-                <ViewFieldSubWrapperField
-                  title='Changements:'
-                  value={application.conclusion.changes}
-                />
                 <ViewFieldSubWrapperField
                   title='Coût:'
                   value={application.conclusion.cost}

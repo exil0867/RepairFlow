@@ -13,13 +13,15 @@ export function transformArray(arr: any, selectedProp: any) {
   }))
 }
 
-export function renderStatus(status: string) {
+export function renderStatus(status: Application['status']) {
   switch (status) {
+    case 'DIAGNOSING':
+      return 'Diagnostic'
     case 'CANCELLED':
       return 'Annulé'
     case 'REPAIRED':
       return 'Réparé'
     case 'REPAIRING':
-      return 'réparer'
+      return 'Réparer'
   }
 }

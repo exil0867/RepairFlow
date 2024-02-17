@@ -38,13 +38,18 @@ model Application {
   customer   Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)
   device     Device                @relation(fields: [deviceId], references: [id], onDelete: Cascade)
   conclusion ConcludedApplication?
-  createdAt  DateTime              @default(now())
-  updatedAt  DateTime              @updatedAt
+  diagnosis  DiagnosedApplication?
+}
+
+model DiagnosedApplication {
+  id            Int         @id @default(autoincrement())
+  issue         String
+  applicationId Int         @unique
+  application   Application @relation(fields: [applicationId], references: [id])
 }
 
 model ConcludedApplication {
   id            Int         @id @default(autoincrement())
-  changes       String
   cost          Decimal
   applicationId Int         @unique
   application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
@@ -65,6 +70,7 @@ model Device {
 }
 
 enum Status {
+  DIAGNOSING
   REPAIRED
   REPAIRING
   CANCELLED

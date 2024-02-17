@@ -33,6 +33,7 @@ export const validateUpdateDevice = zfd.formData({
 })
 
 const ArticleStatus = {
+  Diagnosing: 'DIAGNOSING',
   Repaired: 'REPAIRED',
   Repairing: 'REPAIRING',
   Cancelled: 'CANCELLED',
@@ -45,7 +46,7 @@ export const validateCreateArticle = zfd.formData({
   customerId: z.coerce.number().min(0),
   status: z.nativeEnum(ArticleStatus, {
     errorMap: (issue, ctx) => {
-      return { message: 'Please select your user type' }
+      return { message: `S'il vous plaît un statut d'article correct` }
     },
   }),
 })
@@ -73,10 +74,14 @@ export const validateUpdateArticleStatus = zfd.formData({
 })
 
 export const validateCreateConcludedArticle = zfd.formData({
-  changes: z.string(),
   cost: z
     .string()
     .min(1, { message: 'Le coût est requis' })
     .transform((val) => new Prisma.Decimal(val)),
+  applicationId: z.coerce.number().min(0),
+})
+
+export const validateCreateDiagnosedArticle = zfd.formData({
+  issue: z.string(),
   applicationId: z.coerce.number().min(0),
 })

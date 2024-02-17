@@ -6,15 +6,15 @@ import Link from 'next/link'
 import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { Prisma } from '@prisma/client'
-import { validateCreateConcludedArticle } from '../validation'
 import { FormResponse } from './type'
+import { validateCreateDiagnosedArticle } from '../validation'
 
 export default async function createConcludedApplication(
   prevState: FormResponse,
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { cost, applicationId } = validateCreateConcludedArticle.parse(data)
+    const { issue, applicationId } = validateCreateDiagnosedArticle.parse(data)
 
     return await prisma.$transaction(async (p) => {
       let article = await p.application.findUnique({
@@ -28,35 +28,47 @@ export default async function createConcludedApplication(
       if (article.status === 'CANCELLED')
         throw new Error(`Impossible de modifier le statut d'un article annulé`)
 
-      let response = await p.concludedApplication.create({
+      let response = await p.diagnosedApplication.create({
         include: {
-          application: true,
+          application: {
+            include: {
+              conclusion: true,
+            },
+          },
         },
         data: {
-          cost: cost,
-          applicationId: applicationId,
+          issue,
+          applicationId,
         },
       })
+
+      if (response.application.conclusion) {
+        await p.concludedApplication.delete({
+          where: {
+            applicationId: response.applicationId,
+          },
+        })
+      }
 
       const ApplicationResponse = await p.application.update({
         where: {
           id: response.applicationId,
         },
         data: {
-          status: 'REPAIRED',
+          status: 'REPAIRING',
         },
       })
+
       revalidatePath('/')
 
-      response.cost = `${response.cost}` as any
-
       return {
-        message: 'Article conclu créé',
+        message: 'Article diagnostiqué créé',
         response: { response, ApplicationResponse },
         error: false,
       }
     })
   } catch (error) {
+    console.log(error)
     if (error instanceof ZodError) {
       return {
         error: true,
@@ -68,7 +80,7 @@ export default async function createConcludedApplication(
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la création d'une conclusion pour l'article`,
+      message: `Une erreur s'est produite lors de la création d'un diagnostic pour l'article`,
       error: true,
     }
   }

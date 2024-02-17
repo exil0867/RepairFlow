@@ -43,6 +43,8 @@ import { useRouter } from 'next/navigation'
 import { FormResponse } from '@/app/actions/type'
 import { ErrorMessage } from '@hookform/error-message'
 import { InputError } from '@/components/inputError'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { validateUpdateArticle } from '@/app/validation'
 
 export interface FormValues {
   id: string
@@ -50,7 +52,7 @@ export interface FormValues {
   notes: string
   deviceId: string
   customerId: string
-  status: 'REPAIRED' | 'REPAIRING' | 'CANCELLED'
+  status: 'DIAGNOSIS' | 'REPAIRED' | 'REPAIRING' | 'CANCELLED'
 }
 
 export default function Component({ application }: any) {
@@ -86,7 +88,10 @@ export default function Component({ application }: any) {
     setError,
     register,
     formState: { errors },
-  } = useForm()
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateUpdateArticle),
+  })
   useEffect(() => {
     if (!state) return
     if (pending || state.error === null) return
@@ -101,7 +106,7 @@ export default function Component({ application }: any) {
         })
       })
     }
-  }, [pending, state])
+  }, [pending, router, state])
   return (
     <Wrapper
       title={`Modifier l'article`}

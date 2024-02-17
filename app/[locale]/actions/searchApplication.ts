@@ -11,7 +11,7 @@ export default async function searchApplication(
   customerId?: string,
   deviceId?: string,
   subject?: string,
-  status?: 'REPAIRING' | 'REPAIRED' | 'CANCELLED',
+  status?: 'DIAGNOSING' | 'PENDING' | 'COMPLETE' | 'CANCELLED',
 ) {
   try {
     const fetchApplications = async () => {

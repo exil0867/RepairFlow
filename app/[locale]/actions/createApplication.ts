@@ -7,6 +7,7 @@ import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { FormResponse } from './type'
 import { validateCreateArticle } from '../validation'
+import { Application } from '@prisma/client'
 
 export default async function createDevice(
   prevState: FormResponse,
@@ -22,7 +23,7 @@ export default async function createDevice(
         notes,
         deviceId,
         customerId,
-        status,
+        status: status as Application['status'],
       },
     })
 
@@ -34,6 +35,7 @@ export default async function createDevice(
       error: false,
     }
   } catch (error) {
+    console.log(error)
     if (error instanceof ZodError) {
       return {
         error: true,

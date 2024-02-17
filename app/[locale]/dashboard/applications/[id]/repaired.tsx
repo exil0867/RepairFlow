@@ -12,16 +12,33 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import React, { useEffect, useRef } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
-import { useForm } from 'react-hook-form'
-import createConcludedApplication from '@/app/actions/createConcludedApplication'
+import { FieldPath, useForm } from 'react-hook-form'
+import createDiagnosedApplication from '@/app/actions/createDiagnosedApplication'
 import toast from 'react-hot-toast'
+import updateApplicationStatus from '@/app/actions/updateApplicationStatus'
+import { FormResponse } from '@/app/actions/type'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  validateCreateConcludedArticle,
+  validateUpdateCustomer,
+} from '@/app/validation'
+import { InputError } from '@/components/inputError'
+import { ErrorMessage } from '@hookform/error-message'
+import createConcludedApplication from '@/app/actions/createConcludedApplication'
+
+export interface FormValues {
+  cost: string
+}
 
 export default function Additional({ applicationId, onClose }: any) {
-  const [state, formAction] = useFormState(createConcludedApplication as any, {
-    message: null,
-    response: null as any,
-    error: null,
-  }) as any
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    createConcludedApplication,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
   const { pending } = useFormStatus()
   const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
@@ -33,16 +50,25 @@ export default function Additional({ applicationId, onClose }: any) {
     reset,
     register,
     formState: { errors },
-  } = useForm()
+    setError,
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateCreateConcludedArticle),
+  })
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
-      // router.push(`/applications/${state?.response?.id}`)
       reset()
       onClose()
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
   }, [pending, state])
   return (
@@ -53,31 +79,28 @@ export default function Additional({ applicationId, onClose }: any) {
           Définir une conclusion pour l&apos;article
         </DialogDescription>
       </DialogHeader>
-      <Form ref={myRef} action={formAction} className='grid gap-6 md:gap-8'>
-        <input type='hidden' name='application_id' value={applicationId} />
-
+      <Form
+        ref={myRef}
+        action={async (data: FormData) => {
+          data.set('applicationId', applicationId)
+          console.log(data)
+          formAction(data)
+        }}
+        className='grid gap-6 md:gap-8'
+      >
         <FormFieldWrapper>
           <FormField
-            labelText='Changes'
+            labelText='Coût'
             inputElement={
-              <Textarea
-                placeholder='Changes'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('changes', { required: true })}
-              />
-            }
-          />
-        </FormFieldWrapper>
-        <FormFieldWrapper>
-          <FormField
-            labelText='Cost'
-            inputElement={
-              <Input
-                type='text'
-                placeholder='Cost'
-                className='border border-gray-300 p-2 rounded text-gray-700'
-                {...register('cost', { required: true })}
-              />
+              <>
+                <Input
+                  type='text'
+                  placeholder='Coût'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('cost')}
+                />
+                <ErrorMessage name='cost' errors={errors} as={<InputError />} />
+              </>
             }
           />
         </FormFieldWrapper>

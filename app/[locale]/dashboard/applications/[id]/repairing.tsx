@@ -12,17 +12,29 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import React, { useEffect, useRef } from 'react'
 import { useFormState, useFormStatus } from 'react-dom'
-import { useForm } from 'react-hook-form'
-import createConcludedApplication from '@/app/actions/createConcludedApplication'
+import { FieldPath, useForm } from 'react-hook-form'
+import createDiagnosedApplication from '@/app/actions/createDiagnosedApplication'
 import toast from 'react-hot-toast'
 import updateApplicationStatus from '@/app/actions/updateApplicationStatus'
+import { FormResponse } from '@/app/actions/type'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { validateUpdateCustomer } from '@/app/validation'
+import { InputError } from '@/components/inputError'
+import { ErrorMessage } from '@hookform/error-message'
+
+export interface FormValues {
+  issue: string
+}
 
 export default function Additional({ applicationId, onClose }: any) {
-  const [state, formAction] = useFormState(createConcludedApplication as any, {
-    message: null,
-    response: null as any,
-    error: null,
-  }) as any
+  const [state, formAction] = useFormState<FormResponse, FormData>(
+    createDiagnosedApplication,
+    {
+      message: null,
+      response: null as any,
+      error: null,
+    },
+  )
   const { pending } = useFormStatus()
   const myRef = useRef(null) as any
   const handleSubmit = (e: any) => {
@@ -34,33 +46,66 @@ export default function Additional({ applicationId, onClose }: any) {
     reset,
     register,
     formState: { errors },
-  } = useForm()
+    setError,
+  } = useForm<FormValues>({
+    mode: 'all',
+    resolver: zodResolver(validateUpdateCustomer),
+  })
   useEffect(() => {
+    if (!state) return
     if (pending || state.error === null) return
     if (!state.error) {
       toast.success(state.message)
-      // router.push(`/applications/${state?.response?.id}`)
       reset()
       onClose()
     } else {
       toast.error(state.message)
+      state.errors?.forEach((error) => {
+        setError(error.path as FieldPath<FormValues>, {
+          message: error.message,
+        })
+      })
     }
   }, [pending, state])
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Définir l&apos;article comme réparation</DialogTitle>
-        <DialogDescription>Es-tu sûr?</DialogDescription>
+        <DialogTitle>Définir l&apos;article comme diagnostic</DialogTitle>
+        <DialogDescription>
+          Entrez les informations de diagnostic
+        </DialogDescription>
       </DialogHeader>
+      <Form
+        ref={myRef}
+        action={async (data: FormData) => {
+          data.set('applicationId', applicationId)
+          formAction(data)
+        }}
+        className='grid gap-6 md:gap-8'
+      >
+        <FormFieldWrapper>
+          <FormField
+            labelText='Problème'
+            inputElement={
+              <>
+                <Textarea
+                  placeholder='Le problème'
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('issue')}
+                />
+                <ErrorMessage
+                  name='issue'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
+            }
+          />
+        </FormFieldWrapper>
+      </Form>
       <DialogFooter>
-        <Button
-          variant='outline'
-          onClick={async () => {
-            await updateApplicationStatus(applicationId, 'REPAIRING')
-            onClose()
-          }}
-        >
-          Définir comme réparation
+        <Button variant='outline' onClick={handleSubmit}>
+          Diagnostiquer
         </Button>
       </DialogFooter>
     </DialogContent>

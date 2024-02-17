@@ -15,20 +15,20 @@ import { useFormState, useFormStatus } from 'react-dom'
 import { useForm } from 'react-hook-form'
 import createConcludedApplication from '@/app/actions/createConcludedApplication'
 import toast from 'react-hot-toast'
-import setArticleAsCancelled from '@/app/actions/setArticleAsCancelled'
+import setArticleAsDiagnosing from '@/app/actions/setArticleAsDiagnosing'
 
 export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Annuler l&apos;article</DialogTitle>
+        <DialogTitle>Définir l&apos;article comme diagnostic</DialogTitle>
         <DialogDescription>Es-tu sûr?</DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <Button
           variant='outline'
           onClick={async () => {
-            const response = await setArticleAsCancelled(applicationId)
+            const response = await setArticleAsDiagnosing(applicationId)
             if (!response.error) {
               toast.success(response.message)
               onClose()
@@ -37,7 +37,7 @@ export default function Additional({ applicationId, onClose }: any) {
             }
           }}
         >
-          Annuler l&apos;article
+          Diagnostiquer
         </Button>
       </DialogFooter>
     </DialogContent>

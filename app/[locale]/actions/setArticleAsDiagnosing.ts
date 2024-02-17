@@ -6,20 +6,19 @@ import Link from 'next/link'
 import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { Prisma } from '@prisma/client'
-import { validateCreateConcludedArticle } from '../validation'
 import { FormResponse } from './type'
+import { validateCreateDiagnosedArticle } from '../validation'
 
-export default async function createConcludedApplication(
-  prevState: FormResponse,
-  data: FormData,
-): Promise<FormResponse> {
+export default async function setArticleAsDiagnosing(id: number) {
   try {
-    const { cost, applicationId } = validateCreateConcludedArticle.parse(data)
-
     return await prisma.$transaction(async (p) => {
       let article = await p.application.findUnique({
+        include: {
+          conclusion: true,
+          diagnosis: true,
+        },
         where: {
-          id: applicationId,
+          id,
         },
       })
 
@@ -28,35 +27,41 @@ export default async function createConcludedApplication(
       if (article.status === 'CANCELLED')
         throw new Error(`Impossible de modifier le statut d'un article annulé`)
 
-      let response = await p.concludedApplication.create({
-        include: {
-          application: true,
-        },
-        data: {
-          cost: cost,
-          applicationId: applicationId,
-        },
-      })
+      if (article.conclusion) {
+        await p.concludedApplication.delete({
+          where: {
+            applicationId: article.id,
+          },
+        })
+      }
+
+      if (article.diagnosis) {
+        await p.diagnosedApplication.delete({
+          where: {
+            applicationId: article.id,
+          },
+        })
+      }
 
       const ApplicationResponse = await p.application.update({
         where: {
-          id: response.applicationId,
+          id: article.id,
         },
         data: {
-          status: 'REPAIRED',
+          status: 'DIAGNOSING',
         },
       })
+
       revalidatePath('/')
 
-      response.cost = `${response.cost}` as any
-
       return {
-        message: 'Article conclu créé',
-        response: { response, ApplicationResponse },
+        message: `L'article est désormais défini comme diagnostic`,
+        response: { article, ApplicationResponse },
         error: false,
       }
     })
   } catch (error) {
+    console.log(error)
     if (error instanceof ZodError) {
       return {
         error: true,
@@ -68,7 +73,7 @@ export default async function createConcludedApplication(
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la création d'une conclusion pour l'article`,
+      message: `Une erreur s'est produite lors de la définition de l'article comme diagnostic`,
       error: true,
     }
   }

@@ -49,9 +49,9 @@ export default function Component() {
     searchSubject ? searchSubject : undefined,
   )
   const [id, setId] = useState(searchId ? searchId : undefined)
-  const [status, setStatus] = useState<'REPAIRING' | 'REPAIRED' | 'CANCELLED'>(
-    searchStatus ? searchStatus.toUpperCase() : undefined,
-  )
+  const [status, setStatus] = useState<
+    'DIAGNOSING' | 'REPAIRING' | 'REPAIRED' | 'CANCELLED'
+  >(searchStatus ? searchStatus.toUpperCase() : undefined)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
@@ -177,6 +177,7 @@ export default function Component() {
                 </SelectTrigger>
                 <SelectContent className='bg-white'>
                   <SelectGroup>
+                    <SelectItem value='DIAGNOSING'>Diagnosing</SelectItem>
                     <SelectItem value='REPAIRING'>Réparation</SelectItem>
                     <SelectItem value='REPAIRED'>Réparé</SelectItem>
                     <SelectItem value='CANCELLED'>Annulé</SelectItem>
