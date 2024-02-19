@@ -137,7 +137,8 @@ export default function CreateCustomer() {
               required
               inputElement={
                 <>
-                  <Textarea
+                  <Input
+                    type='text'
                     placeholder={`Modèle d'appareil`}
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('model')}
@@ -156,7 +157,8 @@ export default function CreateCustomer() {
               labelText={`Numéro de série`}
               inputElement={
                 <>
-                  <Textarea
+                  <Input
+                    type='text'
                     placeholder='Numéro de série'
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('serialNumber')}

@@ -150,7 +150,8 @@ export default function Component({ device }: any) {
               required
               inputElement={
                 <>
-                  <Textarea
+                  <Input
+                    type='text'
                     defaultValue={device.model}
                     placeholder='Modèle'
                     className='border border-gray-300 p-2 rounded text-gray-700'
@@ -191,7 +192,8 @@ export default function Component({ device }: any) {
               labelText='Numéro de série'
               inputElement={
                 <>
-                  <Textarea
+                  <Input
+                    type='text'
                     defaultValue={device.serialNumber}
                     placeholder='Numéro de série'
                     className='border border-gray-300 p-2 rounded text-gray-700'
