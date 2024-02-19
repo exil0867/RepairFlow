@@ -143,8 +143,7 @@ export default function DialogDemo({
             labelText={`Remarque sur l'appareil`}
             inputElement={
               <>
-                <Input
-                  type='text'
+                <Textarea
                   placeholder={`Remarque sur l'appareil`}
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('remark', { required: true })}
@@ -161,6 +160,7 @@ export default function DialogDemo({
         <FormFieldWrapper>
           <FormField
             labelText='Modèle'
+            required
             inputElement={
               <>
                 <Input

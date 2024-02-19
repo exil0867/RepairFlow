@@ -113,6 +113,7 @@ export default function DialogDemo({
         <FormFieldWrapper>
           <FormField
             labelText='Nom du client'
+            required
             inputElement={
               <>
                 <Input
