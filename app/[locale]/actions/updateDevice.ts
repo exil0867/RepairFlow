@@ -13,7 +13,7 @@ export default async function updateDevice(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { customerId, serialNumber, model, brand, id } =
+    const { customerId, serialNumber, model, brand, id, remark } =
       validateUpdateDevice.parse(data)
 
     const response = await prisma.device.update({
@@ -24,6 +24,7 @@ export default async function updateDevice(
         model,
         brand,
         serialNumber,
+        remark,
         customerId,
       },
     })

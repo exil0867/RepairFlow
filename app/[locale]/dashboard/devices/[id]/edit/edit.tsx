@@ -51,6 +51,7 @@ export interface FormValues {
   brand: string
   model: string
   serialNumber: string
+  remark: string
 }
 
 export default function Component({ device }: any) {
@@ -157,6 +158,27 @@ export default function Component({ device }: any) {
                   />
                   <ErrorMessage
                     name='model'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
+              }
+            />
+          </FormFieldWrapper>
+          <FormFieldWrapper>
+            <FormField
+              labelText={`Remarque sur l'appareil`}
+              required
+              inputElement={
+                <>
+                  <Textarea
+                    defaultValue={device.remark}
+                    placeholder='remark'
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('remark')}
+                  />
+                  <ErrorMessage
+                    name='remark'
                     errors={errors}
                     as={<InputError />}
                   />

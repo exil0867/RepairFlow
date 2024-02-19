@@ -87,6 +87,12 @@ export default function Component({ device }: any) {
             </ViewFieldWrapper>
             <ViewFieldWrapper>
               <ViewField
+                title={`Remarque sur l'appareil`}
+                value={device.remark}
+              />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField
                 title='Liste des articles'
                 value={
                   <Link

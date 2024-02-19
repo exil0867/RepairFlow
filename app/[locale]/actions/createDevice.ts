@@ -13,7 +13,7 @@ export default async function createDevice(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { customerId, serialNumber, model, brand } =
+    const { customerId, serialNumber, model, brand, remark } =
       validateCreateDevice.parse(data)
     console.log(customerId)
     const response = await prisma.device.create({
@@ -22,6 +22,7 @@ export default async function createDevice(
         serialNumber,
         model,
         brand,
+        remark,
       },
     })
 

@@ -50,6 +50,7 @@ export interface FormValues {
   brand: string
   model: string
   serialNumber: string
+  remark: string
 }
 
 export default function DialogDemo({
@@ -130,6 +131,26 @@ export default function DialogDemo({
                 />
                 <ErrorMessage
                   name='serialNumber'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText={`Remarque sur l'appareil`}
+            inputElement={
+              <>
+                <Input
+                  type='text'
+                  placeholder={`Remarque sur l'appareil`}
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('remark', { required: true })}
+                />
+                <ErrorMessage
+                  name='remark'
                   errors={errors}
                   as={<InputError />}
                 />

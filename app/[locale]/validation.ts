@@ -20,6 +20,7 @@ export const validateUpdateCustomer = zfd.formData({
 export const validateCreateDevice = zfd.formData({
   customerId: z.coerce.number().min(0),
   serialNumber: z.string(),
+  remark: z.string(),
   model: z.string().min(1, { message: 'Le model est requis' }).max(50),
   brand: z.string(),
 })
@@ -28,6 +29,7 @@ export const validateUpdateDevice = zfd.formData({
   id: z.coerce.number().min(0),
   customerId: z.coerce.number().min(0),
   serialNumber: z.string(),
+  remark: z.string(),
   model: z.string().min(1, { message: 'Le model est requis' }).max(50),
   brand: z.string(),
 })

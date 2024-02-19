@@ -261,6 +261,10 @@ export default function Component({ application }: any) {
                 title='Marque:'
                 value={application.device.brand}
               />
+              <ViewFieldSubWrapperField
+                title={`Remarque sur l'appareil`}
+                value={application.device.remark}
+              />
             </ViewFieldSubWrapper>
           </ViewFieldWrapper>
         </div>

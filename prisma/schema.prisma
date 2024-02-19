@@ -66,6 +66,7 @@ model Device {
   serialNumber String
   model        String
   brand        String
+  remark       String?
   customerId   Int
   customer     Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
   applications Application[]
