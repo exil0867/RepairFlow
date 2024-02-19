@@ -175,7 +175,6 @@ export default function CreateCustomer() {
           <FormFieldWrapper>
             <FormField
               labelText={`Remarque sur l'appareil`}
-              required
               inputElement={
                 <>
                   <Textarea

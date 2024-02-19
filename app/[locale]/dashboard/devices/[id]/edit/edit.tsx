@@ -169,7 +169,6 @@ export default function Component({ device }: any) {
           <FormFieldWrapper>
             <FormField
               labelText={`Remarque sur l'appareil`}
-              required
               inputElement={
                 <>
                   <Textarea
