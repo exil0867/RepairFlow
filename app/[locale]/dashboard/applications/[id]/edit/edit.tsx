@@ -49,14 +49,14 @@ import { validateUpdateArticle } from '@/app/validation'
 export interface FormValues {
   id: string
   subject: string
-  notes: string
+  remark: string
   deviceId: string
   customerId: string
   status: 'DIAGNOSIS' | 'REPAIRED' | 'REPAIRING' | 'CANCELLED'
 }
 
 export default function Component({ application }: any) {
-  const { id, subject, notes, status, customer, device } = application
+  const { id, subject, remark, status, customer, device } = application
   const [customerIsEmpty, setCustomerIsEmpty] = useState<boolean | null>(null)
   const [deviceIsEmpty, setDeviceIsEmpty] = useState<boolean | null>(null)
   const [statusIsEmpty, setStatusIsEmpty] = useState<boolean | null>(null)
@@ -152,17 +152,17 @@ export default function Component({ application }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText={`Notes d'articles`}
+              labelText={`Remarque sur l'article`}
               inputElement={
                 <>
                   <Textarea
-                    defaultValue={application.notes}
-                    placeholder='Notes'
+                    defaultValue={application.remark}
+                    placeholder='remark'
                     className='border border-gray-300 p-2 rounded text-gray-700'
-                    {...register('notes')}
+                    {...register('remark')}
                   />
                   <ErrorMessage
-                    name='notes'
+                    name='remark'
                     errors={errors}
                     as={<InputError />}
                   />

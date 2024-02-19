@@ -32,7 +32,7 @@ model Application {
   id         Int                   @id @default(autoincrement())
   status     Status
   subject    String
-  notes      String?
+  remark     String?
   deviceId   Int
   customerId Int
   customer   Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)

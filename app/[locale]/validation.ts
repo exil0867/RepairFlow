@@ -41,7 +41,7 @@ const ArticleStatus = {
 
 export const validateCreateArticle = zfd.formData({
   subject: z.string().min(1, { message: 'Le sujet est requis' }).max(50),
-  notes: z.string(),
+  remark: z.string(),
   deviceId: z.coerce.number().min(0),
   customerId: z.coerce.number().min(0),
   status: z.nativeEnum(ArticleStatus, {
@@ -54,7 +54,7 @@ export const validateCreateArticle = zfd.formData({
 export const validateUpdateArticle = zfd.formData({
   id: z.coerce.number().min(0),
   subject: z.string().min(1, { message: 'Le sujet est requis' }).max(50),
-  notes: z.string(),
+  remark: z.string(),
   deviceId: z.coerce.number().min(0),
   customerId: z.coerce.number().min(0),
   status: z.nativeEnum(ArticleStatus, {

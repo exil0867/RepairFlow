@@ -13,7 +13,7 @@ export default async function createDevice(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { id, subject, notes, deviceId, customerId, status } =
+    const { id, subject, remark, deviceId, customerId, status } =
       validateUpdateArticle.parse(data)
 
     const response = await prisma.application.update({
@@ -23,7 +23,7 @@ export default async function createDevice(
       data: {
         status,
         subject,
-        notes,
+        remark,
         deviceId,
         customerId,
       },

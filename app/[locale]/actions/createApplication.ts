@@ -14,13 +14,13 @@ export default async function createDevice(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { subject, notes, deviceId, customerId, status } =
+    const { subject, remark, deviceId, customerId, status } =
       validateCreateArticle.parse(data)
 
     const response = await prisma.application.create({
       data: {
         subject,
-        notes,
+        remark,
         deviceId,
         customerId,
         status: status as Application['status'],

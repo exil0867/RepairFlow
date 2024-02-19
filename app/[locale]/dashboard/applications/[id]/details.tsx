@@ -175,8 +175,8 @@ export default function Component({ application }: any) {
           </ViewFieldWrapper>
           <ViewFieldWrapper>
             <ViewField
-              title={`Notes sur les articles`}
-              value={application.notes}
+              title={`Remarque sur l'article`}
+              value={application.remark}
             />
           </ViewFieldWrapper>
           <ViewFieldWrapper>

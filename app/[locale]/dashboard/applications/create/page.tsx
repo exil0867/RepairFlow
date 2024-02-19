@@ -50,7 +50,7 @@ import { ErrorMessage } from '@hookform/error-message'
 
 export interface FormValues {
   subject: string
-  notes: string
+  remark: string
   deviceId: string
   customerId: string
   status: 'REPAIRED' | 'REPAIRING' | 'CANCELLED'
@@ -194,16 +194,16 @@ export default function CreateApplication() {
             </FormFieldWrapper>
             <FormFieldWrapper>
               <FormField
-                labelText={`Notes d'article`}
+                labelText={`Remarque sur l'article`}
                 inputElement={
                   <>
                     <Textarea
-                      placeholder={`Notes d'article`}
+                      placeholder={`Remarque sur l'article`}
                       className='border border-gray-300 p-2 rounded text-gray-700'
-                      {...register('notes')}
+                      {...register('remark')}
                     />
                     <ErrorMessage
-                      name='notes'
+                      name='remark'
                       errors={errors}
                       as={<InputError />}
                     />
