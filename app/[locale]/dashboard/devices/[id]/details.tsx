@@ -47,7 +47,7 @@ export default function Component({ device }: any) {
         )}
 
         <Wrapper
-          title={`Détails de l'appareil`}
+          title={`Détails`}
           footer={
             <>
               <Button
@@ -71,25 +71,22 @@ export default function Component({ device }: any) {
         >
           <div className='grid gap-6 md:gap-8'>
             <ViewFieldWrapper>
-              <ViewField title={`Référence de l'appareil`} value={device.id} />
+              <ViewField title={`Référence`} value={device.id} />
             </ViewFieldWrapper>
             <ViewFieldWrapper>
-              <ViewField title={`Marque de l'appareil`} value={device.brand} />
+              <ViewField title={`Marque`} value={device.brand} />
             </ViewFieldWrapper>
             <ViewFieldWrapper>
-              <ViewField title={`Modèle d'appareil`} value={device.model} />
+              <ViewField title={`Modèle`} value={device.model} />
             </ViewFieldWrapper>
             <ViewFieldWrapper>
               <ViewField
-                title={`Numéro de série de l'appareil`}
+                title={`Numéro de série`}
                 value={device.serialNumber}
               />
             </ViewFieldWrapper>
             <ViewFieldWrapper>
-              <ViewField
-                title={`Remarque sur l'appareil`}
-                value={device.remark}
-              />
+              <ViewField title={`Remarque`} value={device.remark} />
             </ViewFieldWrapper>
             <ViewFieldWrapper>
               <ViewField

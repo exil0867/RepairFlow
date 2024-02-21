@@ -86,10 +86,10 @@ export default function Additional({ applicationId, onClose }: any) {
         <FormFieldWrapper>
           <FormField
             labelText='Problème'
+            hint={`Décrire le problème suite au diagnostic`}
             inputElement={
               <>
                 <Textarea
-                  placeholder='Le problème'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('issue')}
                 />

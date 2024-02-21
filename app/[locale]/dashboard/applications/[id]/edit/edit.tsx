@@ -131,13 +131,13 @@ export default function Component({ application }: any) {
         >
           <FormFieldWrapper>
             <FormField
-              labelText={`Sujet de l'article`}
+              labelText={`Sujet`}
+              hint={`Sujet de l'article`}
               inputElement={
                 <>
                   <Input
                     type='text'
                     defaultValue={application.subject}
-                    placeholder='Sujet'
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('subject')}
                   />
@@ -152,12 +152,12 @@ export default function Component({ application }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText={`Remarque sur l'article`}
+              labelText={`Remarque`}
+              hint={`Ajouter une remarque sur l'article`}
               inputElement={
                 <>
                   <Textarea
                     defaultValue={application.remark}
-                    placeholder='remark'
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('remark')}
                   />
@@ -172,7 +172,8 @@ export default function Component({ application }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText={`Statut de l'article`}
+              labelText={`Statut`}
+              hint={`Statut de l'article`}
               inputElement={
                 <>
                   <Select

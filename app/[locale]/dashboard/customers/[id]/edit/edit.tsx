@@ -120,14 +120,14 @@ export default function Component({ customer }: any) {
         >
           <FormFieldWrapper>
             <FormField
-              labelText='Nom du client'
+              labelText='Nom'
+              hint={`Nom du client`}
               required
               inputElement={
                 <>
                   <Input
                     type='text'
                     defaultValue={customer.name}
-                    placeholder='Nom du client'
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('name')}
                   />
@@ -142,14 +142,14 @@ export default function Component({ customer }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Adresse du client'
+              labelText='Adresse'
+              hint={`Adresse du client`}
               inputElement={
                 <>
                   <Textarea
                     defaultValue={customer.address}
-                    placeholder='Adresse du client'
                     className='border border-gray-300 p-2 rounded text-gray-700'
-                    {...register('address', { required: true })}
+                    {...register('address')}
                   />
                   <ErrorMessage
                     name='address'
@@ -163,14 +163,14 @@ export default function Component({ customer }: any) {
           <FormFieldWrapper>
             <FormField
               labelText='Numéro de téléphone'
+              hint='Numéro de téléphone du client'
               inputElement={
                 <>
                   <Input
                     type='text'
                     defaultValue={customer.phoneNumber}
-                    placeholder='Numéro de téléphone'
                     className='border border-gray-300 p-2 rounded text-gray-700'
-                    {...register('phoneNumber', { required: true })}
+                    {...register('phoneNumber')}
                   />
                   <ErrorMessage
                     name='phoneNumber'
@@ -184,12 +184,12 @@ export default function Component({ customer }: any) {
           <FormFieldWrapper>
             <FormField
               labelText='Matricule fiscal'
+              hint={`Numéro d'immatriculation fiscale du client`}
               inputElement={
                 <>
                   <Input
                     type='text'
                     defaultValue={customer.taxId}
-                    placeholder='Matricule fiscal'
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('taxId')}
                   />

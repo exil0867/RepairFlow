@@ -83,13 +83,13 @@ export default function CreateCustomer() {
       <Form className='grid gap-6 md:gap-8' ref={myRef} action={formAction}>
         <FormFieldWrapper>
           <FormField
-            labelText='Nom du client'
+            labelText='Nom'
+            hint={`Nom du client`}
             required
             inputElement={
               <>
                 <Input
                   type='text'
-                  placeholder='Nom du client'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('name')}
                 />
@@ -100,11 +100,11 @@ export default function CreateCustomer() {
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Adresse du client'
+            labelText='Adresse'
+            hint={`Adresse du client`}
             inputElement={
               <>
                 <Textarea
-                  placeholder='Adresse du client'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('address')}
                 />
@@ -120,11 +120,11 @@ export default function CreateCustomer() {
         <FormFieldWrapper>
           <FormField
             labelText='Numéro de téléphone'
+            hint='Numéro de téléphone du client'
             inputElement={
               <>
                 <Input
                   type='text'
-                  placeholder='Numéro de téléphone'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('phoneNumber')}
                 />
@@ -140,11 +140,11 @@ export default function CreateCustomer() {
         <FormFieldWrapper>
           <FormField
             labelText='Matricule fiscal'
+            hint={`Numéro d'immatriculation fiscale du client`}
             inputElement={
               <>
                 <Input
                   type='text'
-                  placeholder='Matricule fiscal'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('taxId')}
                 />

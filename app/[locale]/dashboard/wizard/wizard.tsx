@@ -87,7 +87,7 @@ export default function Component() {
       case 1:
         return (
           <>
-            <div key={1}>
+            <div key={1} className='mb-2'>
               <Label className='block pb-4'>Client</Label>
               <Selector
                 setObject={setCustomer_}
@@ -119,6 +119,9 @@ export default function Component() {
                 }}
               />
             </div>
+            <p className='text-xs text-gray-600'>
+              Sélectionner ou créer un client
+            </p>
             {!customerIsSelected && customerIsSelected !== null && (
               <InputError>Veuillez sélectionner un client</InputError>
             )}
@@ -127,7 +130,7 @@ export default function Component() {
       case 2:
         return (
           <>
-            <div key={2}>
+            <div key={2} className='mb-2'>
               <Label className='block pb-4'>Appareil</Label>
               <Selector
                 setObject={setDevice_}
@@ -166,6 +169,9 @@ export default function Component() {
                 }}
               />
             </div>
+            <p className='text-xs text-gray-600'>
+              Sélectionner ou créer un appareil du client
+            </p>
             {!deviceIsSelected && deviceIsSelected !== null && (
               <InputError>Veuillez sélectionner un appareil</InputError>
             )}

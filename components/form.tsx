@@ -19,11 +19,12 @@ Form.displayName = 'Form'
 export default Form
 
 interface FormFieldProps {
-  labelText: string
+  labelText?: string
   labelClassName?: string
   inputElement: ReactElement
   inputClassName?: string
   required?: boolean
+  hint?: ReactNode
 }
 
 export const FormField: React.FC<FormFieldProps> = ({
@@ -32,15 +33,20 @@ export const FormField: React.FC<FormFieldProps> = ({
   inputElement,
   inputClassName = 'border border-gray-300 p-2 rounded text-gray-700',
   required = false,
+  hint,
 }) => {
   return (
     <>
-      <Label className={labelClassName}>
-        {labelText} {required && <span className='ml-1 text-red-500'>*</span>}
-      </Label>
+      {labelText && (
+        <Label className={labelClassName}>
+          {labelText} {required && <span className='ml-1 text-red-500'>*</span>}
+        </Label>
+      )}
       {React.cloneElement(inputElement, {
         className: `${inputClassName} ${inputElement.props.className || ''}`,
       })}
+
+      {hint && <p className='text-xs text-gray-600'>{hint}</p>}
     </>
   )
 }

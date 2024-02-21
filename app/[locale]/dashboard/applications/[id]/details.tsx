@@ -162,26 +162,17 @@ export default function Component({ application }: any) {
       >
         <div className='grid gap-6 md:gap-8'>
           <ViewFieldWrapper>
-            <ViewField
-              title={`Référence de l'article`}
-              value={application.id}
-            />
+            <ViewField title={`Référence`} value={application.id} />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField title={`Sujet`} value={application.subject} />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField title={`Remarque`} value={application.remark} />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
             <ViewField
-              title={`Sujet de l'article`}
-              value={application.subject}
-            />
-          </ViewFieldWrapper>
-          <ViewFieldWrapper>
-            <ViewField
-              title={`Remarque sur l'article`}
-              value={application.remark}
-            />
-          </ViewFieldWrapper>
-          <ViewFieldWrapper>
-            <ViewField
-              title={`Statut de l'article`}
+              title={`Statut`}
               value={renderStatus(application.status)}
             />
           </ViewFieldWrapper>
@@ -189,7 +180,7 @@ export default function Component({ application }: any) {
             <ViewFieldWrapper>
               <ViewFieldSubWrapper title='Diagnostic'>
                 <ViewFieldSubWrapperField
-                  title='Problème:'
+                  title='Problème'
                   value={application.diagnosis.issue}
                 />
               </ViewFieldSubWrapper>
@@ -199,16 +190,16 @@ export default function Component({ application }: any) {
             <ViewFieldWrapper>
               <ViewFieldSubWrapper title='Conclusion'>
                 <ViewFieldSubWrapperField
-                  title='Coût:'
+                  title='Coût'
                   value={application.conclusion.cost}
                 />
               </ViewFieldSubWrapper>
             </ViewFieldWrapper>
           )}
           <ViewFieldWrapper>
-            <ViewFieldSubWrapper title='Détails du client'>
+            <ViewFieldSubWrapper title='Client'>
               <ViewFieldSubWrapperField
-                title='Référence:'
+                title='Référence'
                 value={
                   <Link
                     className='underline text-blue-500'
@@ -219,27 +210,27 @@ export default function Component({ application }: any) {
                 }
               />
               <ViewFieldSubWrapperField
-                title='Nom:'
+                title='Nom'
                 value={application.customer.name}
               />
               <ViewFieldSubWrapperField
-                title='Adresse:'
+                title='Adresse'
                 value={application.customer.address}
               />
               <ViewFieldSubWrapperField
-                title='Matricule fiscal:'
+                title='Matricule fiscal'
                 value={application.customer.taxId}
               />
               <ViewFieldSubWrapperField
-                title='Numéro de téléphone:'
+                title='Numéro de téléphone'
                 value={application.customer.phoneNumber}
               />
             </ViewFieldSubWrapper>
           </ViewFieldWrapper>
           <ViewFieldWrapper>
-            <ViewFieldSubWrapper title={`Détails de l'appareil`}>
+            <ViewFieldSubWrapper title={`Appareil`}>
               <ViewFieldSubWrapperField
-                title='Référence:'
+                title='Référence'
                 value={
                   <Link
                     className='underline text-blue-500'
@@ -250,19 +241,19 @@ export default function Component({ application }: any) {
                 }
               />
               <ViewFieldSubWrapperField
-                title='Numéro de série:'
+                title='Numéro de série'
                 value={application.device.serialNumber}
               />
               <ViewFieldSubWrapperField
-                title='Modèle:'
+                title='Modèle'
                 value={application.device.model}
               />
               <ViewFieldSubWrapperField
-                title='Marque:'
+                title='Marque'
                 value={application.device.brand}
               />
               <ViewFieldSubWrapperField
-                title={`Remarque sur l'appareil`}
+                title={`Remarque`}
                 value={application.device.remark}
               />
             </ViewFieldSubWrapper>

@@ -113,12 +113,12 @@ export default function CreateCustomer() {
         >
           <FormFieldWrapper>
             <FormField
-              labelText={`Marque de l'appareil`}
+              labelText={`Marque`}
+              hint={`La marque de l'appareil`}
               inputElement={
                 <>
                   <Input
                     type='text'
-                    placeholder={`Marque de l'appareil`}
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('brand')}
                   />
@@ -133,13 +133,13 @@ export default function CreateCustomer() {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText={`Modèle d'appareil`}
+              labelText={`Modèle`}
+              hint={`Le modèle de l'appareil`}
               required
               inputElement={
                 <>
                   <Input
                     type='text'
-                    placeholder={`Modèle d'appareil`}
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('model')}
                   />
@@ -155,11 +155,11 @@ export default function CreateCustomer() {
           <FormFieldWrapper>
             <FormField
               labelText={`Numéro de série`}
+              hint={`Le numéro de série de l'appareil`}
               inputElement={
                 <>
                   <Input
                     type='text'
-                    placeholder='Numéro de série'
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('serialNumber')}
                   />
@@ -174,11 +174,11 @@ export default function CreateCustomer() {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText={`Remarque sur l'appareil`}
+              labelText={`Remarque`}
+              hint={`Ajouter une remarque sur l'appareil`}
               inputElement={
                 <>
                   <Textarea
-                    placeholder={`Remarque sur l'appareil`}
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('remark')}
                   />
@@ -194,9 +194,9 @@ export default function CreateCustomer() {
           <FormFieldWrapper>
             <FormFieldSubWrapper subtitle='Client'>
               <FormField
-                labelText='Client sélectionné:'
                 required
                 labelClassName=''
+                hint={`Sélectionnez le client associé à l'appareil`}
                 inputElement={
                   <>
                     <Selector

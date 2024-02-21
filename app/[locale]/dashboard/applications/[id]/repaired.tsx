@@ -91,11 +91,11 @@ export default function Additional({ applicationId, onClose }: any) {
         <FormFieldWrapper>
           <FormField
             labelText='Coût'
+            hint={`Le coût de la réparation`}
             inputElement={
               <>
                 <Input
                   type='text'
-                  placeholder='Coût'
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('cost')}
                 />

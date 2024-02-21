@@ -132,12 +132,12 @@ export default function Component({ device }: any) {
         >
           <FormFieldWrapper>
             <FormField
-              labelText={`Marque de l'appareil`}
+              labelText={`Marqu`}
+              hint={`La marque de l'appareil`}
               inputElement={
                 <Input
                   type='text'
                   defaultValue={device.brand}
-                  placeholder={`Marque de l'appareil`}
                   className='border border-gray-300 p-2 rounded text-gray-700'
                   {...register('brand')}
                 />
@@ -146,14 +146,14 @@ export default function Component({ device }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText={`Modèle d'appareil`}
+              labelText={`Modèle`}
+              hint={`Le modèle de l'appareil`}
               required
               inputElement={
                 <>
                   <Input
                     type='text'
                     defaultValue={device.model}
-                    placeholder='Modèle'
                     className='border border-gray-300 p-2 rounded text-gray-700'
                     {...register('model')}
                   />
@@ -168,17 +168,18 @@ export default function Component({ device }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText={`Remarque sur l'appareil`}
+              labelText='Numéro de série'
+              hint={`Le numéro de série de l'appareil`}
               inputElement={
                 <>
-                  <Textarea
-                    defaultValue={device.remark}
-                    placeholder='remark'
+                  <Input
+                    type='text'
+                    defaultValue={device.serialNumber}
                     className='border border-gray-300 p-2 rounded text-gray-700'
-                    {...register('remark')}
+                    {...register('serialNumber')}
                   />
                   <ErrorMessage
-                    name='remark'
+                    name='serialNumber'
                     errors={errors}
                     as={<InputError />}
                   />
@@ -188,18 +189,17 @@ export default function Component({ device }: any) {
           </FormFieldWrapper>
           <FormFieldWrapper>
             <FormField
-              labelText='Numéro de série'
+              labelText={`Remarque`}
+              hint={`Ajouter une remarque sur l'appareil`}
               inputElement={
                 <>
-                  <Input
-                    type='text'
-                    defaultValue={device.serialNumber}
-                    placeholder='Numéro de série'
+                  <Textarea
+                    defaultValue={device.remark}
                     className='border border-gray-300 p-2 rounded text-gray-700'
-                    {...register('serialNumber')}
+                    {...register('remark')}
                   />
                   <ErrorMessage
-                    name='serialNumber'
+                    name='remark'
                     errors={errors}
                     as={<InputError />}
                   />

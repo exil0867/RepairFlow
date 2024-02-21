@@ -174,12 +174,12 @@ export default function CreateApplication() {
           >
             <FormFieldWrapper>
               <FormField
-                labelText={`Sujet de l'article`}
+                labelText={`Sujet`}
+                hint={`Sujet de l'article`}
                 inputElement={
                   <>
                     <Input
                       type='text'
-                      placeholder={`Sujet de l'article`}
                       className='border border-gray-300 p-2 rounded text-gray-700'
                       {...register('subject')}
                     />
@@ -194,11 +194,11 @@ export default function CreateApplication() {
             </FormFieldWrapper>
             <FormFieldWrapper>
               <FormField
-                labelText={`Remarque sur l'article`}
+                labelText={`Remarque`}
+                hint={`Ajouter une remarque sur l'article`}
                 inputElement={
                   <>
                     <Textarea
-                      placeholder={`Remarque sur l'article`}
                       className='border border-gray-300 p-2 rounded text-gray-700'
                       {...register('remark')}
                     />
@@ -213,7 +213,8 @@ export default function CreateApplication() {
             </FormFieldWrapper>
             <FormFieldWrapper>
               <FormField
-                labelText={`Statut de l'article`}
+                labelText={`Statut`}
+                hint={`Statut de l'article`}
                 inputElement={
                   <>
                     <Select
@@ -244,7 +245,7 @@ export default function CreateApplication() {
             <FormFieldWrapper>
               <FormFieldSubWrapper subtitle='Client'>
                 <FormField
-                  labelText='Client sélectionné:'
+                  hint={`Sélectionnez le client associé à l'article`}
                   labelClassName=''
                   inputElement={
                     <>
@@ -291,7 +292,7 @@ export default function CreateApplication() {
             <FormFieldWrapper>
               <FormFieldSubWrapper subtitle='Appareil'>
                 <FormField
-                  labelText='Appareil sélectionné:'
+                  hint={`Sélectionnez l'appareil associé à l'article`}
                   labelClassName=''
                   inputElement={
                     <>

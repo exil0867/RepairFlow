@@ -69,17 +69,17 @@ export default function Component({ customer }: any) {
       >
         <div className='grid gap-6 md:gap-8'>
           <ViewFieldWrapper>
-            <ViewField title={`Référence client`} value={customer.id} />
+            <ViewField title={`Référence`} value={customer.id} />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
-            <ViewField title='Nom du client' value={customer.name} />
+            <ViewField title='Nom' value={customer.name} />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
-            <ViewField title='Adresse du client' value={customer.address} />
+            <ViewField title='Adresse' value={customer.address} />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
             <ViewField
-              title='Numéro de téléphone du client'
+              title='Numéro de téléphone'
               value={customer.phoneNumber}
             />
           </ViewFieldWrapper>

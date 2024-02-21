@@ -120,36 +120,17 @@ export default function DialogDemo({
         <input type='hidden' name='customerId' value={customerId} />
         <FormFieldWrapper>
           <FormField
-            labelText='Numéro de série'
+            labelText='Marque'
+            hint={`La marque de l'appareil`}
             inputElement={
               <>
                 <Input
                   type='text'
-                  placeholder='Numéro de série'
                   className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('serialNumber', { required: true })}
+                  {...register('brand')}
                 />
                 <ErrorMessage
-                  name='serialNumber'
-                  errors={errors}
-                  as={<InputError />}
-                />
-              </>
-            }
-          />
-        </FormFieldWrapper>
-        <FormFieldWrapper>
-          <FormField
-            labelText={`Remarque sur l'appareil`}
-            inputElement={
-              <>
-                <Textarea
-                  placeholder={`Remarque sur l'appareil`}
-                  className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('remark', { required: true })}
-                />
-                <ErrorMessage
-                  name='remark'
+                  name='brand'
                   errors={errors}
                   as={<InputError />}
                 />
@@ -160,14 +141,14 @@ export default function DialogDemo({
         <FormFieldWrapper>
           <FormField
             labelText='Modèle'
+            hint={`Le modèle de l'appareil`}
             required
             inputElement={
               <>
                 <Input
                   type='text'
-                  placeholder='Modèle'
                   className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('model', { required: true })}
+                  {...register('model')}
                 />
                 <ErrorMessage
                   name='model'
@@ -180,17 +161,36 @@ export default function DialogDemo({
         </FormFieldWrapper>
         <FormFieldWrapper>
           <FormField
-            labelText='Marque'
+            labelText='Numéro de série'
+            hint={`Le numéro de série de l'appareil`}
             inputElement={
               <>
                 <Input
                   type='text'
-                  placeholder='Marque'
                   className='border border-gray-300 p-2 rounded text-gray-700'
-                  {...register('brand', { required: true })}
+                  {...register('serialNumber')}
                 />
                 <ErrorMessage
-                  name='brand'
+                  name='serialNumber'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText={`Remarque`}
+            hint={`Ajouter une remarque sur l'appareil`}
+            inputElement={
+              <>
+                <Textarea
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('remark')}
+                />
+                <ErrorMessage
+                  name='remark'
                   errors={errors}
                   as={<InputError />}
                 />
