@@ -1,17 +1,19 @@
 import { ReactNode } from 'react'
 
-export const ViewField = ({
-  title,
-  value,
-}: {
+export const ViewField = (props: {
   title: ReactNode
   value: ReactNode
+  dehydrateValue?: boolean
+  [x: string]: any
 }) => {
+  const { title, value, dehydrateValue = false, ...rest } = props
   return (
-    <>
+    <div {...{ rest }}>
       <div className='text-lg font-semibold'>{title}</div>
-      <div className='text-gray-600'>{value}</div>
-    </>
+      <div suppressHydrationWarning={dehydrateValue} className='text-gray-600'>
+        {value}
+      </div>
+    </div>
   )
 }
 

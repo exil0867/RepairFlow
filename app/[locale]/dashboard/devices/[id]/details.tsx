@@ -27,6 +27,7 @@ import deleteDevice from '@/app/actions/deleteDevice'
 import Delete from './delete'
 import { useState } from 'react'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import { formatDate } from '@/lib/utils'
 
 export default function Component({ device }: any) {
   const pathname = usePathname()
@@ -87,6 +88,20 @@ export default function Component({ device }: any) {
             </ViewFieldWrapper>
             <ViewFieldWrapper>
               <ViewField title={`Remarque`} value={device.remark} />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField
+                dehydrateValue
+                title='Date de création'
+                value={formatDate(device.createdAt)}
+              />
+            </ViewFieldWrapper>
+            <ViewFieldWrapper>
+              <ViewField
+                dehydrateValue
+                title='Date de mise à jour'
+                value={formatDate(device.updatedAt)}
+              />
             </ViewFieldWrapper>
             <ViewFieldWrapper>
               <ViewField

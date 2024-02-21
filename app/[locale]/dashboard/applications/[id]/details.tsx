@@ -27,7 +27,7 @@ import { useState } from 'react'
 import Repaired from './repaired'
 import Repairing from './repairing'
 import Cancel from './cancel'
-import { renderStatus } from '@/lib/utils'
+import { formatDate, renderStatus } from '@/lib/utils'
 import Link from 'next/link'
 import deleteApplication from '@/app/actions/deleteApplication'
 import Delete from './delete'
@@ -174,6 +174,20 @@ export default function Component({ application }: any) {
             <ViewField
               title={`Statut`}
               value={renderStatus(application.status)}
+            />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField
+              dehydrateValue
+              title='Date de création'
+              value={formatDate(application.createdAt)}
+            />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField
+              dehydrateValue
+              title='Date de mise à jour'
+              value={formatDate(application.updatedAt)}
             />
           </ViewFieldWrapper>
           {application.diagnosis && (

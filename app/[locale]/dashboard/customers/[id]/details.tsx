@@ -27,6 +27,7 @@ import deleteCustomer from '@/app/actions/deleteCustomer'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { useState } from 'react'
 import Delete from './delete'
+import { formatDate } from '@/lib/utils'
 
 export default function Component({ customer }: any) {
   const pathname = usePathname()
@@ -85,6 +86,20 @@ export default function Component({ customer }: any) {
           </ViewFieldWrapper>
           <ViewFieldWrapper>
             <ViewField title='Matricule fiscal' value={customer.taxId} />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField
+              dehydrateValue
+              title='Date de création'
+              value={formatDate(customer.createdAt)}
+            />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
+            <ViewField
+              dehydrateValue
+              title='Date de mise à jour'
+              value={formatDate(customer.updatedAt)}
+            />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
             <ViewField
