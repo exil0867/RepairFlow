@@ -253,6 +253,7 @@ export default function CreateApplication() {
                         className='border border-gray-300 p-2 rounded'
                         setObject={setCustomer_}
                         object={customer_}
+                        initialDisplay={false}
                         itemName={{ plurar: 'clients', singular: 'client' }}
                         showList={open}
                         setShowList={(v: any) => {
@@ -300,6 +301,7 @@ export default function CreateApplication() {
                         className='border border-gray-300 p-2 rounded'
                         setObject={setDevice_}
                         object={device_}
+                        initialDisplay={true}
                         itemName={{ plurar: 'appareils', singular: 'appareil' }}
                         showList={open2}
                         setShowList={setOpen2}

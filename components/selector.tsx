@@ -27,12 +27,13 @@ function Selector({
   itemName,
   showList,
   setShowList,
+  initialDisplay = false,
 }: any) {
   const [list, setList] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [shouldType, setShouldType] = useState(true)
   useEffect(() => {
-    if (inputValue === '') {
+    if (inputValue === '' && !initialDisplay) {
       setList([])
       setShouldType(true)
       return

@@ -90,6 +90,7 @@ export default function Component() {
             <div key={1} className='mb-2'>
               <Label className='block pb-4'>Client</Label>
               <Selector
+                initialDisplay={false}
                 setObject={setCustomer_}
                 object={customer_}
                 itemName={{ plurar: 'clients', singular: 'client' }}
@@ -133,6 +134,7 @@ export default function Component() {
             <div key={2} className='mb-2'>
               <Label className='block pb-4'>Appareil</Label>
               <Selector
+                initialDisplay={true}
                 setObject={setDevice_}
                 object={device_}
                 itemName={{ plurar: 'appareils', singular: 'appareil' }}
