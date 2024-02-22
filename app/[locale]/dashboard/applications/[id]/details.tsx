@@ -38,49 +38,10 @@ export default function Component({ application }: any) {
   const pathname = usePathname()
   const router = useRouter()
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [openedStatusDialog, setOpenedStatusDialog] = useState<
-    'DIAGNOSING' | 'REPAIRED' | 'REPAIRING' | 'CANCELLED' | null
-  >(null)
   const [openedDeleteDialog, setOpenedDeleteDialog] = useState<boolean>(false)
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      {openedStatusDialog === 'DIAGNOSING' && (
-        <Diagnosing
-          applicationId={application.id}
-          onClose={() => {
-            setDialogOpen(false)
-            setOpenedStatusDialog(null)
-          }}
-        />
-      )}
-      {openedStatusDialog === 'REPAIRED' && (
-        <Repaired
-          applicationId={application.id}
-          onClose={() => {
-            setDialogOpen(false)
-            setOpenedStatusDialog(null)
-          }}
-        />
-      )}
-      {openedStatusDialog === 'REPAIRING' && (
-        <Repairing
-          applicationId={application.id}
-          onClose={() => {
-            setDialogOpen(false)
-            setOpenedStatusDialog(null)
-          }}
-        />
-      )}
-      {openedStatusDialog === 'CANCELLED' && (
-        <Cancel
-          applicationId={application.id}
-          onClose={() => {
-            setDialogOpen(false)
-            setOpenedStatusDialog(null)
-          }}
-        />
-      )}
       {openedDeleteDialog && (
         <Delete
           id={application.id}
@@ -105,59 +66,11 @@ export default function Component({ application }: any) {
                 variant='outline'
                 onClick={() => {
                   setOpenedDeleteDialog(true)
-                  setOpenedStatusDialog(null)
                 }}
               >
                 Supprimer
               </Button>
             </DialogTrigger>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant='outline'>Marquer comme</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DialogTrigger asChild>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setOpenedStatusDialog('DIAGNOSING')
-                      setOpenedDeleteDialog(false)
-                    }}
-                  >
-                    Diagnostic
-                  </DropdownMenuItem>
-                </DialogTrigger>
-                <DialogTrigger asChild>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setOpenedStatusDialog('REPAIRED')
-                      setOpenedDeleteDialog(false)
-                    }}
-                  >
-                    Réparé
-                  </DropdownMenuItem>
-                </DialogTrigger>
-                <DialogTrigger asChild>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setOpenedStatusDialog('REPAIRING')
-                      setOpenedDeleteDialog(false)
-                    }}
-                  >
-                    Réparation
-                  </DropdownMenuItem>
-                </DialogTrigger>
-                <DialogTrigger asChild>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setOpenedStatusDialog('CANCELLED')
-                      setOpenedDeleteDialog(false)
-                    }}
-                  >
-                    Annulé
-                  </DropdownMenuItem>
-                </DialogTrigger>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </>
         }
       >
