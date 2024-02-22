@@ -2,9 +2,8 @@
 
 export default function Component() {
   return (
-    <div className='bg-[#e6f7ff] p-10'>
+    <div className='bg-gray-100 p-10'>
       <div className='flex justify-between items-center mb-6'>
-        <GiftIcon className='text-red-600' />
         <div className='flex space-x-4'>
           <div className='flex flex-col items-center'>
             <div className='flex items-center justify-center w-8 h-8 bg-white rounded-full border-2 border-blue-600'>
@@ -37,9 +36,8 @@ export default function Component() {
             <span className='text-xs mt-1'>Send gift</span>
           </div>
         </div>
-        <GiftIcon className='text-red-600' />
       </div>
-      <div className='max-w-2xl mx-auto bg-white rounded-lg p-6 shadow'>
+      <div className='max-w-2xl bg-white rounded-lg p-6 shadow'>
         <h2 className='text-xl font-semibold mb-4'>Send gift</h2>
         <p className='text-sm'>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tortor

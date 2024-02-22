@@ -32,6 +32,7 @@ import Link from 'next/link'
 import deleteApplication from '@/app/actions/deleteApplication'
 import Delete from './delete'
 import Diagnosing from './diagnosing'
+import Phases from './phases'
 
 export default function Component({ application }: any) {
   const pathname = usePathname()
@@ -161,6 +162,7 @@ export default function Component({ application }: any) {
         }
       >
         <div className='grid gap-6 md:gap-8'>
+          <Phases />
           <ViewFieldWrapper>
             <ViewField title={`Référence`} value={application.id} />
           </ViewFieldWrapper>
