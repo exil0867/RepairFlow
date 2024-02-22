@@ -132,6 +132,7 @@ export default function Component({ application }: any) {
             <FormField
               labelText={`Sujet`}
               hint={`Sujet de l'article`}
+              required
               inputElement={
                 <>
                   <Input
@@ -173,6 +174,7 @@ export default function Component({ application }: any) {
             <FormField
               labelText={`Statut`}
               hint={`Statut de l'article`}
+              required
               inputElement={
                 <>
                   <Select

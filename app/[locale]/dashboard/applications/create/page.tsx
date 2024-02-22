@@ -176,6 +176,7 @@ export default function CreateApplication() {
               <FormField
                 labelText={`Sujet`}
                 hint={`Sujet de l'article`}
+                required
                 inputElement={
                   <>
                     <Input
