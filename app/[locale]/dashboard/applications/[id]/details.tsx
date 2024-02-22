@@ -162,7 +162,7 @@ export default function Component({ application }: any) {
         }
       >
         <div className='grid gap-6 md:gap-8'>
-          <Phases />
+          <Phases application={application} />
           <ViewFieldWrapper>
             <ViewField title={`Référence`} value={application.id} />
           </ViewFieldWrapper>

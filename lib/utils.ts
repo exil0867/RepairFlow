@@ -31,3 +31,18 @@ export function renderStatus(status: Application['status']) {
 export function formatDate(dateString: string) {
   return format(dateString, "'Le' d MMM yyyy 'à' H:mm", { locale: fr })
 }
+
+export function statusToIndex(status: Application['status']) {
+  switch (status) {
+    case 'DIAGNOSING':
+      return 1
+
+    case 'REPAIRING':
+      return 2
+
+    case 'REPAIRED':
+      return 3
+    case 'CANCELLED':
+      return 0
+  }
+}
