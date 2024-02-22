@@ -6,7 +6,11 @@ import Link from 'next/link'
 import { ZodError, z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { FormResponse } from './type'
-import { validateUpdateArticle } from '../validation'
+import {
+  validateUpdateArticle,
+  validateUpdateArticleSchema,
+} from '../validation'
+import { Status } from '@prisma/client'
 
 export default async function createDevice(
   prevState: FormResponse,
@@ -21,7 +25,7 @@ export default async function createDevice(
         id,
       },
       data: {
-        status,
+        status: status as Status,
         subject,
         remark,
         deviceId,

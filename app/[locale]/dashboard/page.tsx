@@ -47,6 +47,7 @@ async function page({}: Props) {
       REPAIRED: 0,
       REPAIRING: 0,
       CANCELLED: 0,
+      DIAGNOSING: 0,
     }
 
     applications.forEach((application) => {
@@ -56,7 +57,7 @@ async function page({}: Props) {
     // Format data for pie chart
     const pieChartData = Object.entries(statusCounts).map(
       ([status, count]) => ({
-        id: renderStatus(status),
+        id: renderStatus(status as Status),
         value: count,
       }),
     )
