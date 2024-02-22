@@ -162,19 +162,22 @@ export default function Component({ application }: any) {
                 </DialogTrigger>
               )}
 
-              <button
-                className={`bg-blue-600 text-white py-2 px-4 rounded-lg ${
-                  currentStep === 3 || isCancelled
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'hover:bg-blue-700'
-                }`}
-                onClick={() => {
-                  setOpenedStatusDialog('REPAIRED')
-                }}
-                disabled={currentStep === 3 || isCancelled} // Disable button on last step or if cancelled
-              >
-                Cancel
-              </button>
+              <DialogTrigger asChild>
+                <Button
+                  className={`bg-blue-600 text-white py-2 px-4 rounded-lg ${
+                    currentStep === 3 || isCancelled
+                      ? 'opacity-50 cursor-not-allowed'
+                      : 'hover:bg-blue-700'
+                  }`}
+                  variant='outline'
+                  disabled={currentStep === 3 || isCancelled}
+                  onClick={() => {
+                    setOpenedStatusDialog('CANCELLED')
+                  }}
+                >
+                  Annuler
+                </Button>
+              </DialogTrigger>
             </div>
           </div>
         )}
