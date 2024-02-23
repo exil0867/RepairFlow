@@ -89,11 +89,6 @@ export const validateUpdateArticleSchema = {
   remark: z.string(),
   deviceId: z.coerce.number().min(0),
   customerId: z.coerce.number().min(0),
-  status: z.nativeEnum(ArticleStatus, {
-    errorMap: () => {
-      return { message: 'Le statut est requis' }
-    },
-  }),
   diagnosisIssue: validateCreateDiagnosedArticleSchema['issue'].optional(),
   concludedCost: validateCreateConcludedArticleSchema['cost'].optional(),
 }

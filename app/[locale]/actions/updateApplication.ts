@@ -23,7 +23,6 @@ export default async function createDevice(
       remark,
       deviceId,
       customerId,
-      status,
       diagnosisIssue,
       concludedCost,
     } = validateUpdateArticle.parse(data)
@@ -34,7 +33,6 @@ export default async function createDevice(
         id,
       },
       data: {
-        status: status as Status,
         subject,
         remark,
         deviceId,

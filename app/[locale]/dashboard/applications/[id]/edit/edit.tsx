@@ -172,37 +172,6 @@ export default function Component({ application }: any) {
               }
             />
           </FormFieldWrapper>
-          <FormFieldWrapper>
-            <FormField
-              labelText={`Statut`}
-              hint={`Statut de l'article`}
-              required
-              inputElement={
-                <>
-                  <Select
-                    defaultValue={application.status}
-                    {...register('status')}
-                  >
-                    <SelectTrigger className='w-[180px] border border-gray-300 p-2 rounded'>
-                      <SelectValue placeholder='Sélectionnez le statut' />
-                    </SelectTrigger>
-                    <SelectContent className='bg-white'>
-                      <SelectGroup>
-                        <SelectItem value='REPAIRING'>Réparation</SelectItem>
-                        <SelectItem value='REPAIRED'>Réparé</SelectItem>
-                        <SelectItem value='CANCELLED'>Annulé</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  <ErrorMessage
-                    name='status'
-                    errors={errors}
-                    as={<InputError />}
-                  />
-                </>
-              }
-            />
-          </FormFieldWrapper>
           {application.diagnosis && (
             <FormFieldWrapper>
               <FormFieldSubWrapper subtitle='Informations de réparation'>
