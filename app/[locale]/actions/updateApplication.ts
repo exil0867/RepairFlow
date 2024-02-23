@@ -17,10 +17,19 @@ export default async function createDevice(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { id, subject, remark, deviceId, customerId, status } =
-      validateUpdateArticle.parse(data)
+    const {
+      id,
+      subject,
+      remark,
+      deviceId,
+      customerId,
+      status,
+      diagnosisIssue,
+      concludedCost,
+    } = validateUpdateArticle.parse(data)
 
     const response = await prisma.application.update({
+      include: { conclusion: true, diagnosis: true },
       where: {
         id,
       },
@@ -30,6 +39,16 @@ export default async function createDevice(
         remark,
         deviceId,
         customerId,
+        diagnosis: {
+          update: {
+            issue: diagnosisIssue,
+          },
+        },
+        conclusion: {
+          update: {
+            cost: concludedCost,
+          },
+        },
       },
     })
 

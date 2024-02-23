@@ -85,6 +85,7 @@ export default function Additional({ applicationId, onClose }: any) {
         <FormFieldWrapper>
           <FormField
             labelText='Problème'
+            required
             hint={`Décrire le problème suite au diagnostic`}
             inputElement={
               <>

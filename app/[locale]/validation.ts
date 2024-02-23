@@ -62,34 +62,6 @@ export const validateCreateArticleSchema = {
 
 export const validateCreateArticle = zfd.formData(validateCreateArticleSchema)
 
-export const validateUpdateArticleSchema = {
-  id: z.coerce.number().min(0),
-  subject: z.string().min(1, { message: 'Le sujet est requis' }).max(50),
-  remark: z.string(),
-  deviceId: z.coerce.number().min(0),
-  customerId: z.coerce.number().min(0),
-  status: z.nativeEnum(ArticleStatus, {
-    errorMap: () => {
-      return { message: 'Le statut est requis' }
-    },
-  }),
-}
-
-export const validateUpdateArticle = zfd.formData(validateUpdateArticleSchema)
-
-export const validateUpdateArticleStatusSchema = {
-  id: z.coerce.number().min(0),
-  status: z.nativeEnum(ArticleStatus, {
-    errorMap: () => {
-      return { message: 'Le statut est requis' }
-    },
-  }),
-}
-
-export const validateUpdateArticleStatus = zfd.formData(
-  validateUpdateArticleStatusSchema,
-)
-
 export const validateCreateConcludedArticleSchema = {
   cost: z
     .string()
@@ -109,4 +81,34 @@ export const validateCreateDiagnosedArticleSchema = {
 
 export const validateCreateDiagnosedArticle = zfd.formData(
   validateCreateDiagnosedArticleSchema,
+)
+
+export const validateUpdateArticleSchema = {
+  id: z.coerce.number().min(0),
+  subject: z.string().min(1, { message: 'Le sujet est requis' }).max(50),
+  remark: z.string(),
+  deviceId: z.coerce.number().min(0),
+  customerId: z.coerce.number().min(0),
+  status: z.nativeEnum(ArticleStatus, {
+    errorMap: () => {
+      return { message: 'Le statut est requis' }
+    },
+  }),
+  diagnosisIssue: validateCreateDiagnosedArticleSchema['issue'].optional(),
+  concludedCost: validateCreateConcludedArticleSchema['cost'].optional(),
+}
+
+export const validateUpdateArticle = zfd.formData(validateUpdateArticleSchema)
+
+export const validateUpdateArticleStatusSchema = {
+  id: z.coerce.number().min(0),
+  status: z.nativeEnum(ArticleStatus, {
+    errorMap: () => {
+      return { message: 'Le statut est requis' }
+    },
+  }),
+}
+
+export const validateUpdateArticleStatus = zfd.formData(
+  validateUpdateArticleStatusSchema,
 )

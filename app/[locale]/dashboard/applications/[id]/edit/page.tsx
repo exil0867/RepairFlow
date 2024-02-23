@@ -14,6 +14,8 @@ export default function EditApplication({
         include: {
           device: true,
           customer: true,
+          diagnosis: true,
+          conclusion: true,
         },
       })
       return application
@@ -25,9 +27,11 @@ export default function EditApplication({
 
   const renderApplication = async () => {
     const application = await fetchApplication()
-    console.log(application)
     if (!application) {
       redirect('/404')
+    }
+    if (application.conclusion) {
+      application.conclusion.cost = `${application.conclusion.cost}` as any
     }
     return <Edit application={application} />
   }

@@ -52,6 +52,8 @@ export interface FormValues {
   deviceId: string
   customerId: string
   status: 'DIAGNOSIS' | 'REPAIRED' | 'REPAIRING' | 'CANCELLED'
+  concludedCost: string
+  diagnosisIssue: string
 }
 
 export default function Component({ application }: any) {
@@ -201,6 +203,57 @@ export default function Component({ application }: any) {
               }
             />
           </FormFieldWrapper>
+          {application.diagnosis && (
+            <FormFieldWrapper>
+              <FormFieldSubWrapper subtitle='Informations de réparation'>
+                <FormField
+                  labelText='Problème'
+                  required
+                  hint={`Décrire le problème suite au diagnostic`}
+                  inputElement={
+                    <>
+                      <Textarea
+                        defaultValue={application.diagnosis.issue}
+                        className='border border-gray-300 p-2 rounded text-gray-700'
+                        {...register('diagnosisIssue')}
+                      />
+                      <ErrorMessage
+                        name='diagnosisIssue'
+                        errors={errors}
+                        as={<InputError />}
+                      />
+                    </>
+                  }
+                />
+              </FormFieldSubWrapper>
+            </FormFieldWrapper>
+          )}
+          {application.conclusion && (
+            <FormFieldWrapper>
+              <FormFieldSubWrapper subtitle='Informations sur le réparé'>
+                <FormField
+                  labelText='Coût'
+                  required
+                  hint={`Le coût de la réparation`}
+                  inputElement={
+                    <>
+                      <Input
+                        type='text'
+                        defaultValue={application.conclusion.cost}
+                        className='border border-gray-300 p-2 rounded text-gray-700'
+                        {...register('concludedCost')}
+                      />
+                      <ErrorMessage
+                        name='concludedCost'
+                        errors={errors}
+                        as={<InputError />}
+                      />
+                    </>
+                  }
+                />
+              </FormFieldSubWrapper>
+            </FormFieldWrapper>
+          )}
         </Form>
       </Dialog>
     </Wrapper>
