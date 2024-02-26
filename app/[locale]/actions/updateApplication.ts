@@ -25,6 +25,7 @@ export default async function createDevice(
       customerId,
       diagnosisIssue,
       concludedCost,
+      concludedChanges,
     } = validateUpdateArticle.parse(data)
 
     const response = await prisma.application.update({
@@ -45,6 +46,7 @@ export default async function createDevice(
         conclusion: {
           update: {
             cost: concludedCost,
+            changes: concludedChanges,
           },
         },
       },

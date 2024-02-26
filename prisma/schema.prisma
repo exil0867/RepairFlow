@@ -55,6 +55,7 @@ model DiagnosedApplication {
 model ConcludedApplication {
   id            Int         @id @default(autoincrement())
   cost          Decimal
+  changes       String?
   applicationId Int         @unique
   application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   createdAt     DateTime    @default(now())

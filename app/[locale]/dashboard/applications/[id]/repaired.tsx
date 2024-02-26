@@ -27,6 +27,7 @@ import createConcludedApplication from '@/app/actions/createConcludedApplication
 
 export interface FormValues {
   cost: string
+  changes: string
 }
 
 export default function Additional({ applicationId, onClose }: any) {
@@ -89,6 +90,7 @@ export default function Additional({ applicationId, onClose }: any) {
           <FormField
             labelText='Coût'
             hint={`Le coût de la réparation`}
+            required
             inputElement={
               <>
                 <Input
@@ -97,6 +99,25 @@ export default function Additional({ applicationId, onClose }: any) {
                   {...register('cost')}
                 />
                 <ErrorMessage name='cost' errors={errors} as={<InputError />} />
+              </>
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Modifications'
+            hint={`Modifications apportées lors de la réparation`}
+            inputElement={
+              <>
+                <Textarea
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('changes')}
+                />
+                <ErrorMessage
+                  name='changes'
+                  errors={errors}
+                  as={<InputError />}
+                />
               </>
             }
           />

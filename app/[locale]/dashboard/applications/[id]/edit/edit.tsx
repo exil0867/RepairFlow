@@ -53,6 +53,7 @@ export interface FormValues {
   customerId: string
   status: 'DIAGNOSIS' | 'REPAIRED' | 'REPAIRING' | 'CANCELLED'
   concludedCost: string
+  concludedChanges: string
   diagnosisIssue: string
 }
 
@@ -214,6 +215,25 @@ export default function Component({ application }: any) {
                       />
                       <ErrorMessage
                         name='concludedCost'
+                        errors={errors}
+                        as={<InputError />}
+                      />
+                    </>
+                  }
+                />
+                <FormField
+                  labelText='Modifications'
+                  required
+                  hint={`Modifications apportées lors de la réparation`}
+                  inputElement={
+                    <>
+                      <Textarea
+                        defaultValue={application.conclusion.changes}
+                        className='border border-gray-300 p-2 rounded text-gray-700'
+                        {...register('concludedChanges')}
+                      />
+                      <ErrorMessage
+                        name='concludedChanges'
                         errors={errors}
                         as={<InputError />}
                       />

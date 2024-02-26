@@ -122,6 +122,10 @@ export default function Component({ application }: any) {
                   title='Coût'
                   value={application.conclusion.cost}
                 />
+                <ViewFieldSubWrapperField
+                  title='Modifications'
+                  value={application.conclusion.changes}
+                />
               </ViewFieldSubWrapper>
             </ViewFieldWrapper>
           )}

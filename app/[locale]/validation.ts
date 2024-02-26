@@ -67,6 +67,7 @@ export const validateCreateConcludedArticleSchema = {
     .string()
     .min(1, { message: 'Le coût est requis' })
     .transform((val) => new Prisma.Decimal(val)),
+  changes: z.string(),
   applicationId: z.coerce.number().min(0),
 }
 
@@ -91,6 +92,7 @@ export const validateUpdateArticleSchema = {
   customerId: z.coerce.number().min(0),
   diagnosisIssue: validateCreateDiagnosedArticleSchema['issue'].optional(),
   concludedCost: validateCreateConcludedArticleSchema['cost'].optional(),
+  concludedChanges: validateCreateConcludedArticleSchema['changes'].optional(),
 }
 
 export const validateUpdateArticle = zfd.formData(validateUpdateArticleSchema)

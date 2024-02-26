@@ -14,7 +14,8 @@ export default async function createConcludedApplication(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { cost, applicationId } = validateCreateConcludedArticle.parse(data)
+    const { cost, changes, applicationId } =
+      validateCreateConcludedArticle.parse(data)
 
     return await prisma.$transaction(async (p) => {
       let article = await p.application.findUnique({
@@ -34,6 +35,7 @@ export default async function createConcludedApplication(
         },
         data: {
           cost: cost,
+          changes: changes,
           applicationId: applicationId,
         },
       })
