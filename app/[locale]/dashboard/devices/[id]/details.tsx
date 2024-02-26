@@ -109,7 +109,7 @@ export default function Component({ device }: any) {
                 value={
                   <Link
                     className='underline text-blue-500'
-                    href={`/dashboard/applications?customerId=${device.id}&customerIdLabel=${device.model}`}
+                    href={`/dashboard/applications?deviceId=${device.id}&deviceIdLabel=${device.model}`}
                   >
                     {device.applications.length}
                   </Link>
