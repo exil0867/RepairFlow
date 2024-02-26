@@ -88,6 +88,9 @@ export default function Component({ customer }: any) {
             <ViewField title='Matricule fiscal' value={customer.taxId} />
           </ViewFieldWrapper>
           <ViewFieldWrapper>
+            <ViewField title='Remarque' value={customer.remark} />
+          </ViewFieldWrapper>
+          <ViewFieldWrapper>
             <ViewField
               dehydrateValue
               title='Date de création'

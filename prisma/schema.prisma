@@ -22,6 +22,7 @@ model Customer {
   address      String
   phoneNumber  String
   taxId        String
+  remark       String?
   applications Application[]
   devices      Device[]
   createdAt    DateTime      @default(now())

@@ -13,7 +13,7 @@ export default async function updateCustomer(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { id, name, address, phoneNumber, taxId } =
+    const { id, name, address, phoneNumber, taxId, remark } =
       validateUpdateCustomer.parse(data)
     const response = await prisma.customer.update({
       where: {
@@ -24,6 +24,7 @@ export default async function updateCustomer(
         address,
         phoneNumber,
         taxId,
+        remark,
       },
     })
 

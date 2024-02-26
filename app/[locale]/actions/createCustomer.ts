@@ -13,7 +13,7 @@ export default async function createCustomer(
   data: FormData,
 ): Promise<FormResponse> {
   try {
-    const { name, address, phoneNumber, taxId } =
+    const { name, address, phoneNumber, taxId, remark } =
       validateCreateCustomer.parse(data)
 
     console.log({
@@ -28,6 +28,7 @@ export default async function createCustomer(
         address,
         phoneNumber,
         taxId,
+        remark,
       },
     })
     revalidatePath('/')

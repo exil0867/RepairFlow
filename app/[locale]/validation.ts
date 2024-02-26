@@ -7,6 +7,7 @@ export const validateCreateCustomerSchema = {
   address: z.string(),
   phoneNumber: z.string(),
   taxId: z.string(),
+  remark: z.string(),
 }
 export const validateCreateCustomer = zfd.formData(validateCreateCustomerSchema)
 
@@ -16,6 +17,7 @@ export const validateUpdateCustomerSchema = {
   address: z.string(),
   phoneNumber: z.string(),
   taxId: z.string(),
+  remark: z.string(),
 }
 
 export const validateUpdateCustomer = zfd.formData(validateUpdateCustomerSchema)

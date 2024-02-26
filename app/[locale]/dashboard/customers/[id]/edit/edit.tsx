@@ -50,6 +50,7 @@ export interface FormValues {
   phoneNumber: string
   id: string
   taxId: string
+  remark: string
 }
 
 export default function Component({ customer }: any) {
@@ -195,6 +196,27 @@ export default function Component({ customer }: any) {
                   />
                   <ErrorMessage
                     name='taxId'
+                    errors={errors}
+                    as={<InputError />}
+                  />
+                </>
+              }
+            />
+          </FormFieldWrapper>
+
+          <FormFieldWrapper>
+            <FormField
+              labelText='Remarque'
+              hint={`Ajouter une remarque au client`}
+              inputElement={
+                <>
+                  <Textarea
+                    defaultValue={customer.remark}
+                    className='border border-gray-300 p-2 rounded text-gray-700'
+                    {...register('remark')}
+                  />
+                  <ErrorMessage
+                    name='remark'
                     errors={errors}
                     as={<InputError />}
                   />
