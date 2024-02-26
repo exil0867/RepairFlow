@@ -25,23 +25,28 @@ import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
 import { useSearchParams } from 'next/navigation'
+import { useDebounce } from 'use-debounce'
+
+const debounceDuration = 1000
 
 export default function Component() {
   const searchId = useSearchParams().get('id')
   const searchName = useSearchParams().get('name')
   const [list, setList] = useState([])
   const [name, setName] = useState(searchName ? searchName : undefined)
+  const [debouncedName] = useDebounce(name, debounceDuration)
   const [loading, setLoading] = useState(true)
   const [id, setId] = useState(searchId ? searchId : undefined)
+  const [debouncedId] = useDebounce(id, debounceDuration)
   useEffect(() => {
     async function fetchData() {
       setLoading(true)
-      const filtered = (await searchCustomer(id, name)) as any
+      const filtered = (await searchCustomer(debouncedId, debouncedName)) as any
       setList(filtered)
       setLoading(false)
     }
     fetchData()
-  }, [id, name])
+  }, [debouncedId, debouncedName])
   return (
     <Wrapper title={'Clients'} footer={undefined}>
       <FilterHeader>

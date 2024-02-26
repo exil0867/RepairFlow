@@ -16,6 +16,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useDebounce } from 'use-debounce'
 
 type Props = {}
 
@@ -31,6 +32,7 @@ function Selector({
 }: any) {
   const [list, setList] = useState([])
   const [inputValue, setInputValue] = useState('')
+  const [debouncedInputValue] = useDebounce(inputValue, 1000)
   const [shouldType, setShouldType] = useState(true)
   useEffect(() => {
     if (inputValue === '' && !initialDisplay) {
@@ -39,13 +41,13 @@ function Selector({
       return
     }
     async function fetchData() {
-      const filtered = (await getObjects(inputValue)) as any
+      const filtered = (await getObjects(debouncedInputValue)) as any
       setList(filtered)
       setShouldType(false)
     }
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputValue, showList])
+  }, [debouncedInputValue, showList])
   return (
     <>
       <Popover

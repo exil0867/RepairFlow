@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import searchApplication from '../../actions/searchApplication'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import Selector from '@/components/selector'
 import { transformArray } from '@/lib/utils'
@@ -16,6 +16,10 @@ import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
 import { useSearchParams } from 'next/navigation'
+import debounce from 'lodash.debounce'
+import { useDebounce } from 'use-debounce'
+
+const debounceDuration = 1000
 
 export default function Component() {
   const searchId = useSearchParams().get('id')
@@ -26,10 +30,13 @@ export default function Component() {
   const searchCustomerIdLabel = useSearchParams().get('customerIdLabel')
   const [list, setList] = useState([])
   const [model, setModel] = useState(searchModel ? searchModel : undefined)
+  const [debouncedModel] = useDebounce(model, debounceDuration)
   const [serialNumber, setSerialNumber] = useState(
     searchSerialNumber ? searchSerialNumber : undefined,
   )
+  const [debouncedSerialNumber] = useDebounce(serialNumber, debounceDuration)
   const [brand, setBrand] = useState(searchBrand ? searchBrand : undefined)
+  const [debouncedBrand] = useDebounce(brand, debounceDuration)
   const [customer_, setCustomer_] = useState(
     searchCustomerId
       ? { id: searchCustomerId, value: searchCustomerIdLabel }
@@ -37,22 +44,29 @@ export default function Component() {
   )
   const [open, setOpen] = useState(false)
   const [id, setId] = useState(searchId ? searchId : undefined)
+  const [debouncedId] = useDebounce(id, debounceDuration)
   const [loading, setLoading] = useState(true)
   useEffect(() => {
     async function fetchData() {
       setLoading(true)
       const filtered = (await searchDevice(
-        id,
-        model,
-        brand,
-        serialNumber,
+        debouncedId,
+        debouncedModel,
+        debouncedBrand,
+        debouncedSerialNumber,
         (customer_ as any)?.id as any,
       )) as any
       setList(filtered)
       setLoading(false)
     }
     fetchData()
-  }, [brand, customer_, id, model, serialNumber])
+  }, [
+    debouncedBrand,
+    customer_,
+    debouncedId,
+    debouncedModel,
+    debouncedSerialNumber,
+  ])
   return (
     <Wrapper title={'Appareils'} footer={undefined}>
       <FilterHeader>

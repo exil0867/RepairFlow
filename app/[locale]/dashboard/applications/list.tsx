@@ -25,6 +25,9 @@ import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
 import { useSearchParams } from 'next/navigation'
+import { useDebounce } from 'use-debounce'
+
+const debounceDuration = 1000
 
 export default function Component() {
   const searchDeviceId = useSearchParams().get('deviceId')
@@ -39,7 +42,7 @@ export default function Component() {
     searchCustomerId
       ? { id: searchCustomerId, value: searchCustomerIdLabel }
       : undefined,
-  ) as any
+  )
   const [device_, setDevice_] = useState(
     searchDeviceId
       ? { id: searchDeviceId, value: searchDeviceIdLabel }
@@ -48,7 +51,9 @@ export default function Component() {
   const [subject, setSubject] = useState(
     searchSubject ? searchSubject : undefined,
   )
+  const [debouncedSubject] = useDebounce(subject, debounceDuration)
   const [id, setId] = useState(searchId ? searchId : undefined)
+  const [debouncedId] = useDebounce(id, debounceDuration)
   const [status, setStatus] = useState<
     'DIAGNOSING' | 'REPAIRING' | 'REPAIRED' | 'CANCELLED'
   >(searchStatus ? searchStatus.toUpperCase() : undefined)
@@ -57,10 +62,10 @@ export default function Component() {
     async function fetchData() {
       setLoading(true)
       const filtered = (await searchApplication(
-        id as any,
+        debouncedId as any,
         (customer_ as any)?.id as any,
         (device_ as any)?.id as any,
-        subject,
+        debouncedSubject,
         status,
       )) as any
       console.log('adsfasdf ', filtered)
@@ -68,7 +73,7 @@ export default function Component() {
       setLoading(false)
     }
     fetchData()
-  }, [customer_, device_, id, status, subject])
+  }, [customer_, device_, debouncedId, status, debouncedSubject])
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   return (
