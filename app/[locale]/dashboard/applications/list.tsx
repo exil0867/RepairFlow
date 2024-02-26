@@ -177,8 +177,8 @@ export default function Component() {
                 </SelectTrigger>
                 <SelectContent className='bg-white'>
                   <SelectGroup>
-                    <SelectItem value='DIAGNOSING'>Diagnosing</SelectItem>
-                    <SelectItem value='REPAIRING'>Réparation</SelectItem>
+                    <SelectItem value='DIAGNOSING'>Diagnostic</SelectItem>
+                    <SelectItem value='REPAIRING'>Réparer</SelectItem>
                     <SelectItem value='REPAIRED'>Réparé</SelectItem>
                     <SelectItem value='CANCELLED'>Annulé</SelectItem>
                   </SelectGroup>
