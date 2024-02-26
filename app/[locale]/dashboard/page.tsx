@@ -176,7 +176,14 @@ async function page({}: Props) {
                   ({ id, subject, status, customer, device }) => {
                     return (
                       <TableRow key={id}>
-                        <TableCell className='font-medium'>{id}</TableCell>
+                        <TableCell className='font-medium'>
+                          <Link
+                            className='underline text-blue-500'
+                            href={`/dashboard/applications/${id}`}
+                          >
+                            {id}
+                          </Link>
+                        </TableCell>
                         <TableCell>{subject}</TableCell>
                         <TableCell>{renderStatus(status)}</TableCell>
                         <TableCell>
