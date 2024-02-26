@@ -52,7 +52,7 @@ export default function Component({ application }: any) {
         />
       )}
       <Wrapper
-        title={`Détails de l'article`}
+        title={`Détails de la tâche`}
         footer={
           <>
             <Button

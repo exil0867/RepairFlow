@@ -22,10 +22,10 @@ export default async function setArticleAsDiagnosing(id: number) {
         },
       })
 
-      if (!article) throw new Error('Article introuvable')
+      if (!article) throw new Error('Tâche introuvable')
 
       if (article.status === 'CANCELLED')
-        throw new Error(`Impossible de modifier le statut d'un article annulé`)
+        throw new Error(`Impossible de modifier le statut d'une tâche annulée.`)
 
       if (article.conclusion) {
         await p.concludedApplication.delete({
@@ -55,7 +55,7 @@ export default async function setArticleAsDiagnosing(id: number) {
       revalidatePath('/')
 
       return {
-        message: `L'article est désormais défini comme diagnostic`,
+        message: `La tâche est maintenant définie comme un diagnostic`,
         response: { article, ApplicationResponse },
         error: false,
       }
@@ -73,7 +73,7 @@ export default async function setArticleAsDiagnosing(id: number) {
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la définition de l'article comme diagnostic`,
+      message: `Une erreur s'est produite lors de la définition de la tâche en tant que diagnostic.`,
       error: true,
     }
   }

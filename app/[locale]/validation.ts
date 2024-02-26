@@ -55,7 +55,7 @@ export const validateCreateArticleSchema = {
   customerId: z.coerce.number().min(0),
   status: z.nativeEnum(ArticleStatus, {
     errorMap: (issue, ctx) => {
-      return { message: `S'il vous plaît un statut d'article correct` }
+      return { message: `Veuillez corriger l'état de la tâche` }
     },
   }),
 }

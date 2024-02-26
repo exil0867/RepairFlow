@@ -23,10 +23,10 @@ export default async function createConcludedApplication(
         },
       })
 
-      if (!article) throw new Error('Article introuvable')
+      if (!article) throw new Error('Tâche introuvable')
 
       if (article.status === 'CANCELLED')
-        throw new Error(`Impossible de modifier le statut d'un article annulé`)
+        throw new Error(`Impossible de modifier le statut d'une tâche annulée`)
 
       let response = await p.diagnosedApplication.create({
         include: {
@@ -62,7 +62,7 @@ export default async function createConcludedApplication(
       revalidatePath('/')
 
       return {
-        message: 'Article diagnostiqué créé',
+        message: 'Un diagnostic pour la tâche ajoutée',
         response: { response, ApplicationResponse },
         error: false,
       }
@@ -80,7 +80,7 @@ export default async function createConcludedApplication(
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la création d'un diagnostic pour l'article`,
+      message: `Une erreur s'est produite lors de l'ajout d'un diagnostic pour la tâche`,
       error: true,
     }
   }

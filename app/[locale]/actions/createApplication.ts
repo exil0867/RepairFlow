@@ -30,7 +30,7 @@ export default async function createDevice(
     revalidatePath('/')
 
     return {
-      message: 'Article créée',
+      message: 'Tâche créée',
       response: response,
       error: false,
     }
@@ -47,7 +47,7 @@ export default async function createDevice(
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la création de l'article`,
+      message: `Une erreur s'est produite lors de la création de la tâche`,
       error: true,
     }
   }

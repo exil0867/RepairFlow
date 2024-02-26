@@ -24,7 +24,7 @@ export default function Delete({ id, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Supprimer l&apos;article</DialogTitle>
+        <DialogTitle>Supprimer la tâche</DialogTitle>
         <DialogDescription>Es-tu sûr?</DialogDescription>
       </DialogHeader>
       <DialogFooter>
@@ -42,7 +42,7 @@ export default function Delete({ id, onClose }: any) {
             onClose()
           }}
         >
-          Supprimer l&apos;article
+          Supprimer
         </Button>
       </DialogFooter>
     </DialogContent>

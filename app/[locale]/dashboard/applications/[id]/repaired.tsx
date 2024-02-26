@@ -73,10 +73,8 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Conclure l&apos;article</DialogTitle>
-        <DialogDescription>
-          Définir une conclusion pour l&apos;article
-        </DialogDescription>
+        <DialogTitle>Définir la tâche comme réparée</DialogTitle>
+        <DialogDescription>Saisir la conclusion de la tâche</DialogDescription>
       </DialogHeader>
       <Form
         ref={myRef}

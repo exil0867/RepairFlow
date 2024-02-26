@@ -69,9 +69,9 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Définir l&apos;article comme diagnostic</DialogTitle>
+        <DialogTitle>Définir la tâche comme étant la réparation</DialogTitle>
         <DialogDescription>
-          Entrez les informations de diagnostic
+          Saisir les informations relatives au diagnostic
         </DialogDescription>
       </DialogHeader>
       <Form
@@ -105,7 +105,7 @@ export default function Additional({ applicationId, onClose }: any) {
       </Form>
       <DialogFooter>
         <Button variant='outline' onClick={handleSubmit}>
-          Diagnostiquer
+          Réparation
         </Button>
       </DialogFooter>
     </DialogContent>

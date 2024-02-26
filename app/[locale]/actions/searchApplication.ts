@@ -31,7 +31,7 @@ export default async function searchApplication(
         })
         return applications
       } catch (error) {
-        console.error(`Erreur lors de la récupération des articles:`, error)
+        console.error(`Erreur lors de la récupération des tâches:`, error)
         return []
       }
     }
@@ -43,7 +43,7 @@ export default async function searchApplication(
     return applications
   } catch (error) {
     return {
-      message: `Une erreur s'est produite lors de la recherche de l'article`,
+      message: `Une erreur s'est produite lors de la recherche de la tâche`,
       error: true,
     }
   }

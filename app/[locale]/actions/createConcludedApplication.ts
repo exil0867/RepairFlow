@@ -23,10 +23,10 @@ export default async function createConcludedApplication(
         },
       })
 
-      if (!article) throw new Error('Article introuvable')
+      if (!article) throw new Error('Tâche introuvable')
 
       if (article.status === 'CANCELLED')
-        throw new Error(`Impossible de modifier le statut d'un article annulé`)
+        throw new Error(`Impossible de modifier le statut d'une tâche annulée`)
 
       let response = await p.concludedApplication.create({
         include: {
@@ -51,7 +51,7 @@ export default async function createConcludedApplication(
       response.cost = `${response.cost}` as any
 
       return {
-        message: 'Article conclu créé',
+        message: 'Une conclusion pour la tâche ajoutée',
         response: { response, ApplicationResponse },
         error: false,
       }
@@ -68,7 +68,7 @@ export default async function createConcludedApplication(
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la création d'une conclusion pour l'article`,
+      message: `Une erreur s'est produite lors de l'ajout d'une conclusion pour la tâche`,
       error: true,
     }
   }

@@ -17,14 +17,14 @@ export default async function deleteArticle(id: number) {
     revalidatePath('/')
 
     return {
-      message: 'Article supprimé',
+      message: 'Tâche supprimée',
       response: response,
       error: false,
     }
   } catch (error) {
     console.log(error)
     return {
-      message: `Une erreur s'est produite lors de la suppression de l'article.`,
+      message: `Une erreur s'est produite lors de la suppression de la tâche.`,
       error: true,
     }
   }

@@ -110,7 +110,7 @@ export default function Component({ application }: any) {
   }, [pending, router, state])
   return (
     <Wrapper
-      title={`Modifier l'article`}
+      title={`Modifier la tâche`}
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
@@ -133,7 +133,7 @@ export default function Component({ application }: any) {
           <FormFieldWrapper>
             <FormField
               labelText={`Sujet`}
-              hint={`Sujet de l'article`}
+              hint={`Sujet de la tâche`}
               required
               inputElement={
                 <>
@@ -155,7 +155,7 @@ export default function Component({ application }: any) {
           <FormFieldWrapper>
             <FormField
               labelText={`Remarque`}
-              hint={`Ajouter une remarque sur l'article`}
+              hint={`Ajouter une remarque à la tâche`}
               inputElement={
                 <>
                   <Textarea

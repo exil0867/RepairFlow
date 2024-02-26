@@ -186,7 +186,7 @@ export default function Component() {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <Wrapper
-        title='Créer un article'
+        title='Créer une tâche'
         footer={
           <>
             {currentStep > 1 && (
@@ -213,9 +213,9 @@ export default function Component() {
         }
       >
         <p className='mb-5'>
-          Dans cette page, le processus de lancement d&apos;un nouvel article
-          commence par la sélection d&apos;un client, suivi par la sélection de
-          son appareil et enfin par le remplissage du formulaire d&apos;article.
+          Dans cette page, le processus de lancement d&apos;une nouvelle tâche
+          commence par la sélection d&apos;un client, suivie de la sélection de
+          votre appareil et enfin en remplissant le formulaire de tâche.
         </p>
         {renderStep()}
       </Wrapper>

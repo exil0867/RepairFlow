@@ -126,10 +126,10 @@ async function page({}: Props) {
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
         <Card>
           <CardHeader>
-            <CardTitle>Articles par mois</CardTitle>
+            <CardTitle>Tâches par mois</CardTitle>
             <CardDescription>
-              Un graphique linéaire affichant le nombre d&apos;articles créés
-              par mois au cours de l&apos;année écoulée.
+              Un graphique linéaire montrant le nombre de tâches créées par mois
+              au cours de l&apos;année écoulée.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -141,10 +141,10 @@ async function page({}: Props) {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Statuts des articles par pourcentage</CardTitle>
+            <CardTitle>Statut des tâches en pourcentage</CardTitle>
             <CardDescription>
-              Un diagramme circulaire montrant le nombre d&apos;articles par
-              statut, créés au cours de l&apos;année écoulée.
+              Un diagramme circulaire montrant le nombre de tâches par statut
+              créé au cours de l&apos;année écoulée.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -157,7 +157,7 @@ async function page({}: Props) {
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>Articles récents</CardTitle>
+          <CardTitle>Tâches récentes</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>

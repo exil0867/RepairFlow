@@ -105,7 +105,7 @@ export default function Component({ device }: any) {
             </ViewFieldWrapper>
             <ViewFieldWrapper>
               <ViewField
-                title='Liste des articles'
+                title='Liste des tâches'
                 value={
                   <Link
                     className='underline text-blue-500'

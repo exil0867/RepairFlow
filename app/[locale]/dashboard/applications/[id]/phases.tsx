@@ -81,7 +81,7 @@ export default function Component({ application }: any) {
       case 0:
         return {
           title: `Le processus a été annulé`,
-          description: `Le processus a été annulé. Cet article sera archivé.`,
+          description: `Le processus a été annulé. Cette tâche est maintenant archivée.`,
         }
     }
   }

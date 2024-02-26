@@ -142,11 +142,11 @@ export default function CreateApplication() {
   }, [pending, router, state])
   return (
     <Wrapper
-      title='Créer un article'
+      title='Créer une tâche'
       footer={
         <>
           <Button variant='outline' onClick={handleSubmit}>
-            Créer un article
+            Créer une tâche
           </Button>
         </>
       }
@@ -175,7 +175,7 @@ export default function CreateApplication() {
             <FormFieldWrapper>
               <FormField
                 labelText={`Sujet`}
-                hint={`Sujet de l'article`}
+                hint={`Sujet de la tâche`}
                 required
                 inputElement={
                   <>
@@ -196,7 +196,7 @@ export default function CreateApplication() {
             <FormFieldWrapper>
               <FormField
                 labelText={`Remarque`}
-                hint={`Ajouter une remarque sur l'article`}
+                hint={`Ajouter une remarque à la tâche`}
                 inputElement={
                   <>
                     <Textarea
@@ -215,7 +215,7 @@ export default function CreateApplication() {
             <FormFieldWrapper>
               <FormField
                 labelText={`Statut`}
-                hint={`Statut de l'article`}
+                hint={`Statut de la tâche`}
                 inputElement={
                   <>
                     <Select
@@ -246,7 +246,7 @@ export default function CreateApplication() {
             <FormFieldWrapper>
               <FormFieldSubWrapper subtitle='Client'>
                 <FormField
-                  hint={`Sélectionnez le client associé à l'article`}
+                  hint={`Sélectionner un client associé à la tâche`}
                   labelClassName=''
                   inputElement={
                     <>
@@ -294,7 +294,7 @@ export default function CreateApplication() {
             <FormFieldWrapper>
               <FormFieldSubWrapper subtitle='Appareil'>
                 <FormField
-                  hint={`Sélectionnez l'appareil associé à l'article`}
+                  hint={`Sélectionner l'appareil associé à la tâche`}
                   labelClassName=''
                   inputElement={
                     <>

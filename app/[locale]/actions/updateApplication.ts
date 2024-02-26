@@ -53,7 +53,7 @@ export default async function createDevice(
     revalidatePath('/')
 
     return {
-      message: 'Article mis à jour',
+      message: 'Tâche mise à jour',
       response: response,
       error: false,
     }
@@ -69,7 +69,7 @@ export default async function createDevice(
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la mise à jour de l'article`,
+      message: `Une erreur s'est produite lors de la mise à jour de la tâche`,
       error: true,
     }
   }

@@ -72,7 +72,7 @@ export default function Component() {
   const [open, setOpen] = useState(false)
   const [open2, setOpen2] = useState(false)
   return (
-    <Wrapper title={'Articles'} footer={undefined}>
+    <Wrapper title={'Tâches'} footer={undefined}>
       <FilterHeader>
         <FilterWrapper>
           <FormField
@@ -190,7 +190,7 @@ export default function Component() {
       </FilterHeader>
       <div className='flex flex-col gap-2'>
         {list.length === 0 && !loading ? (
-          <EmptyList itemsName='Article' />
+          <EmptyList itemsName='Tâche' />
         ) : (
           list.map(({ subject, id, device, customer }: any) => {
             return (

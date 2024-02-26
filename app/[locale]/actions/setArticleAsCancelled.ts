@@ -24,7 +24,7 @@ export default async function setArticleAsDiagnosing(id: number) {
       revalidatePath('/')
 
       return {
-        message: `L'article a été défini comme annulé`,
+        message: `La tâche a été définie comme annulée`,
         response: { ApplicationResponse },
         error: false,
       }
@@ -42,7 +42,7 @@ export default async function setArticleAsDiagnosing(id: number) {
       }
     }
     return {
-      message: `Une erreur s'est produite lors de la définition de l'article sur annulé`,
+      message: `Une erreur s'est produite lors de l'annulation de la tâche`,
       error: true,
     }
   }

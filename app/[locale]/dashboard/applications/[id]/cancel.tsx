@@ -21,7 +21,7 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Annuler l&apos;article</DialogTitle>
+        <DialogTitle>Annuler la tâche</DialogTitle>
         <DialogDescription>Es-tu sûr?</DialogDescription>
       </DialogHeader>
       <DialogFooter>
@@ -37,7 +37,7 @@ export default function Additional({ applicationId, onClose }: any) {
             }
           }}
         >
-          Annuler l&apos;article
+          Annuler
         </Button>
       </DialogFooter>
     </DialogContent>

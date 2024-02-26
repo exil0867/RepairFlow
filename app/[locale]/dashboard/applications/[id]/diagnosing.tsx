@@ -21,7 +21,7 @@ export default function Additional({ applicationId, onClose }: any) {
   return (
     <DialogContent className='sm:max-w-[425px] bg-white'>
       <DialogHeader>
-        <DialogTitle>Définir l&apos;article comme diagnostic</DialogTitle>
+        <DialogTitle>Définir la tâche comme étant le diagnostic</DialogTitle>
         <DialogDescription>Es-tu sûr?</DialogDescription>
       </DialogHeader>
       <DialogFooter>
