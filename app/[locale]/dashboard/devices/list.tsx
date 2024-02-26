@@ -17,6 +17,8 @@ import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
 import { useSearchParams } from 'next/navigation'
 import { useDebounce } from 'use-debounce'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const debounceDuration = 1000
 
@@ -66,6 +68,29 @@ export default function Component() {
     debouncedModel,
     debouncedSerialNumber,
   ])
+  const renderList = () => {
+    if (list.length === 0 && !loading) {
+      return <EmptyList itemsName='Appareil' />
+    } else if (loading) {
+      return <Skeleton height={95} count={10} />
+    } else {
+      return list.map(({ id, model, brand, customer }: any) => {
+        return (
+          <ListItem
+            key={id}
+            title={`${model} #${id}`}
+            subtitle={`Client: ${customer.name}`}
+            footer={`Marque: ${brand}`}
+            button={
+              <Link href={`/dashboard/devices/${id}`}>
+                <Button variant='outline'>Voir</Button>
+              </Link>
+            }
+          />
+        )
+      })
+    }
+  }
   return (
     <Wrapper title={'Appareils'} footer={undefined}>
       <FilterHeader>
@@ -159,27 +184,7 @@ export default function Component() {
           />
         </FilterWrapper>
       </FilterHeader>
-      <div className='flex flex-col gap-2'>
-        {list.length === 0 && !loading ? (
-          <EmptyList itemsName='Appareil' />
-        ) : (
-          list.map(({ id, model, brand, customer }: any) => {
-            return (
-              <ListItem
-                key={id}
-                title={`${model} #${id}`}
-                subtitle={`Client: ${customer.name}`}
-                footer={`Marque: ${brand}`}
-                button={
-                  <Link href={`/dashboard/devices/${id}`}>
-                    <Button variant='outline'>Voir</Button>
-                  </Link>
-                }
-              />
-            )
-          })
-        )}
-      </div>
+      <div className='flex flex-col gap-2'>{renderList()}</div>
     </Wrapper>
   )
 }
