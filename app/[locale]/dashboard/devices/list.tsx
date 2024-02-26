@@ -16,7 +16,6 @@ import { FilterHeader, FilterWrapper } from '@/components/filter-header'
 import { FormField } from '@/components/form'
 import EmptyList from '@/components/empty-list'
 import { useSearchParams } from 'next/navigation'
-import debounce from 'lodash.debounce'
 import { useDebounce } from 'use-debounce'
 
 const debounceDuration = 1000
