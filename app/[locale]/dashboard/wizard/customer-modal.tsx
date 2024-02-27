@@ -49,6 +49,7 @@ export interface FormValues {
   address: string
   phoneNumber: string
   taxId: string
+  remark: string
 }
 
 export default function DialogDemo({
@@ -179,6 +180,25 @@ export default function DialogDemo({
                 />
                 <ErrorMessage
                   name='taxId'
+                  errors={errors}
+                  as={<InputError />}
+                />
+              </>
+            }
+          />
+        </FormFieldWrapper>
+        <FormFieldWrapper>
+          <FormField
+            labelText='Remarque'
+            hint={`Ajouter une remarque au client`}
+            inputElement={
+              <>
+                <Textarea
+                  className='border border-gray-300 p-2 rounded text-gray-700'
+                  {...register('remark')}
+                />
+                <ErrorMessage
+                  name='remark'
                   errors={errors}
                   as={<InputError />}
                 />
