@@ -51,7 +51,7 @@ export default function Component() {
   }, [debouncedId, debouncedName])
   const renderList = () => {
     if (list.length === 0 && !loading) {
-      ;<EmptyList itemsName='Client' />
+      return <EmptyList itemsName='Client' />
     } else if (loading) {
       return <Skeleton height={95} count={10} />
     } else {
