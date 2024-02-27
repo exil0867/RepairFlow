@@ -21,7 +21,9 @@ export default async function searchApplication(
             id: id ? Number(id) : undefined,
             customerId: customerId ? Number(customerId) : undefined,
             deviceId: deviceId ? Number(deviceId) : undefined,
-            subject: subject ? { contains: subject } : undefined,
+            subject: subject
+              ? { contains: subject, mode: 'insensitive' }
+              : undefined,
             status: status ? status : undefined,
           },
           include: {

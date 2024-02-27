@@ -17,8 +17,8 @@ export default async function searchCustomer(
         const customers = await prisma.customer.findMany({
           where: {
             id: id ? Number(id) : undefined,
-            name: query ? { contains: query } : undefined,
-            taxId: taxId ? { contains: taxId } : undefined,
+            name: query ? { contains: query, mode: 'insensitive' } : undefined,
+            taxId: taxId ? { contains: taxId, mode: 'insensitive' } : undefined,
           },
           include: {
             applications: true,

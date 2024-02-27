@@ -22,9 +22,11 @@ export default async function searchDevice(
           },
           where: {
             id: id ? Number(id) : undefined,
-            model: model ? { contains: model } : undefined,
-            brand: brand ? { contains: brand } : undefined,
-            serialNumber: serialNumber ? { contains: serialNumber } : undefined,
+            model: model ? { contains: model, mode: 'insensitive' } : undefined,
+            brand: brand ? { contains: brand, mode: 'insensitive' } : undefined,
+            serialNumber: serialNumber
+              ? { contains: serialNumber, mode: 'insensitive' }
+              : undefined,
             customerId: customerId ? Number(customerId) : undefined,
           },
         })
