@@ -200,7 +200,7 @@ export default function DialogDemo({
       </Form>
       <DialogFooter>
         <Button variant='outline' onClick={handleSubmit}>
-          Créer un client
+          Créer un appareil
         </Button>
       </DialogFooter>
     </DialogContent>
