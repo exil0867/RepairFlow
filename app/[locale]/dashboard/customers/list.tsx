@@ -81,7 +81,7 @@ export default function Component() {
             labelClassName=''
             inputElement={
               <Input
-                type='text'
+                type='number'
                 placeholder='Filtrer par référence'
                 onChange={(s) => {
                   console.log(s)
