@@ -304,12 +304,6 @@ export default function Component({ children }: { children: React.ReactNode }) {
             {accountMenu && (
               <div className='relative'>
                 <div className='absolute right-0 w-48 py-2 mt-2 bg-white rounded-lg shadow-xl'>
-                  <Link
-                    className='block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-blue-500 hover:text-white'
-                    href='#'
-                  >
-                    Paramètres du compte
-                  </Link>
                   <Button
                     onClick={async () => {
                       await signOut()
