@@ -1,6 +1,6 @@
 ## Repair Flow - Repair Management App
 
-This project is a repair management application built with Next.js v14 utilizing server components and server actions.
+This project is a repair management application built with Next.js v14 utilizing server components and server actions. I developed it as part of my final internship for a company to help them manage their device repair tasks.
 
 **Tech Stack:**
 
