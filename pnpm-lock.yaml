@@ -69,8 +69,8 @@ dependencies:
     specifier: 5.0.0-beta.5
     version: 5.0.0-beta.5(next@14.1.0)(react@18.2.0)
   next-intl:
-    specifier: 3.4.5
-    version: 3.4.5(next@14.1.0)(react@18.2.0)
+    specifier: 3.9.5
+    version: 3.9.5(next@14.1.0)(react@18.2.0)
   react:
     specifier: ^18
     version: 18.2.0
@@ -3667,8 +3667,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /next-intl@3.4.5(next@14.1.0)(react@18.2.0):
-    resolution: {integrity: sha512-k3oCyFavZNar/JowdKfJVBIDISmcvkO32DEwRUxa46Yv6LQ3GTnOlINoaPvGr4M81gp/7WVBuYlQBZyu8aJ6Ug==}
+  /next-intl@3.9.5(next@14.1.0)(react@18.2.0):
+    resolution: {integrity: sha512-tsp4N433WgTAbbyZdMlcsLGHFM88wv2a7ZpF/od8X9+qAlO1TrajZrNrGBpIg6nA9EGZyMbQPzZD7XZrqYIv7g==}
     peerDependencies:
       next: ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0 || ^14.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -3677,7 +3677,7 @@ packages:
       negotiator: 0.6.3
       next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
-      use-intl: 3.4.5(react@18.2.0)
+      use-intl: 3.9.5(react@18.2.0)
     dev: false
 
   /next@14.1.0(react-dom@18.2.0)(react@18.2.0):
@@ -4785,8 +4785,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /use-intl@3.4.5(react@18.2.0):
-    resolution: {integrity: sha512-QXDYgJMAYX+aAyNWUg1paZbdAu5DbBpwpBcflM85PxnAJ7dvRX9KCPiEXKE6/I9e88ZzMmr7gtb+t4iM/7BsCA==}
+  /use-intl@3.9.5(react@18.2.0):
+    resolution: {integrity: sha512-1g+f/pKEeXqOXrd+QBvwnIN5kzM56PHsorbVWzNvlnGk2fo/eRwuuT/S0jTuzKLRW4uNybpHvRs6U06rP31iKw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
